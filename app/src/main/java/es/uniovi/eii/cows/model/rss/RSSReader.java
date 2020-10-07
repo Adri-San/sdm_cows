@@ -28,7 +28,7 @@ public class RSSReader implements NewsReader {
         try {
             processing = true;                              // Sets the reader working
             news = parser.parse();                          // Parses the XML
-            //TODO news.stream().filter(COVIDFilter);       // Filters the news
+            // TODO news.stream().filter(COVIDFilter);       // Filters the news
             processing = false;                             // Set the reader finished
         } catch (MalformedURLException mue) {
             Log.e("MalformedURLException", mue.getMessage());

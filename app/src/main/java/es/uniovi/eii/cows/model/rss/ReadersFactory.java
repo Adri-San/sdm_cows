@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uniovi.eii.cows.model.rss.parser.ElPaisParser;
+import es.uniovi.eii.cows.model.rss.parser.LNEParser;
 
 public class ReadersFactory {
 
@@ -39,9 +40,9 @@ public class ReadersFactory {
         try {
             // TODO for s: sources -> add sLoader
             readers.add(new RSSReader(
-                    new ElPaisParser(
-                            "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
-                            factory.newPullParser())));
+                    new ElPaisParser(factory.newPullParser())));
+            readers.add(new RSSReader(
+                    new LNEParser(factory.newPullParser())));
         } catch (XmlPullParserException e) {
             // TODO throw RSSReaderExceptions with the error message
         } finally {

@@ -9,10 +9,10 @@ import java.io.IOException;
 
 import es.uniovi.eii.cows.model.NewsItem;
 
-public class ElPaisParser extends BaseRSSParser {
+public class LNEParser extends BaseRSSParser {
 
-    public ElPaisParser(XmlPullParser xpp) {
-        super("https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada", xpp);
+    public LNEParser(XmlPullParser xpp) {
+        super("https://www.lne.es/elementosInt/rss/26", xpp);
     }
 
     @Override
@@ -31,8 +31,7 @@ public class ElPaisParser extends BaseRSSParser {
                 item.setDescription(xpp.nextText());
             }
         // Finished parsing the wanted element
-        } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
-            Log.i("LNE", item.toString());
+        } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("entry")) {
             news.add(item);
             item = null;
         }
