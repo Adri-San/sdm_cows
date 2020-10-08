@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">COWS</string>
+    <string name="errorLoadingSources">There was an error loading some sources</string>
 </resources>
