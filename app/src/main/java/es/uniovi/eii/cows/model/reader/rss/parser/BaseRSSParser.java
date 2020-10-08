@@ -1,11 +1,10 @@
-package es.uniovi.eii.cows.model.rss.parser;
+package es.uniovi.eii.cows.model.reader.rss.parser;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +25,8 @@ public abstract class BaseRSSParser implements RSSParser {
     }
 
     @Override
-    public List<NewsItem> parse() throws XmlPullParserException, IOException {
-        xpp.setInput(getInputStream(), "UTF-8");
+    public List<NewsItem> parse(InputStream is) throws XmlPullParserException, IOException {
+        xpp.setInput(is, "UTF-8");
         eventType = xpp.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {
             parseItem();
@@ -36,16 +35,14 @@ public abstract class BaseRSSParser implements RSSParser {
         return news;
     }
 
-    /**
-     * @return  InputStream reading the url
-     * @throws  IOException
-     */
-    private InputStream getInputStream() throws IOException {
-        return new URL(url).openConnection().getInputStream();
+    @Override
+    public String getURL() {
+        return url;
     }
 
     /**
      * Parses the items and adds them to the list
+     *
      * @throws IOException
      * @throws XmlPullParserException
      */

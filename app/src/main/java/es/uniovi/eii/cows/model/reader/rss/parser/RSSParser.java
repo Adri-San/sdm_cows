@@ -1,8 +1,9 @@
-package es.uniovi.eii.cows.model.rss.parser;
+package es.uniovi.eii.cows.model.reader.rss.parser;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import es.uniovi.eii.cows.model.NewsItem;
@@ -14,5 +15,11 @@ public interface RSSParser {
      * @return      Parsed news
      * @throws XmlPullParserException
      */
-    List<NewsItem> parse() throws XmlPullParserException, IOException;
+    List<NewsItem> parse(InputStream is) throws XmlPullParserException, IOException;
+
+    /**
+     * @return  Feed URL
+     */
+    String getURL();
+
 }

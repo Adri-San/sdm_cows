@@ -1,6 +1,9 @@
 package es.uniovi.eii.cows.model;
 
 // Created specialized items?
+/**
+ * Java Beans class of the news
+ */
 public class NewsItem {
 
     private String title;

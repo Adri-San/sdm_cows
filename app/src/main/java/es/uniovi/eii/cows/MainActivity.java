@@ -8,42 +8,39 @@ import android.util.Log;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.uniovi.eii.cows.model.NewsItem;
-import es.uniovi.eii.cows.model.rss.ReadersFactory;
-import es.uniovi.eii.cows.model.rss.NewsReader;
+import es.uniovi.eii.cows.model.reader.ReadersFactory;
+import es.uniovi.eii.cows.model.reader.NewsReader;
+import es.uniovi.eii.cows.model.reader.ReadersManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<NewsReader> readers;
     private List<NewsItem> news;
+
+    // Class managing all the NewsReading actions
+    private final ReadersManager readersManager = ReadersManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            news = new ArrayList<>();
-            readers = ReadersFactory.getInstance().getReaders();
+        // We start the pull and parse of news
+        readersManager.run();
+        // When finished we retrieve those parsed news
+        news = readersManager.getNews();
+        // TODO we show the news (substitute for RecyclerView)
+        news.forEach(NewsItem::toString);
+    }
 
-            for (NewsReader loader : readers) {
-                Thread thread = new Thread(() -> {
-                    try {
-                        loader.run();
-                        while (loader.getNews() == null) {
-                            // this is horrible but it is just a try
-                        }
-                        loader.getNews().forEach(x -> Log.i("TITLE", x.getTitle()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-                // TODO add thread to list to treat it later
-                thread.start();
-            }
-        } catch (XmlPullParserException xppe)  {
-            // TODO catch RSSReaderException and TwitterReaderException
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Close the connections when the app is stopped
+        readersManager.shutdown();
     }
 }

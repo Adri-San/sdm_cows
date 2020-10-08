@@ -1,4 +1,6 @@
-package es.uniovi.eii.cows.model.rss;
+package es.uniovi.eii.cows.model.reader;
+
+import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -6,8 +8,9 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uniovi.eii.cows.model.rss.parser.ElPaisParser;
-import es.uniovi.eii.cows.model.rss.parser.LNEParser;
+import es.uniovi.eii.cows.model.reader.rss.RSSReader;
+import es.uniovi.eii.cows.model.reader.rss.parser.ElPaisParser;
+import es.uniovi.eii.cows.model.reader.rss.parser.LNEParser;
 
 public class ReadersFactory {
 
@@ -23,17 +26,20 @@ public class ReadersFactory {
 
     /**
      * @return Instance of the factory
-     * @throws XmlPullParserException
      */
-    public static ReadersFactory getInstance() throws XmlPullParserException {
-        if (instance == null)
-            instance = new ReadersFactory();
-        return instance;
+    public static ReadersFactory getInstance() {
+        try {
+            if (instance == null)
+                instance = new ReadersFactory();
+        } catch (XmlPullParserException e) {
+            Log.e("ReadersFactory", e.getMessage());
+        } finally {
+            return instance;
+        }
     }
 
     /**
      * @return Readers of the sources selected by the user
-     * @throws XmlPullParserException
      */
     public List<NewsReader> getReaders() {
         List<NewsReader> readers = new ArrayList<>();
@@ -44,7 +50,7 @@ public class ReadersFactory {
             readers.add(new RSSReader(
                     new LNEParser(factory.newPullParser())));
         } catch (XmlPullParserException e) {
-            // TODO throw RSSReaderExceptions with the error message
+            Log.e("ReadersFactory", e.getMessage());
         } finally {
             return readers;
         }
