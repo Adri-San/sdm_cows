@@ -1,5 +1,7 @@
 package es.uniovi.eii.cows.model.reader;
 
+import android.util.Log;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -52,7 +54,12 @@ public class ReadersManager {
      * @return  Pulled and parsed news when finished
      */
     public List<NewsItem> getNews() {
-        while (!readersThreadPool.isTerminated()) {}
+        readersThreadPool.shutdown();
+        try {
+            readersThreadPool.awaitTermination(60, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }

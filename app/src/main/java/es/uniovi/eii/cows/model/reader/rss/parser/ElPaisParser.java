@@ -1,7 +1,7 @@
 package es.uniovi.eii.cows.model.reader.rss.parser;
 
-import android.util.Log;
-
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -11,11 +11,17 @@ import es.uniovi.eii.cows.model.NewsItem;
 
 public class ElPaisParser extends BaseRSSParser {
 
-    private static final String URL = "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada";
+    public static final String URL = "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada";
+    public static final String SOURCE = "El País";
+    public static final String DEFAULT_IMAGE = "";  //TODO add ElPais default image
 
     private static final String ITEM = "item";
     private static final String TITLE = "title";
-    private static final String DESCRIPTION = "description";
+    private static final String DESCRIPTION = "content:encoded";    // html formatted
+    private static final String LINK = "link";
+    private static final String DATE = "pubDate";
+    private static final String MEDIA = "media:content";
+    //private static final String THUMBNAIL = "media:thumbnail";
 
     public ElPaisParser(XmlPullParser xpp) {
         super(URL, xpp);
@@ -29,16 +35,30 @@ public class ElPaisParser extends BaseRSSParser {
             if (xpp.getName().equalsIgnoreCase(ITEM)) {
                 // We create a new item to fill
                 item = new NewsItem();
+                item.setSource(SOURCE);
+                item.setFallbackImage(DEFAULT_IMAGE);
             } else if (xpp.getName().equalsIgnoreCase(TITLE) && item != null) {
                 // Title element
                 item.setTitle(xpp.nextText());
             } else if (xpp.getName().equalsIgnoreCase(DESCRIPTION) && item != null) {
                 // Description element
                 item.setDescription(xpp.nextText());
+            } else if (xpp.getName().equalsIgnoreCase(LINK) && item != null) {
+                // Link element
+                item.setLink(xpp.nextText());
+            } else if (xpp.getName().equalsIgnoreCase(DATE) && item != null) {
+                // Date element
+                item.setDate(LocalDateTime.parse(xpp.nextText(), DateTimeFormatter.RFC_1123_DATE_TIME));
+            } else if (xpp.getName().equalsIgnoreCase(MEDIA)) {
+                // Media element
+                if (!xpp.getAttributeValue(0).isEmpty()) {
+                    // Image element
+                    item.setImageUrl(xpp.getAttributeValue(0));
+                    // We can take the thumbnail of the videos, but that's a TODO
+                }
             }
-        // Finished parsing the wanted element
         } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase(ITEM)) {
-            Log.i("LNE", item.toString());
+            // Finished parsing the wanted element
             news.add(item);
             item = null;
         }

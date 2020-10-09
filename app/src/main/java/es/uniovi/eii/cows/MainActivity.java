@@ -5,17 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import es.uniovi.eii.cows.model.NewsItem;
-import es.uniovi.eii.cows.model.reader.ReadersFactory;
-import es.uniovi.eii.cows.model.reader.NewsReader;
 import es.uniovi.eii.cows.model.reader.ReadersManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,11 +22,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // We start the pull and parse of news
+        Log.d("holi", "holi");
         readersManager.run();
         // When finished we retrieve those parsed news
         news = readersManager.getNews();
         // TODO we show the news (substitute for RecyclerView)
-        news.forEach(NewsItem::toString);
+        for (NewsItem n: news) {
+            Log.d("News", n.toString());
+        }
     }
 
     @Override
