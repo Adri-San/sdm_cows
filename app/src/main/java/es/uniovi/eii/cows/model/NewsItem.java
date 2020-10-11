@@ -6,6 +6,8 @@ import org.threeten.bp.LocalDateTime;
 
 import java.util.Objects;
 
+import es.uniovi.eii.cows.R;
+
 /**
  * Java Beans class of the news
  */
@@ -17,7 +19,7 @@ public class NewsItem {
 	private LocalDateTime date;                         // Publication date
 	private String source;                              // Source of the news
 	private String imageUrl;                            // URL of the image of the news
-	private String fallbackImage;                       // Image to use when no image
+	private int fallbackImage;                       // Image to use when no image
 
 	public NewsItem() {
 	}
@@ -56,7 +58,7 @@ public class NewsItem {
 
 	public String getImageUrl() {
 		if (imageUrl == null || imageUrl.isEmpty())
-			return fallbackImage;
+			return "android.resource://" + R.class.getPackage().getName() + "/"+ fallbackImage;
 		return imageUrl;
 	}
 
@@ -64,11 +66,11 @@ public class NewsItem {
 		this.imageUrl = imageUrl;
 	}
 
-	public String getFallbackImage() {
+	public int getFallbackImage() {
 		return fallbackImage;
 	}
 
-	public void setFallbackImage(String fallbackImage) {
+	public void setFallbackImage(int fallbackImage) {
 		this.fallbackImage = fallbackImage;
 	}
 

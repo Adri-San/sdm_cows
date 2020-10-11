@@ -1,6 +1,6 @@
 package es.uniovi.eii.cows.model.adapter;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+
+import com.bumptech.glide.Glide;
 
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
@@ -68,7 +69,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
             title.setText(newsItem.getTitle());
             source.setText(newsItem.getSource());
             date.setText(newsItem.getDate().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
-            Picasso.get().load(newsItem.getImageUrl()).into(image);
+
+            Glide.with(itemView).load(newsItem.getImageUrl())
+                    .thumbnail(Glide.with(itemView).load(R.drawable.loading))
+                    .error(R.drawable.no_image_available)
+                    .into(image);
 
             itemView.setOnClickListener(v -> {
                 listener.onItemClick(newsItem);

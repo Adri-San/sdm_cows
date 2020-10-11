@@ -7,13 +7,14 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
+import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
 
 public class ElPaisParser extends BaseRSSParser {
 
     public static final String URL = "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada";
     public static final String SOURCE = "El País";
-    public static final String DEFAULT_IMAGE = "";  //TODO add ElPais default image
+    public static final int DEFAULT_IMAGE =  R.drawable.el_pais;
 
     private static final String ITEM = "item";
     private static final String TITLE = "title";

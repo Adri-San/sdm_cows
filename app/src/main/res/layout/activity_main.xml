@@ -47,14 +47,20 @@
 
             <ImageButton
                 android:id="@+id/idProfile_main"
-                android:layout_width="48dp"
-                android:layout_height="64dp"
+                android:layout_width="39dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center|end"
                 android:layout_weight="1"
-                android:contentDescription="@string/image_profile_description"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/profile"
+                android:contentDescription="@string/image_profile_description" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/lightgray" />
 
         <ScrollView
             android:id="@+id/idScroll_main"
