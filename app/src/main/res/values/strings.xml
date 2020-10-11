@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">COWS</string>
     <string name="errorLoadingSources">There was an error loading some sources</string>
+    <string name="ubicacion">Oviedo</string>
+    <string name="image_profile_description">Perfil</string>
+    <string name="tituloNoticia">Título de la noticia</string>
+    <string name="like">Like</string>
+    <string name="guardar">Save</string>
+    <string name="compartir">Share</string>
+    <string name="fuente">Fuente</string>
+    <string name="hora">00:00h</string>
 </resources>

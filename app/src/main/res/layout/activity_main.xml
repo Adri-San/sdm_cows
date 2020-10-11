@@ -2,17 +2,213 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/idMainView_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#292828"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <LinearLayout
+        android:layout_width="411dp"
+        android:layout_height="665dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/idTop_main"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="15dp"
+                android:layout_height="71dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/idLocation_main"
+                android:layout_width="166dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-smallcaps"
+                android:gravity="center|start"
+                android:text="@string/ubicacion"
+                android:textColor="@color/lightgray"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="115dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/idProfile_main"
+                android:layout_width="48dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center|end"
+                android:layout_weight="1"
+                android:contentDescription="@string/image_profile_description"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/idScroll_main"
+            android:layout_width="match_parent"
+            android:layout_height="554dp"
+            android:background="#515151">
+
+            <LinearLayout
+                android:id="@+id/idLayoutNews_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/idLayoutNews1_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/idLayoutTitle_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="73dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/idTitle1_main"
+                            android:layout_width="380dp"
+                            android:layout_height="match_parent"
+                            android:text="@string/tituloNoticia"
+                            android:textColor="@color/lightgray"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/idLayoutFH_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="102dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/idResource1_main"
+                            android:layout_width="78dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/fuente"
+                            android:textColor="@color/lightgray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/idTime1_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/hora"
+                            android:textColor="@color/lightgray" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/idImage1_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:contentDescription=""
+                        app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+                    <LinearLayout
+                        android:id="@+id/idLayoutLGC1_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="13dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/idLike1_main"
+                            android:layout_width="74dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/dark"
+                            android:text="@string/like"
+                            android:textColor="@color/lightgray"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="13dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/idGuardar1_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#292828"
+                            android:text="@string/guardar"
+                            android:textColor="@color/lightgray"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/idCompartir1_main"
+                            android:layout_width="83dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#292828"
+                            android:text="@string/compartir"
+                            android:textColor="@color/lightgray"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <View
+                        android:layout_width="376dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@android:color/background_dark"
+                        android:backgroundTint="#292828" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
