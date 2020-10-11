@@ -2,17 +2,78 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/idMainView_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#292828"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <LinearLayout
+        android:layout_width="411dp"
+        android:layout_height="665dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/idTop_main"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="15dp"
+                android:layout_height="71dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/idLocation_main"
+                android:layout_width="166dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-smallcaps"
+                android:gravity="center|start"
+                android:text="@string/ubicacion"
+                android:textColor="@color/lightgray"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="115dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/idProfile_main"
+                android:layout_width="39dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center|end"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@drawable/profile"
+                android:contentDescription="@string/image_profile_description" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/lightgray" />
+
+        <ScrollView
+            android:id="@+id/idScroll_main"
+            android:layout_width="match_parent"
+            android:layout_height="554dp"
+            android:background="#515151">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/idRecycler_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

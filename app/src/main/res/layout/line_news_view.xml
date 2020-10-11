@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="14dp" />
+
+    <LinearLayout
+        android:id="@+id/idLayoutNews1_main"
+        android:layout_width="match_parent"
+        android:layout_height="196dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/idLayoutTitle_main"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/idTitle_main"
+                android:layout_width="387dp"
+                android:layout_height="match_parent"
+                android:text="@string/tituloNoticia"
+                android:textColor="@color/lightgray"
+                android:textSize="20sp"
+                app:autoSizeTextType="uniform" />
+
+            <Space
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/idLayoutFH_main"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="102dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/idSource_main"
+                android:layout_width="78dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/fuente"
+                android:textColor="@color/lightgray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/idDate_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/hora"
+                android:textColor="@color/lightgray" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/idImage_main"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/dark"
+            android:contentDescription=""
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/idLayoutLGC1_main"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="13dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/idLike_main"
+            android:layout_width="74dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/dark"
+            android:text="@string/like"
+            android:textColor="@color/lightgray"
+            android:textSize="12sp" />
+
+        <Space
+            android:layout_width="13dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/idSave_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/dark"
+            android:text="@string/guardar"
+            android:textColor="@color/lightgray"
+            android:textSize="12sp" />
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/idShare_main"
+            android:layout_width="83dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/dark"
+            android:text="@string/compartir"
+            android:textColor="@color/lightgray"
+            android:textSize="12sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="14dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/dark" />
+
+</LinearLayout>
