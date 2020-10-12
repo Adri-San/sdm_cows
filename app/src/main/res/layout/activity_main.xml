@@ -5,9 +5,10 @@
     android:id="@+id/idMainView_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#292828"
+    android:background="@color/primaryColor"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
 
     <LinearLayout
         android:layout_width="411dp"
@@ -37,7 +38,7 @@
                 android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center|start"
                 android:text="@string/ubicacion"
-                android:textColor="@color/lightgray"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="20sp" />
 
             <Space
@@ -60,13 +61,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/lightgray" />
+            android:background="@color/primaryDarkColor" />
 
         <ScrollView
             android:id="@+id/idScroll_main"
             android:layout_width="match_parent"
             android:layout_height="554dp"
-            android:background="#515151">
+            android:background="@color/primaryTextColor">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/idRecycler_main"

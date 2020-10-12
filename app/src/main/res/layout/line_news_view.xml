@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/gray"
+    android:background="@color/primaryTextColor"
     android:orientation="vertical">
 
     <Space
@@ -33,7 +33,7 @@
                 android:layout_width="387dp"
                 android:layout_height="match_parent"
                 android:text="@string/tituloNoticia"
-                android:textColor="@color/lightgray"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="20sp"
                 app:autoSizeTextType="uniform" />
 
@@ -61,7 +61,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:text="@string/fuente"
-                android:textColor="@color/lightgray"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="14sp" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/hora"
-                android:textColor="@color/lightgray" />
+                android:textColor="@color/secondaryTextColor" />
 
         </LinearLayout>
 
@@ -79,7 +79,7 @@
             android:id="@+id/idImage_main"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/dark"
+            android:background="@color/black"
             android:contentDescription=""
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
@@ -109,9 +109,9 @@
             android:layout_width="74dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/dark"
+            android:background="@color/secondaryColor"
             android:text="@string/like"
-            android:textColor="@color/lightgray"
+            android:textColor="@color/primaryTextColor"
             android:textSize="12sp" />
 
         <Space
@@ -124,9 +124,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/dark"
+            android:background="@color/secondaryColor"
             android:text="@string/guardar"
-            android:textColor="@color/lightgray"
+            android:textColor="@color/primaryTextColor"
             android:textSize="12sp" />
 
         <Space
@@ -139,9 +139,9 @@
             android:layout_width="83dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/dark"
+            android:background="@color/secondaryColor"
             android:text="@string/compartir"
-            android:textColor="@color/lightgray"
+            android:textColor="@color/primaryTextColor"
             android:textSize="12sp" />
 
         <Space
@@ -158,6 +158,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/dark" />
+        android:background="@color/primaryDarkColor" />
 
 </LinearLayout>
