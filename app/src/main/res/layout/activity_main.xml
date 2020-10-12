@@ -5,7 +5,6 @@
     android:id="@+id/idMainView_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryColor"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -25,6 +24,21 @@
             android:layout_height="58dp"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/idProfile_main"
+                android:layout_width="39dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center|end"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@drawable/profile"
+                android:contentDescription="@string/image_profile_description" />
+
+            <Space
+                android:layout_width="115dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
             <Space
                 android:layout_width="15dp"
                 android:layout_height="71dp"
@@ -38,30 +52,9 @@
                 android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center|start"
                 android:text="@string/ubicacion"
-                android:textColor="@color/secondaryTextColor"
                 android:textSize="20sp" />
 
-            <Space
-                android:layout_width="115dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <ImageButton
-                android:id="@+id/idProfile_main"
-                android:layout_width="39dp"
-                android:layout_height="53dp"
-                android:layout_gravity="center|end"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@drawable/profile"
-                android:contentDescription="@string/image_profile_description" />
-
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/primaryDarkColor" />
 
         <ScrollView
             android:id="@+id/idScroll_main"
@@ -74,6 +67,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
 
     </LinearLayout>
 

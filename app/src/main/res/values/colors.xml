@@ -6,7 +6,7 @@
     <color name="secondaryColor">#fa0075</color>
     <color name="secondaryLightColor">#ff5ba3</color>
     <color name="secondaryDarkColor">#c0004a</color>
-    <color name="primaryTextColor">#fafafa</color>
+    <color name="primaryTextColor">#282828</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="error">#D13125</color>
 

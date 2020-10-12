@@ -1,11 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.COWS" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.COWS" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorPrimary">@color/secondaryColor</item>
+        <item name="colorPrimaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorSecondary">@color/primaryColor</item>
+        <item name="colorSecondaryVariant">@color/primaryDarkColor</item>
         <item name="background">@color/primaryLightColor</item>
         <item name="colorSurface">@color/black</item>
         <item name="colorError">@color/error</item>
@@ -17,7 +17,6 @@
         <item name="colorAccent">@color/primaryColor</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryDark</item>
         <item name="actionBarStyle">@style/Theme.MaterialComponents.NoActionBar</item>
         <!-- Customize your theme here. -->
     </style>
