@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#00fa85</color>
-    <color name="primaryLightColor">#6bffb6</color>
-    <color name="primaryDarkColor">#00c556</color>
-    <color name="secondaryColor">#fa0075</color>
-    <color name="secondaryLightColor">#ff5ba3</color>
-    <color name="secondaryDarkColor">#c0004a</color>
-    <color name="primaryTextColor">#282828</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="primaryColor">#fa0075</color>
+    <color name="primaryLightColor">#ff5ba3</color>
+    <color name="primaryDarkColor">#c0004a</color>
+    <color name="secondaryColor">#00fa85</color>
+    <color name="secondaryLightColor">#6bffb6</color>
+    <color name="secondaryDarkColor">#00c556</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#282828</color>
     <color name="error">#D13125</color>
 
-
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-
-    <color name="dark">#292828</color>
-    <color name="gray">#515151</color>
-    <color name="lightgray">#DDD7D7</color>
-
+    <color name="darkBackground">#121212</color>
 </resources>
