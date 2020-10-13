@@ -1,163 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray"
     android:orientation="vertical">
 
-    <Space
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
-        android:layout_height="14dp" />
-
-    <LinearLayout
-        android:id="@+id/idLayoutNews1_main"
-        android:layout_width="match_parent"
-        android:layout_height="196dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardElevation="2dp">
 
         <LinearLayout
-            android:id="@+id/idLayoutTitle_main"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <Space
-                android:layout_width="67dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            <!-- Media -->
+            <ImageView
+                android:id="@+id/idImage_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_profile_description"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/no_image_available" />
 
-            <TextView
-                android:id="@+id/idTitle_main"
-                android:layout_width="387dp"
-                android:layout_height="match_parent"
-                android:text="@string/tituloNoticia"
-                android:textColor="@color/lightgray"
-                android:textSize="20sp"
-                app:autoSizeTextType="uniform" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="6dp">
 
-            <Space
-                android:layout_width="67dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </LinearLayout>
+                <!-- Title, secondary and supporting text -->
 
-        <LinearLayout
-            android:id="@+id/idLayoutFH_main"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <Space
-                android:layout_width="102dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                    <TextView
+                        android:id="@+id/idSource_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/fuente"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary" />
 
-            <TextView
-                android:id="@+id/idSource_main"
-                android:layout_width="78dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="@string/fuente"
-                android:textColor="@color/lightgray"
-                android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/idDate_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:hapticFeedbackEnabled="false"
+                        android:text="@string/hora"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary" />
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/idDate_main"
+                <TextView
+                    android:id="@+id/idTitle_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tituloNoticia"
+                    android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            </LinearLayout>
+
+            <!-- Buttons -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/hora"
-                android:textColor="@color/lightgray" />
+                android:layout_marginHorizontal="8dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/idLike_main"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/like"
+                    app:icon="@drawable/ic_like" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/idSave_main"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/guardar"
+                    app:icon="@drawable/ic_save" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/idShare_main"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/compartir"
+                    app:icon="@drawable/ic_share" />
+            </LinearLayout>
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/idImage_main"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/dark"
-            android:contentDescription=""
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="17dp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/idLayoutLGC1_main"
-        android:layout_width="match_parent"
-        android:layout_height="33dp"
-        android:orientation="horizontal">
-
-        <Space
-            android:layout_width="13dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/idLike_main"
-            android:layout_width="74dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/dark"
-            android:text="@string/like"
-            android:textColor="@color/lightgray"
-            android:textSize="12sp" />
-
-        <Space
-            android:layout_width="13dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/idSave_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/dark"
-            android:text="@string/guardar"
-            android:textColor="@color/lightgray"
-            android:textSize="12sp" />
-
-        <Space
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/idShare_main"
-            android:layout_width="83dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/dark"
-            android:text="@string/compartir"
-            android:textColor="@color/lightgray"
-            android:textSize="12sp" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="14dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/dark" />
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

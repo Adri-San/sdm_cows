@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Toolbar -->
+    <style name="Widget.Cows.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/backgroundColor</item>
+        <item name="android:theme">@style/Theme.COWS</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+</resources>

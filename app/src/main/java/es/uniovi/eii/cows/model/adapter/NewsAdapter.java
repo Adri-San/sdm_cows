@@ -59,10 +59,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
 
         public NewsItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.title = (TextView) itemView.findViewById(R.id.idTitle_main);
-            this.source = (TextView) itemView.findViewById(R.id.idSource_main);
-            this.date = (TextView) itemView.findViewById(R.id.idDate_main);
-            this.image = (ImageView) itemView.findViewById(R.id.idImage_main);
+            this.title = itemView.findViewById(R.id.idTitle_main);
+            this.source = itemView.findViewById(R.id.idSource_main);
+            this.date = itemView.findViewById(R.id.idDate_main);
+            this.image = itemView.findViewById(R.id.idImage_main);
         }
 
         public void bindUser(final NewsItem newsItem, final OnItemClickListener listener){
@@ -73,11 +73,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
             Glide.with(itemView).load(newsItem.getImageUrl())
                     .thumbnail(Glide.with(itemView).load(R.drawable.loading))
                     .error(R.drawable.no_image_available)
+                    .centerInside()
                     .into(image);
 
-            itemView.setOnClickListener(v -> {
-                listener.onItemClick(newsItem);
-            });
+            itemView.setOnClickListener(v ->
+                listener.onItemClick(newsItem));
         }
     }
 
