@@ -1,29 +1,26 @@
-package es.uniovi.eii.cows;
+package es.uniovi.eii.cows.view;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
 
+import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
-import es.uniovi.eii.cows.model.adapter.NewsAdapter;
-import es.uniovi.eii.cows.model.reader.ReadersManager;
+import es.uniovi.eii.cows.view.adapter.NewsAdapter;
+import es.uniovi.eii.cows.controller.reader.ReadersManager;
 
 public class MainActivity extends AppCompatActivity {
-    // View
-    private RecyclerView newsView;
 
     // Model
-    private List<NewsItem> news;
+    private Set<NewsItem> news;
 
     // Class managing all the NewsReading actions
     private final ReadersManager readersManager = ReadersManager.getInstance();
@@ -32,14 +29,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getActionBar().hide();
-
+        setSupportActionBar(findViewById(R.id.app_bar));
         // We start the pull and parse of news
         readersManager.run();
         // When finished we retrieve those parsed news
         news = readersManager.getNews();
-
-        setSupportActionBar(findViewById(R.id.app_bar));
+        // We set up the news list
         setUpRecyclerView();
     }
 
@@ -70,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
         // Show the news on the RecyclerView
-        newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
+        RecyclerView newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
         newsView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         newsView.setLayoutManager(layoutManager);
 
-        NewsAdapter newsAdapter = new NewsAdapter(news, item -> {
+        NewsAdapter newsAdapter = new NewsAdapter(new ArrayList<>(news), item -> {
             //TODO
         });
 

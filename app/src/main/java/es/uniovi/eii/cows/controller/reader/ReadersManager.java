@@ -1,15 +1,16 @@
-package es.uniovi.eii.cows.model.reader;
-
-import android.util.Log;
+package es.uniovi.eii.cows.controller.reader;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import es.uniovi.eii.cows.controller.NewsReader;
 import es.uniovi.eii.cows.model.NewsItem;
 
 /**
@@ -53,7 +54,7 @@ public class ReadersManager {
     /**
      * @return  Pulled and parsed news when finished
      */
-    public List<NewsItem> getNews() {
+    public Set<NewsItem> getNews() {
         readersThreadPool.shutdown();
         try {
             readersThreadPool.awaitTermination(60, TimeUnit.SECONDS);
@@ -61,7 +62,7 @@ public class ReadersManager {
             e.printStackTrace();
         }
         return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 
     /**

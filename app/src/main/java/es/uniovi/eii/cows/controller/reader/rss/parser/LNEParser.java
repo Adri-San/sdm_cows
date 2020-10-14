@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.model.reader.rss.parser;
+package es.uniovi.eii.cows.controller.reader.rss.parser;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -10,21 +10,19 @@ import java.io.IOException;
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
 
-public class ElPaisParser extends BaseRSSParser {
+public class LNEParser extends BaseRSSParser {
 
-    public static final String URL = "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada";
-    public static final String SOURCE = "El País";
-    public static final int DEFAULT_IMAGE =  R.drawable.el_pais;
+    public static final String URL = "https://www.lne.es/elementosInt/rss/42";
+    public static final String SOURCE = "La Nueva España";
+    public static final int DEFAULT_IMAGE = R.drawable.la_nueva_espana;
 
     private static final String ITEM = "item";
     private static final String TITLE = "title";
-    private static final String DESCRIPTION = "content:encoded";    // html formatted
+    private static final String DESCRIPTION = "description";            // html format
     private static final String LINK = "link";
     private static final String DATE = "pubDate";
-    private static final String MEDIA = "media:content";
-    //private static final String THUMBNAIL = "media:thumbnail";
 
-    public ElPaisParser(XmlPullParser xpp) {
+    public LNEParser(XmlPullParser xpp) {
         super(URL, xpp);
     }
 
@@ -50,16 +48,10 @@ public class ElPaisParser extends BaseRSSParser {
             } else if (xpp.getName().equalsIgnoreCase(DATE) && item != null) {
                 // Date element
                 item.setDate(LocalDateTime.parse(xpp.nextText(), DateTimeFormatter.RFC_1123_DATE_TIME));
-            } else if (xpp.getName().equalsIgnoreCase(MEDIA)) {
-                // Media element
-                if (!xpp.getAttributeValue(0).isEmpty()) {
-                    // Image element
-                    item.setImageUrl(xpp.getAttributeValue(0));
-                    // We can take the thumbnail of the videos, but that's a TODO
-                }
             }
+            // LNE news doesn't have images
+        // Finished parsing the wanted element
         } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase(ITEM)) {
-            // Finished parsing the wanted element
             news.add(item);
             item = null;
         }

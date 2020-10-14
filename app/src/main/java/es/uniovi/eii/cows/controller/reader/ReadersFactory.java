@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.model.reader;
+package es.uniovi.eii.cows.controller.reader;
 
 import android.util.Log;
 
@@ -8,9 +8,10 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uniovi.eii.cows.model.reader.rss.RSSReader;
-import es.uniovi.eii.cows.model.reader.rss.parser.ElPaisParser;
-import es.uniovi.eii.cows.model.reader.rss.parser.LNEParser;
+import es.uniovi.eii.cows.controller.reader.rss.RSSReader;
+import es.uniovi.eii.cows.controller.reader.rss.parser.ElPaisParser;
+import es.uniovi.eii.cows.controller.reader.rss.parser.LNEParser;
+import es.uniovi.eii.cows.controller.NewsReader;
 
 public class ReadersFactory {
 
