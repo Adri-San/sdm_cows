@@ -1,7 +1,6 @@
-package es.uniovi.eii.cows.model.reader;
+package es.uniovi.eii.cows.controller;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import es.uniovi.eii.cows.model.NewsItem;
 
@@ -23,6 +22,6 @@ public interface NewsReader extends Runnable {
     /**
      * @return  Parsed news
      */
-    List<NewsItem> getNews();
+    Set<NewsItem> getNews();
 
 }

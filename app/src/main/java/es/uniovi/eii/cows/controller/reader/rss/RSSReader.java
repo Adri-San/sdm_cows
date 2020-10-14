@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.model.reader.rss;
+package es.uniovi.eii.cows.controller.reader.rss;
 
 import android.util.Log;
 
@@ -8,15 +8,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+import java.util.Set;
 
 import es.uniovi.eii.cows.model.NewsItem;
-import es.uniovi.eii.cows.model.reader.NewsReader;
-import es.uniovi.eii.cows.model.reader.rss.parser.RSSParser;
+import es.uniovi.eii.cows.controller.NewsReader;
+import es.uniovi.eii.cows.controller.reader.rss.parser.RSSParser;
 
 public class RSSReader implements NewsReader {
 
-    private List<NewsItem> news;
+    private Set<NewsItem> news;
     private RSSParser parser;
     private InputStream is;
 
@@ -50,7 +50,7 @@ public class RSSReader implements NewsReader {
     }
 
     @Override
-    public List<NewsItem> getNews() {
+    public Set<NewsItem> getNews() {
         return news;
     }
 }

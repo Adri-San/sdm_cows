@@ -11,7 +11,7 @@ import es.uniovi.eii.cows.R;
 /**
  * Java Beans class of the news
  */
-public class NewsItem {
+public class NewsItem implements Comparable<NewsItem>{
 
 	private String title;
 	private String description;
@@ -101,5 +101,10 @@ public class NewsItem {
 	public String toString() {
 		return "NewsItem{ " + title + " - " + source +
 				", [" + link + "] }";
+	}
+
+	@Override
+	public int compareTo(NewsItem newsItem) {
+		return this.date.compareTo(newsItem.date)*(-1);
 	}
 }

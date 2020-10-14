@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.model.adapter;
+package es.uniovi.eii.cows.view.adapter;
 
 
 import android.view.LayoutInflater;
@@ -68,7 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
         public void bindUser(final NewsItem newsItem, final OnItemClickListener listener){
             title.setText(newsItem.getTitle());
             source.setText(newsItem.getSource());
-            date.setText(newsItem.getDate().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+            date.setText(newsItem.getDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
 
             Glide.with(itemView).load(newsItem.getImageUrl())
                     .thumbnail(Glide.with(itemView).load(R.drawable.loading))
