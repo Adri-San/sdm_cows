@@ -11,7 +11,7 @@
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/appBarLayout_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,10 +31,10 @@
     <ScrollView
         android:id="@+id/idScroll_news"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="@dimen/news_0dp"
+        android:layout_marginTop="@dimen/news_10dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNav_news"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_news"
         >
 
         <!--News content -->
@@ -56,27 +56,28 @@
                     android:id="@+id/idTitle_news"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="@dimen/news_16dp"
+                    android:layout_marginEnd="@dimen/news_16dp"
+                    android:layout_marginBottom="@dimen/news_16dp"
                     android:textSize="@dimen/mtrl_navigation_item_icon_size"
                     android:text="@string/tituloNoticia"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     />
 
-                <!-- Source and Date -->
+                <!-- Source and Date Container -->
                 <RelativeLayout
                     android:id="@+id/idSourceDateContainer_news"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/cardview_compat_inset_shadow">
+                    android:layout_marginTop="@dimen/news_1dp">
 
                     <!-- Source -->
                     <TextView
                         android:id="@+id/idSource_news"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="21dp"
-                        android:layout_marginEnd="21dp"
+                        android:layout_marginRight="@dimen/news_21dp"
+                        android:layout_marginEnd="@dimen/news_21dp"
                         android:layout_toLeftOf="@+id/idDate_news"
                         android:text="@string/fuente"
                         android:textAppearance="?attr/textAppearanceBody2"
@@ -88,8 +89,8 @@
                         android:id="@+id/idDate_news"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="21dp"
-                        android:layout_marginEnd="21dp"
+                        android:layout_marginRight="@dimen/news_21dp"
+                        android:layout_marginEnd="@dimen/news_21dp"
                         android:hapticFeedbackEnabled="false"
                         android:text="@string/hora"
                         android:textAppearance="?attr/textAppearanceBody2"
@@ -99,14 +100,27 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <!-- News media -->
+            <ImageView
+                android:id="@+id/idImage_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_profile_description"
+                android:scaleType="centerCrop"
+                android:layout_marginRight="@dimen/news_16dp"
+                android:layout_marginLeft="@dimen/news_16dp"
+                android:layout_marginTop="@dimen/news_16dp"
+                android:layout_marginBottom="@dimen/news_16dp"
+                app:srcCompat="@drawable/no_image_available" />
+
             <!-- News Description-->
             <WebView
                 android:id="@+id/idDescription_news"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="@dimen/news_10dp"
+                android:layout_marginStart="@dimen/news_16dp"
+                android:layout_marginEnd="@dimen/news_16dp"
                 android:text="@string/contenidoNoticia"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary" />

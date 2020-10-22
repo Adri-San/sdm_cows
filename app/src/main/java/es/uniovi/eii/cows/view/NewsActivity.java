@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.threeten.bp.format.DateTimeFormatter;
@@ -26,6 +27,7 @@ public class NewsActivity extends AppCompatActivity {
     private TextView source;
     private TextView date;
     private WebView description;
+    private ImageView image;
     private FloatingActionButton fabLinkCompleteNews;
 
     @Override
@@ -50,6 +52,13 @@ public class NewsActivity extends AppCompatActivity {
         source = (TextView) findViewById(R.id.idSource_news);
         date = (TextView) findViewById(R.id.idDate_news);
         description = (WebView) findViewById(R.id.idDescription_news);
+        image = (ImageView) findViewById(R.id.idImage_news);
+
+        Glide.with(this).load(newsItem.getImageUrl())
+                .thumbnail(Glide.with(this).load(R.drawable.loading))
+                .error(R.drawable.no_image_available)
+                .centerInside()
+                .into(image);
 
         fabLinkCompleteNews = (FloatingActionButton) findViewById(R.id.floating_action_button_news);
         fabLinkCompleteNews.setOnClickListener(v -> linkToCompleteNewsItem());
@@ -64,7 +73,7 @@ public class NewsActivity extends AppCompatActivity {
         this.title.setText(title);
         this.source.setText(source);
         this.date.setText(date);
-        
+
         this.description.loadData(description, "text/html; charset=utf-8", "utf-8");
 
     }
