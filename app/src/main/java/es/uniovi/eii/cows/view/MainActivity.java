@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         //Intent to start NewsActivity
         Intent intent = new Intent(MainActivity.this, NewsActivity.class);
         intent.putExtra(SELECTED_NEWS_ITEM, item);
-        Toast.makeText(getApplicationContext(), "News clicked", Toast.LENGTH_LONG).show();
+
         //Animation
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 

@@ -31,6 +31,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		title = in.readString();
 		description = in.readString();
 		link = in.readString();
+		date = (LocalDateTime) in.readValue(LocalDateTime.class.getClassLoader());
 		source = in.readString();
 		imageUrl = in.readString();
 		fallbackImage = in.readInt();
@@ -132,6 +133,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		dest.writeString(title);
 		dest.writeString(description);
 		dest.writeString(link);
+		dest.writeValue(date);
 		dest.writeString(source);
 		dest.writeString(imageUrl);
 		dest.writeInt(fallbackImage);

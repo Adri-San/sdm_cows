@@ -32,6 +32,7 @@
         android:id="@+id/idScroll_newsDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/idScroll_newsDetail"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
@@ -54,9 +55,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:textSize="@dimen/mtrl_navigation_item_icon_size"
                     android:text="@string/tituloNoticia"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary" />
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    />
 
                 <!-- Source and Date -->
                 <RelativeLayout
@@ -73,7 +75,7 @@
                         android:layout_toLeftOf="@+id/idDate_news"
                         android:text="@string/fuente"
                         android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary"
+                        android:textColor="?android:attr/textColorPrimary"
                         />
 
                     <!-- Date -->
@@ -86,17 +88,18 @@
                         android:hapticFeedbackEnabled="false"
                         android:text="@string/hora"
                         android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:layout_alignParentRight="true"/>
 
                 </RelativeLayout>
             </LinearLayout>
 
-            <!-- News Information-->
-            <TextView
-                android:id="@+id/idContent_news"
+            <!-- News Description-->
+            <WebView
+                android:id="@+id/idDescription_news"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/contenidoNoticia"
