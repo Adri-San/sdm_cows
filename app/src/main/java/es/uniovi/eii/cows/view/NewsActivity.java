@@ -1,13 +1,15 @@
 package es.uniovi.eii.cows.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.threeten.bp.LocalDateTime;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
@@ -23,6 +25,7 @@ public class NewsActivity extends AppCompatActivity {
     private TextView source;
     private TextView date;
     private WebView description;
+    private FloatingActionButton fabLinkCompleteNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +44,14 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     private void initializeNewsItemProperties(){
+
         title = (TextView) findViewById(R.id.idTitle_news);
         source = (TextView) findViewById(R.id.idSource_news);
         date = (TextView) findViewById(R.id.idDate_news);
         description = (WebView) findViewById(R.id.idDescription_news);
+
+        fabLinkCompleteNews = (FloatingActionButton) findViewById(R.id.floating_action_button_news);
+        fabLinkCompleteNews.setOnClickListener(v -> linkToCompleteNewsItem());
     }
 
     private void showNewsItem(NewsItem newsItem){
@@ -61,5 +68,10 @@ public class NewsActivity extends AppCompatActivity {
         this.description.loadData(description, "text/html; charset=utf-8", "utf-8");
 
 
+    }
+
+    private void linkToCompleteNewsItem(){
+        if(newsItem != null)
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.getLink())));
     }
 }

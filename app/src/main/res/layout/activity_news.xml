@@ -29,21 +29,23 @@
 
     <!-- Scroll View -->
     <ScrollView
-        android:id="@+id/idScroll_newsDetail"
+        android:id="@+id/idScroll_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@id/idScroll_newsDetail"
+        app:layout_constraintBottom_toTopOf="@id/idScroll_news"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         <!--News content -->
         <LinearLayout
+            android:id="@+id/idNewsContainer_news"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <!-- News Header -->
             <LinearLayout
+                android:id="@+id/idNewsHeader_news"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -62,8 +64,10 @@
 
                 <!-- Source and Date -->
                 <RelativeLayout
+                    android:id="@+id/idSourceDateContainer_news"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/cardview_compat_inset_shadow">
 
                     <!-- Source -->
                     <TextView
@@ -110,21 +114,35 @@
 
     </ScrollView>
 
+    <!-- FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/news_fab_description"
+        app:backgroundTint="@color/primaryColor"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav_news"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24"
+        app:fabSize="mini"/>
 
     <!-- Bottom Navigation -->
     <LinearLayout
+        android:id="@+id/bottomNav_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/idScroll_newsDetail"
-        app:layout_constraintStart_toStartOf="@id/idScroll_newsDetail"
+        app:layout_constraintEnd_toEndOf="@id/idScroll_news"
+        app:layout_constraintStart_toStartOf="@id/idScroll_news"
         app:layout_constraintBottom_toBottomOf="parent">
-
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:menu="@menu/bottom_navigation_news_menu" />
+
 
     </LinearLayout>
 
