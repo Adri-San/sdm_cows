@@ -31,10 +31,11 @@
     <ScrollView
         android:id="@+id/idScroll_news"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@id/idScroll_news"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintBottom_toTopOf="@id/bottomNav_news"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        >
 
         <!--News content -->
         <LinearLayout
