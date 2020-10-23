@@ -2,8 +2,13 @@ package es.uniovi.eii.cows.view;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
+import android.text.Html;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
@@ -74,12 +81,22 @@ public class NewsActivity extends AppCompatActivity {
         this.source.setText(source);
         this.date.setText(date);
 
-        this.description.loadData(description, "text/html; charset=utf-8", "utf-8");
+        loadNewsContent(description);
+
 
     }
 
     private void linkToCompleteNewsItem(){
         if(newsItem != null)
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.getLink())));
+    }
+
+    private void loadNewsContent(String content){
+
+        //Format
+        content = StringEscapeUtils.unescapeHtml4(content);
+
+        //Loading
+        this.description.loadData(content, "text/html; charset=utf-8", "UTF-8");
     }
 }
