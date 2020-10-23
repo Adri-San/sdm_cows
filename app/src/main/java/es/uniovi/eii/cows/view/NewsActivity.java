@@ -1,10 +1,14 @@
 package es.uniovi.eii.cows.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
+import android.util.TypedValue;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -91,11 +97,26 @@ public class NewsActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.getLink())));
     }
 
+    @SuppressLint("SetJavaScriptEnabled")           // Safe sources
     private void loadNewsContent(String content){
-
+        // Adapting WebView to dark mode
+        TypedValue outValue = new TypedValue();
+        this.getTheme().resolveAttribute(R.attr.colorOnBackground, outValue, true);
+        Log.d("color", String.valueOf(R.attr.colorOnBackground));
+        Log.d("color", String.format("#%06X", (0xFFFFFF & outValue.data)));
+        this.description.setBackgroundColor(Color.TRANSPARENT);
+        this.description.getSettings().setJavaScriptEnabled(true);
+        this.description.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                view.loadUrl(
+                        "javascript:document.body.style.setProperty(\"color\", \"" +
+                                String.format("#%06X", (0xFFFFFF & outValue.data)) +
+                                "\");"
+                );
+            }
+        });
         //Format
         content = StringEscapeUtils.unescapeHtml4(content);
-
         //Loading
         this.description.loadData(content, "text/html; charset=utf-8", "UTF-8");
     }
