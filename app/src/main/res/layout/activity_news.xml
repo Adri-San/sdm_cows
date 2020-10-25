@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/idNewsView_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.NewsActivity">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/app_bar"
+            style="@style/Widget.Cows.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_app"
+            app:title="@string/app_name" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Scroll View -->
+    <ScrollView
+        android:id="@+id/idScroll_news"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/news_0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav_news"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_news">
+
+        <!--News content -->
+        <LinearLayout
+            android:id="@+id/idNewsContainer_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:ignore="ScrollViewSize">
+
+            <!-- News Header -->
+            <LinearLayout
+                android:id="@+id/idNewsHeader_news"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/idTitle_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/news_16dp"
+                    android:layout_marginTop="@dimen/news_10dp"
+                    android:layout_marginEnd="@dimen/news_16dp"
+                    android:layout_marginBottom="@dimen/news_16dp"
+                    android:text="@string/tituloNoticia"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="@dimen/mtrl_navigation_item_icon_size"
+                    tools:ignore="PrivateResource" />
+
+                <RelativeLayout
+                    android:id="@+id/idSourceDateContainer_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/news_1dp">
+
+                    <!-- Source -->
+
+                    <TextView
+                        android:id="@+id/idSource_news"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/news_21dp"
+                        android:layout_toStartOf="@+id/idDate_news"
+                        android:text="@string/fuente"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorPrimary" />
+
+                    <!-- Date -->
+                    <TextView
+                        android:id="@+id/idDate_news"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/news_21dp"
+                        android:hapticFeedbackEnabled="false"
+                        android:text="@string/hora"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorPrimary" />
+
+                </RelativeLayout>
+
+                <!-- Source and Date Container -->
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/idImage_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/news_16dp"
+                android:layout_marginTop="@dimen/news_16dp"
+                android:layout_marginRight="@dimen/news_16dp"
+                android:layout_marginBottom="@dimen/news_16dp"
+                android:contentDescription="@string/image_profile_description"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/no_image_available" />
+
+            <!-- News media -->
+
+            <!-- News Description-->
+            <WebView
+                android:id="@+id/idDescription_news"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/news_16dp"
+                android:layout_marginTop="@dimen/news_10dp"
+                android:layout_marginEnd="@dimen/news_16dp"
+                android:background="@android:color/transparent"
+                android:text="@string/contenidoNoticia"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_news"
+        style="@style/Widget.Cows.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/news_fab_description"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav_news"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:id="@+id/bottomNav_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/idScroll_news"
+        app:layout_constraintStart_toStartOf="@id/idScroll_news"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:menu="@menu/bottom_navigation_news_menu" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

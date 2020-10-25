@@ -1,5 +1,8 @@
 package es.uniovi.eii.cows.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import org.threeten.bp.LocalDateTime;
@@ -11,7 +14,7 @@ import es.uniovi.eii.cows.R;
 /**
  * Java Beans class of the news
  */
-public class NewsItem implements Comparable<NewsItem>{
+public class NewsItem implements Comparable<NewsItem>, Parcelable {
 
 	private String title;
 	private String description;
@@ -22,6 +25,16 @@ public class NewsItem implements Comparable<NewsItem>{
 	private int fallbackImage;                       // Image to use when no image
 
 	public NewsItem() {
+	}
+
+	protected NewsItem(Parcel in) {
+		title = in.readString();
+		description = in.readString();
+		link = in.readString();
+		date = (LocalDateTime) in.readValue(LocalDateTime.class.getClassLoader());
+		source = in.readString();
+		imageUrl = in.readString();
+		fallbackImage = in.readInt();
 	}
 
 	public String getTitle() {
@@ -107,4 +120,34 @@ public class NewsItem implements Comparable<NewsItem>{
 	public int compareTo(NewsItem newsItem) {
 		return this.date.compareTo(newsItem.date)*(-1);
 	}
+
+	//Parcelable methods
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(title);
+		dest.writeString(description);
+		dest.writeString(link);
+		dest.writeValue(date);
+		dest.writeString(source);
+		dest.writeString(imageUrl);
+		dest.writeInt(fallbackImage);
+	}
+
+	public static final Creator<NewsItem> CREATOR = new Creator<NewsItem>() {
+		@Override
+		public NewsItem createFromParcel(Parcel in) {
+			return new NewsItem(in);
+		}
+
+		@Override
+		public NewsItem[] newArray(int size) {
+			return new NewsItem[size];
+		}
+	};
 }

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Model
     private Set<NewsItem> news;
+
+    //Clicked news item
+    public static final String SELECTED_NEWS_ITEM = "selected_news_item";
 
     // Class managing all the NewsReading actions
     private final ReadersManager readersManager = ReadersManager.getInstance();
@@ -70,10 +75,18 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         newsView.setLayoutManager(layoutManager);
 
-        NewsAdapter newsAdapter = new NewsAdapter(new ArrayList<>(news), item -> {
-            //TODO
-        });
-
+        NewsAdapter newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem);
         newsView.setAdapter(newsAdapter);
+    }
+
+    private void clickOnNewsItem(NewsItem item) {
+
+        //Intent to start NewsActivity
+        Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+        intent.putExtra(SELECTED_NEWS_ITEM, item);
+
+        //Animation
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <dimen name="news_0dp">0dp</dimen>
+    <dimen name="news_1dp">1dp</dimen>
+    <dimen name="news_10dp">10dp</dimen>
+    <dimen name="news_16dp">16dp</dimen>
+    <dimen name="news_21dp">21dp</dimen>
+</resources>

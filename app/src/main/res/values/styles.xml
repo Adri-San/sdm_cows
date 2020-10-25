@@ -6,4 +6,9 @@
         <item name="android:theme">@style/Theme.COWS</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
     </style>
+    <!-- FAB -->
+    <style name="Widget.Cows.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="tint">?attr/colorOnPrimary</item>
+    </style>
 </resources>
