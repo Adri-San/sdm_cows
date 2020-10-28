@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,9 @@ import java.util.List;
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final int VIEW_TYPE_ITEM = 0;   // Progress bar
+    private final int VIEW_TYPE_LOADING = 1;    // News item
 
     private List<NewsItem> news;
     private final OnItemClickListener listener;
@@ -33,21 +36,52 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
 
     @NonNull
     @Override
-    public NewsItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.line_news_view, parent, false);
+            return new NewsItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(view);
+        }
+        /*
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.line_news_view, parent, false);
         return new NewsItemViewHolder(itemView);
+         */
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int position) {
-        NewsItem newsItem = news.get(position);
-        holder.bindUser(newsItem, listener);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        if (viewHolder instanceof NewsItemViewHolder) {
+            newsItemRows((NewsItemViewHolder) viewHolder, position);
+        } else if (viewHolder instanceof LoadingViewHolder) {
+            showLoadingView((LoadingViewHolder) viewHolder, position);
+        }
     }
 
     @Override
     public int getItemCount() {
         return news.size();
+    }
+
+    /**
+     * The following method decides the type of ViewHolder to display in the RecyclerView
+     * @param position index element
+     * @return view type
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return news.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
+        //ProgressBar would be displayed
+    }
+
+    private void newsItemRows(NewsItemViewHolder viewHolder, int position) {
+        NewsItem item = news.get(position);
+        viewHolder.bindUser(item, listener);
     }
 
     /**************************************************************************/
@@ -78,6 +112,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
 
             itemView.setOnClickListener(v ->
                 listener.onItemClick(newsItem));
+        }
+    }
+
+    public static class LoadingViewHolder extends RecyclerView.ViewHolder{
+        ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 
