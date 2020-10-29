@@ -23,7 +23,6 @@ public class ReadersManager {
     private static final int CORE_POOL_SIZE = 8;
     private static final int MAXIMUM_POOL_SIZE = 8;
 
-    private BlockingQueue<Runnable> readersQueue;
     private ThreadPoolExecutor readersThreadPool;
 
     private List<NewsReader> readers;
@@ -31,7 +30,7 @@ public class ReadersManager {
     private static ReadersManager instance = new ReadersManager();               // Singleton
 
     private ReadersManager() {
-        readersQueue = new LinkedBlockingQueue<>();
+        BlockingQueue<Runnable> readersQueue = new LinkedBlockingQueue<>();
         readersThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,
                 KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, readersQueue);
         readers = ReadersFactory.getInstance().getReaders();
@@ -54,7 +53,7 @@ public class ReadersManager {
     /**
      * @return  Pulled and parsed news when finished
      */
-    public Set<NewsItem> getNews() {
+    public List<NewsItem> getNews() {
         readersThreadPool.shutdown();
         try {
             readersThreadPool.awaitTermination(60, TimeUnit.SECONDS);
@@ -62,7 +61,7 @@ public class ReadersManager {
             e.printStackTrace();
         }
         return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
-                .collect(Collectors.toCollection(TreeSet::new));
+                .collect(Collectors.toList());
     }
 
     /**

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import es.uniovi.eii.cows.R;
@@ -22,7 +23,7 @@ import es.uniovi.eii.cows.controller.reader.ReadersManager;
 public class MainActivity extends AppCompatActivity {
 
     // Model
-    private Set<NewsItem> news;
+    private List<NewsItem> news;
 
     //Clicked news item
     public static final String SELECTED_NEWS_ITEM = "selected_news_item";
