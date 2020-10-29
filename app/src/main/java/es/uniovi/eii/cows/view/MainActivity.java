@@ -3,6 +3,7 @@ package es.uniovi.eii.cows.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -30,15 +31,23 @@ public class MainActivity extends AppCompatActivity {
     // Class managing all the NewsReading actions
     private final ReadersManager readersManager = ReadersManager.getInstance();
 
+    //Pull to refresh item
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    //News Adapter
+    private NewsAdapter newsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.app_bar));
+
         // We start the pull and parse of news
         readersManager.run();
         // When finished we retrieve those parsed news
         news = readersManager.getNews();
+
         // We set up the news list
         setUpRecyclerView();
     }
@@ -69,14 +78,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
+        //Pull to refresh news initialization
+        configurePullToRefresh();
+
         // Show the news on the RecyclerView
         RecyclerView newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
         newsView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         newsView.setLayoutManager(layoutManager);
 
-        NewsAdapter newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem);
+        newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem);
         newsView.setAdapter(newsAdapter);
+    }
+
+    private void configurePullToRefresh(){
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh_main);
+        swipeRefreshLayout.setColorSchemeResources(R.color.primaryColor);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.design_default_color_background);
+
+        //onRefresh listener
+        swipeRefreshLayout.setOnRefreshListener(() -> onPullToRefresh());
+    }
+
+    private void onPullToRefresh() {
+        //Start of the refreshing
+        swipeRefreshLayout.setRefreshing(true);
+
+        //Reloading news
+        reloadNews();
+
+        //Setting the refreshed news items list
+        newsAdapter.setNewsItems(new ArrayList<>(news));
+
+        //end of the refreshing
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void clickOnNewsItem(NewsItem item) {
@@ -88,5 +124,10 @@ public class MainActivity extends AppCompatActivity {
         //Animation
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 
+    }
+
+    private void reloadNews(){
+
+        news = readersManager.getNews();
     }
 }
