@@ -31,6 +31,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
         this.listener = listener;
     }
 
+    public void setNewsItems(List<NewsItem> news){
+        if(news != null){
+            this.news = news;
+            this.notifyDataSetChanged();
+        }
+
+    }
+
     @NonNull
     @Override
     public NewsItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
