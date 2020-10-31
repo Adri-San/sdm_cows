@@ -79,7 +79,7 @@
                         android:layout_marginEnd="@dimen/news_21dp"
                         android:layout_toStartOf="@+id/idDate_news"
                         android:text="@string/fuente"
-                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textAppearance="?attr/textAppearanceOverline"
                         android:textColor="?android:attr/textColorPrimary" />
 
                     <!-- Date -->
@@ -91,7 +91,7 @@
                         android:layout_marginEnd="@dimen/news_21dp"
                         android:hapticFeedbackEnabled="false"
                         android:text="@string/hora"
-                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textAppearance="?attr/textAppearanceOverline"
                         android:textColor="?android:attr/textColorPrimary" />
 
                 </RelativeLayout>

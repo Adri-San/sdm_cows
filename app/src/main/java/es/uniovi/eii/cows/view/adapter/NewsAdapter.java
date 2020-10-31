@@ -1,6 +1,7 @@
 package es.uniovi.eii.cows.view.adapter;
 
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
@@ -21,6 +28,7 @@ import java.util.List;
 
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
+import es.uniovi.eii.cows.view.ProgressBarListener;
 
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;   // Progress bar
@@ -44,11 +52,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
             return new LoadingViewHolder(view);
         }
-        /*
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.line_news_view, parent, false);
-        return new NewsItemViewHolder(itemView);
-         */
     }
 
     @Override
@@ -91,12 +94,16 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView date;
         private ImageView image;
 
+        private ProgressBar progressBarImage;
+
         public NewsItemViewHolder(@NonNull View itemView) {
             super(itemView);
             this.title = itemView.findViewById(R.id.idTitle_main);
             this.source = itemView.findViewById(R.id.idSource_main);
             this.date = itemView.findViewById(R.id.idDate_main);
             this.image = itemView.findViewById(R.id.idImage_main);
+
+            this.progressBarImage = itemView.findViewById(R.id.idProgressImage);
         }
 
         public void bindUser(final NewsItem newsItem, final OnItemClickListener listener){
@@ -105,10 +112,14 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             date.setText(newsItem.getDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
 
             Glide.with(itemView).load(newsItem.getImageUrl())
-                    .thumbnail(Glide.with(itemView).load(R.drawable.loading))
+                    .listener(new ProgressBarListener(progressBarImage))
                     .error(R.drawable.no_image_available)
                     .centerInside()
+                    .apply(
+                           RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC )
+                    )
                     .into(image);
+
 
             itemView.setOnClickListener(v ->
                 listener.onItemClick(newsItem));

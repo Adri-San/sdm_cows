@@ -17,14 +17,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/idProgressImage"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:indeterminate="false"
+                android:visibility="visible" />
+
             <!-- Media -->
+
             <ImageView
                 android:id="@+id/idImage_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/image_profile_description"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/no_image_available" />
+                android:maxHeight="100dp"
+                app:srcCompat="@drawable/no_image_available"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:text="@string/fuente"
-                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textAppearance="?attr/textAppearanceOverline"
                         android:textColor="?android:attr/textColorSecondary" />
 
                     <TextView
@@ -56,7 +66,7 @@
                         android:gravity="end"
                         android:hapticFeedbackEnabled="false"
                         android:text="@string/hora"
-                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textAppearance="?attr/textAppearanceOverline"
                         android:textColor="?android:attr/textColorSecondary" />
                 </LinearLayout>
 
