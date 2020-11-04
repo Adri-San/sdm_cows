@@ -61,7 +61,7 @@ public class ReadersManager {
             e.printStackTrace();
         }
         return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .sorted().collect(Collectors.toList());
     }
 
     /**
