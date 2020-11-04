@@ -21,8 +21,10 @@ public class ElPaisParser extends BaseRSSParser {
     private static final String DESCRIPTION = "content:encoded";    // html formatted
     private static final String LINK = "link";
     private static final String DATE = "pubDate";
+    private static final String CATEGORY = "category";
     private static final String MEDIA = "media:content";
     //private static final String THUMBNAIL = "media:thumbnail";
+    private static final String COVID19 = "Coronavirus";
 
     public ElPaisParser(XmlPullParser xpp) {
         super(URL, xpp);
@@ -50,6 +52,11 @@ public class ElPaisParser extends BaseRSSParser {
             } else if (xpp.getName().equalsIgnoreCase(DATE) && item != null) {
                 // Date element
                 item.setDate(LocalDateTime.parse(xpp.nextText(), DateTimeFormatter.RFC_1123_DATE_TIME));
+            }  else if (xpp.getName().equalsIgnoreCase(CATEGORY) && item != null) {
+                // Category element
+                if (xpp.nextText().equals(COVID19)) {
+                    item.setCovidRelated(true);
+                }
             } else if (xpp.getName().equalsIgnoreCase(MEDIA)) {
                 // Media element
                 if (!xpp.getAttributeValue(0).isEmpty()) {

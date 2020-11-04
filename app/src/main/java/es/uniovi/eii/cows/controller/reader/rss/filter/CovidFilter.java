@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.controller.reader.filter;
+package es.uniovi.eii.cows.controller.reader.rss.filter;
 
 import android.util.Log;
 

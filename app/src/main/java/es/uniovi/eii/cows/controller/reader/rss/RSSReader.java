@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import es.uniovi.eii.cows.controller.reader.filter.CovidFilter;
+import es.uniovi.eii.cows.controller.reader.rss.filter.CovidFilter;
 import es.uniovi.eii.cows.model.NewsItem;
 import es.uniovi.eii.cows.controller.NewsReader;
 import es.uniovi.eii.cows.controller.reader.rss.parser.RSSParser;
