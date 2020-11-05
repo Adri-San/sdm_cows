@@ -22,7 +22,9 @@ public class ElPaisParser extends BaseRSSParser {
     private static final String LINK = "link";
     private static final String DATE = "pubDate";
     private static final String MEDIA = "media:content";
+    //private static final String CATEGORY = "category";
     //private static final String THUMBNAIL = "media:thumbnail";
+    //private static final String COVID19 = "Coronavirus";
 
     public ElPaisParser(XmlPullParser xpp) {
         super(URL, xpp);

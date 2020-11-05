@@ -22,9 +22,12 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 	private LocalDateTime date;                         // Publication date
 	private String source;                              // Source of the news
 	private String imageUrl;                            // URL of the image of the news
-	private int fallbackImage;                       // Image to use when no image
+	private int fallbackImage;                       	// Image to use when no image
+
+	private boolean covidRelated;						// Flag to set items as CovidRelated
 
 	public NewsItem() {
+		covidRelated = false;
 	}
 
 	protected NewsItem(Parcel in) {
@@ -35,6 +38,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		source = in.readString();
 		imageUrl = in.readString();
 		fallbackImage = in.readInt();
+		covidRelated = in.readInt() == 0;
 	}
 
 	public String getTitle() {
@@ -71,7 +75,8 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 
 	public String getImageUrl() {
 		if (imageUrl == null || imageUrl.isEmpty())
-			return "android.resource://" + R.class.getPackage().getName() + "/"+ fallbackImage;
+			return "android.resource://" +
+					Objects.requireNonNull(R.class.getPackage()).getName() + "/"+ fallbackImage;
 		return imageUrl;
 	}
 
@@ -93,6 +98,14 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+
+	public boolean isCovidRelated() {
+		return covidRelated;
+	}
+
+	public void setCovidRelated(boolean covidRelated) {
+		this.covidRelated = covidRelated;
 	}
 
 	@Override
@@ -137,6 +150,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		dest.writeString(source);
 		dest.writeString(imageUrl);
 		dest.writeInt(fallbackImage);
+		dest.writeInt(covidRelated ? 0 : 1);
 	}
 
 	public static final Creator<NewsItem> CREATOR = new Creator<NewsItem>() {

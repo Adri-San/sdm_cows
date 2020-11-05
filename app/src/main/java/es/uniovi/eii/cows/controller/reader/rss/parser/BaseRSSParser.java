@@ -5,15 +5,15 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import es.uniovi.eii.cows.model.NewsItem;
 
 public abstract class BaseRSSParser implements RSSParser {
 
     protected String url;
-    protected Set<NewsItem> news;
+    protected List<NewsItem> news;
     protected XmlPullParser xpp;
     protected NewsItem item;
     protected int eventType;
@@ -21,11 +21,11 @@ public abstract class BaseRSSParser implements RSSParser {
     public BaseRSSParser(String url, XmlPullParser xpp) {
         this.url = url;
         this.xpp = xpp;
-        this.news = new HashSet<>();
+        this.news = new ArrayList<>();
     }
 
     @Override
-    public Set<NewsItem> parse(InputStream is) throws XmlPullParserException, IOException {
+    public List<NewsItem> parse(InputStream is) throws XmlPullParserException, IOException {
         xpp.setInput(is, "UTF-8");
         eventType = xpp.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {

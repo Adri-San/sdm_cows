@@ -49,7 +49,7 @@ public class LNEParser extends BaseRSSParser {
                 // Date element
                 item.setDate(LocalDateTime.parse(xpp.nextText(), DateTimeFormatter.RFC_1123_DATE_TIME));
             }
-            // LNE news doesn't have images
+            // LNE news doesn't have images nor categories
         // Finished parsing the wanted element
         } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase(ITEM)) {
             news.add(item);
