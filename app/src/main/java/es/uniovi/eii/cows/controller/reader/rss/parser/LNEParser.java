@@ -6,6 +6,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
@@ -47,7 +49,11 @@ public class LNEParser extends BaseRSSParser {
                 item.setLink(xpp.nextText());
             } else if (xpp.getName().equalsIgnoreCase(DATE) && item != null) {
                 // Date element
-                item.setDate(LocalDateTime.parse(xpp.nextText(), DateTimeFormatter.RFC_1123_DATE_TIME));
+                String[] date = xpp.nextText().split(" ");
+                date[3] = "20" + date[3];
+                item.setDate(LocalDateTime.parse(
+                        Arrays.stream(date).collect(Collectors.joining(" ")),
+                        DateTimeFormatter.RFC_1123_DATE_TIME));
             }
             // LNE news doesn't have images nor categories
         // Finished parsing the wanted element

@@ -7,9 +7,11 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import es.uniovi.eii.cows.controller.reader.rss.RSSReader;
 import es.uniovi.eii.cows.controller.reader.rss.parser.ABCParser;
+import es.uniovi.eii.cows.controller.reader.rss.parser.ElDiarioParser;
 import es.uniovi.eii.cows.controller.reader.rss.parser.ElPaisParser;
 import es.uniovi.eii.cows.controller.reader.rss.parser.LNEParser;
 import es.uniovi.eii.cows.controller.NewsReader;
@@ -34,10 +36,9 @@ public class ReadersFactory {
             if (instance == null)
                 instance = new ReadersFactory();
         } catch (XmlPullParserException e) {
-            Log.e("ReadersFactory", e.getMessage());
-        } finally {
-            return instance;
+            Log.e("ReadersFactory", Objects.requireNonNull(e.getMessage()));
         }
+        return instance;
     }
 
     /**
@@ -53,10 +54,11 @@ public class ReadersFactory {
                     new LNEParser(factory.newPullParser())));
             readers.add(new RSSReader(
                     new ABCParser(factory.newPullParser())));
+            readers.add(new RSSReader(
+                    new ElDiarioParser(factory.newPullParser())));
         } catch (XmlPullParserException e) {
-            Log.e("ReadersFactory", e.getMessage());
-        } finally {
-            return readers;
+            Log.e("ReadersFactory", Objects.requireNonNull(e.getMessage()));
         }
+        return readers;
     }
 }
