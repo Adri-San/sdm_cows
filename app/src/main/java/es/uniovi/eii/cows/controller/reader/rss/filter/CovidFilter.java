@@ -9,7 +9,10 @@ import es.uniovi.eii.cows.model.NewsItem;
 
 public class CovidFilter {
 
-	public static final int THRESHOLD = 7;
+	public static final int THRESHOLD = 15;
+
+	public static final int TITLE_TERMS_VALUE = 3;
+	public static final int TOP_TERMS_VALUE = 5;
 
 	public static String[] topTerms = {
 			"covid",
@@ -19,18 +22,19 @@ public class CovidFilter {
 	};
 
 	public static String[] relatedTerms = {
-			"pandemia",
 			"alarma",
+			"contagios",
 			"confinamiento",
+			"mascarilla",
+			"pandemia",
 			"pcr",
-			"restricciones",
-			"mascarilla"
+			"restricciones"
 	};
 
 	public static void evaluate(NewsItem item) {
 		if (!item.isCovidRelated()) {
 			long h = 0;
-			h += evaluateString(item.getTitle()) * 2;
+			h += evaluateString(item.getTitle()) * TITLE_TERMS_VALUE;
 			h += evaluateString(item.getDescription());
 			item.setCovidRelated(h > THRESHOLD);
 			if (h > 0)	Log.d("Evaluation", "[" + h + "] " + item.getTitle());
@@ -47,7 +51,7 @@ public class CovidFilter {
 		Arrays.stream(relatedTerms)
 				.map(t-> Arrays.stream(words).filter(w -> w.equals(t)).count())
 				.reduce(Long::sum).ifPresent(related::set);
-		return top.get() * 5 + related.get();
+		return top.get() * TOP_TERMS_VALUE + related.get();
 	}
 
 	public static boolean filter(NewsItem item) {

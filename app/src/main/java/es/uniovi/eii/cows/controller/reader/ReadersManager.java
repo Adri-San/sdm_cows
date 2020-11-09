@@ -2,8 +2,6 @@ package es.uniovi.eii.cows.controller.reader;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -60,6 +58,8 @@ public class ReadersManager {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        List<NewsItem> copy = readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
+                .sorted().collect(Collectors.toList());
         return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
                 .sorted().collect(Collectors.toList());
     }

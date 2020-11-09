@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -55,6 +56,6 @@ public class RSSReader implements NewsReader {
 
     @Override
     public List<NewsItem> getNews() {
-        return news.stream().sorted().collect(Collectors.toList());
+        return news;
     }
 }
