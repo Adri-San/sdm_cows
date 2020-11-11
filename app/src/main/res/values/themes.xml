@@ -16,7 +16,10 @@
     </style>
 
     <!-- Splash screen theme -->
-    <style name="SplashTheme.COWS" parent="Theme.AppCompat.NoActionBar">
+    <style name="SplashTheme.COWS" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>

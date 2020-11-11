@@ -1,10 +1,18 @@
 package es.uniovi.eii.cows.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LaunchActivity  extends AppCompatActivity {
+public class LaunchActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish(); // don't return to this activity
+    }
 }
