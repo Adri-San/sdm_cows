@@ -16,7 +16,7 @@ public class LNEParser extends BaseRSSParser {
 
     public static final String URL = "https://www.lne.es/elementosInt/rss/42";
     public static final String SOURCE = "La Nueva España";
-    public static final int DEFAULT_IMAGE = R.drawable.la_nueva_espana;
+    public static final int DEFAULT_IMAGE = R.drawable.lne;
 
     private static final String ITEM = "item";
     private static final String TITLE = "title";
