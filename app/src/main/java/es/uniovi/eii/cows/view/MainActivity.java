@@ -43,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.app_bar));
-
         // We start the pull and parse of news
         readersManager.run();
         // When finished we retrieve those parsed news
         news = readersManager.getNews();
-
         // We set up the news list
         setUpRecyclerView();
     }
