@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadNews(){
-
+        readersManager.rerun();
         news = readersManager.getNews();
     }
 }

@@ -14,7 +14,6 @@ import es.uniovi.eii.cows.controller.reader.rss.parser.ABCParser;
 import es.uniovi.eii.cows.controller.reader.rss.parser.ElDiarioParser;
 import es.uniovi.eii.cows.controller.reader.rss.parser.ElPaisParser;
 import es.uniovi.eii.cows.controller.reader.rss.parser.LNEParser;
-import es.uniovi.eii.cows.controller.NewsReader;
 
 public class ReadersFactory {
 

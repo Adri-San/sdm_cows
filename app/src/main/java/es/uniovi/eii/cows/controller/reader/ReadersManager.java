@@ -8,7 +8,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import es.uniovi.eii.cows.controller.NewsReader;
 import es.uniovi.eii.cows.model.NewsItem;
 
 /**
@@ -28,10 +27,14 @@ public class ReadersManager {
     private static ReadersManager instance = new ReadersManager();               // Singleton
 
     private ReadersManager() {
+        readers = ReadersFactory.getInstance().getReaders();
+        initThreads();
+    }
+
+    private void initThreads() {
         BlockingQueue<Runnable> readersQueue = new LinkedBlockingQueue<>();
         readersThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,
                 KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, readersQueue);
-        readers = ReadersFactory.getInstance().getReaders();
     }
 
     /**
@@ -46,6 +49,14 @@ public class ReadersManager {
      */
     public void run() {
         readers.forEach(r -> readersThreadPool.execute(r));
+    }
+
+    /**
+     * Restarts the threads
+     */
+    public void rerun() {
+        initThreads();
+        run();
     }
 
     /**
