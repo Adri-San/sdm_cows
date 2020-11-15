@@ -11,12 +11,13 @@
         android:roundIcon="@mipmap/covicita"
         android:supportsRtl="true"
         android:theme="@style/Theme.COWS">
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.LaunchActivity" android:theme="@style/SplashTheme.COWS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.MainActivity" />
         <activity android:name=".view.NewsActivity" />
     </application>
 
