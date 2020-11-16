@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import es.uniovi.eii.cows.controller.reader.rss.filter.CovidFilter;
 import es.uniovi.eii.cows.model.NewsItem;
-import es.uniovi.eii.cows.controller.NewsReader;
+import es.uniovi.eii.cows.controller.reader.NewsReader;
 import es.uniovi.eii.cows.controller.reader.rss.parser.RSSParser;
 
 public class RSSReader implements NewsReader {
@@ -35,6 +34,7 @@ public class RSSReader implements NewsReader {
             is = new URL(parser.getURL()).openConnection().getInputStream();
             news = parser.parse(is);                            // Parses the XML
             news.forEach(CovidFilter::evaluate);                // Search for COVID news
+            //news.forEach(x -> x.setCovidRelated(true));       // No filter - DEBUG
             news = news.stream().filter(CovidFilter::filter).collect(Collectors.toList());
         } catch (MalformedURLException mue) {
             Log.e("MalformedURLException", Objects.requireNonNull(mue.getMessage()));

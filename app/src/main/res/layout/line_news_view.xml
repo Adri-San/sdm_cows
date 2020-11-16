@@ -21,8 +21,8 @@
             <ImageView
                 android:id="@+id/idImage_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/image_profile_description"
+                android:layout_height="120dp"
+                android:contentDescription="@string/image_news_item"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/no_image_available" />
 

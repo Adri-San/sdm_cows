@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.controller;
+package es.uniovi.eii.cows.controller.reader;
 
 import java.util.List;
 import java.util.Set;

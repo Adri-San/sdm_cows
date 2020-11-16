@@ -12,4 +12,5 @@
     <string name="profile">profile</string>
     <string name="contenidoNoticia">Contenido de la noticia</string>
     <string name="news_fab_description">Leer más</string>
+    <string name="image_news_item">Imagen de la noticia</string>
 </resources>

@@ -21,11 +21,11 @@ public abstract class BaseRSSParser implements RSSParser {
     public BaseRSSParser(String url, XmlPullParser xpp) {
         this.url = url;
         this.xpp = xpp;
-        this.news = new ArrayList<>();
     }
 
     @Override
     public List<NewsItem> parse(InputStream is) throws XmlPullParserException, IOException {
+        this.news = new ArrayList<>();
         xpp.setInput(is, "UTF-8");
         eventType = xpp.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {
