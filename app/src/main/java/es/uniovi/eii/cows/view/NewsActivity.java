@@ -72,7 +72,7 @@ public class NewsActivity extends AppCompatActivity {
         save = findViewById(R.id.idSave_news);
         share = findViewById(R.id.idShare_news);
 
-        share.setOnClickListener(new ShareClickListener(getApplicationContext(), newsItem));
+        share.setOnClickListener(new ShareClickListener(this, newsItem));
     }
 
     private void initializeNewsItemProperties(){
