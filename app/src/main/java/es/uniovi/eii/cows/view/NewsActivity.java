@@ -13,6 +13,7 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,9 @@ public class NewsActivity extends AppCompatActivity {
     private ImageView image;
     private FloatingActionButton fabLinkCompleteNews;
 
+    // Buttons
+    private Button share;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +70,8 @@ public class NewsActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.idDate_news);
         description = (WebView) findViewById(R.id.idDescription_news);
         image = (ImageView) findViewById(R.id.idImage_news);
+
+        //share = findViewById()
 
         Glide.with(this).load(newsItem.getImageUrl())
                 .thumbnail(Glide.with(this).load(R.drawable.loading))
