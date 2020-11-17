@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">COWS</string>
-    <string name="errorLoadingSources">There was an error loading some sources</string>
     <string name="ubicacion">Oviedo</string>
     <string name="image_profile_description">Perfil</string>
     <string name="tituloNoticia">Título de la noticia</string>
@@ -13,4 +12,8 @@
     <string name="contenidoNoticia">Contenido de la noticia</string>
     <string name="news_fab_description">Leer más</string>
     <string name="image_news_item">Imagen de la noticia</string>
+
+    <!-- Errors -->
+    <string name="errorLoadingSources">There was an error loading some sources</string>
+    <string name="error_connection">There was an error while trying to connect</string>
 </resources>

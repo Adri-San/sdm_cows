@@ -4,6 +4,7 @@ package es.uniovi.eii.cows.view.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import org.threeten.bp.format.FormatStyle;
 import java.util.List;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.controller.listener.ShareClickListener;
 import es.uniovi.eii.cows.model.NewsItem;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHolder> {
@@ -65,12 +67,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
         private TextView date;
         private ImageView image;
 
+        // Buttons
+        private Button like;
+        private Button save;
+        private Button share;
+
         public NewsItemViewHolder(@NonNull View itemView) {
             super(itemView);
             this.title = itemView.findViewById(R.id.idTitle_main);
             this.source = itemView.findViewById(R.id.idSource_main);
             this.date = itemView.findViewById(R.id.idDate_main);
             this.image = itemView.findViewById(R.id.idImage_main);
+
+            this.like = itemView.findViewById(R.id.idLike_main);
+            this.save = itemView.findViewById(R.id.idSave_main);
+            this.share = itemView.findViewById(R.id.idShare_main);
         }
 
         public void bindUser(final NewsItem newsItem, final OnItemClickListener listener){
@@ -84,6 +95,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
                     .centerInside()
                     .into(image);
 
+            // Add listener to buttons
+            share.setOnClickListener(new ShareClickListener(itemView.getContext(), newsItem));
+
+            // News item listener
             itemView.setOnClickListener(v ->
                 listener.onItemClick(newsItem));
         }

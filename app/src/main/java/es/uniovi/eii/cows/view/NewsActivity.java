@@ -30,6 +30,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.controller.listener.ShareClickListener;
 import es.uniovi.eii.cows.model.NewsItem;
 
 public class NewsActivity extends AppCompatActivity {
@@ -45,6 +46,8 @@ public class NewsActivity extends AppCompatActivity {
     private FloatingActionButton fabLinkCompleteNews;
 
     // Buttons
+    private Button like;
+    private Button save;
     private Button share;
 
     @Override
@@ -59,19 +62,25 @@ public class NewsActivity extends AppCompatActivity {
 
         //initialize and show to the user
         initializeNewsItemProperties();
+        initializeButtons();
         if(newsItem != null)
             showNewsItem(newsItem);
     }
 
-    private void initializeNewsItemProperties(){
+    private void initializeButtons() {
+        like = findViewById(R.id.idLike_news);
+        save = findViewById(R.id.idSave_news);
+        share = findViewById(R.id.idShare_news);
 
+        share.setOnClickListener(new ShareClickListener(getApplicationContext(), newsItem));
+    }
+
+    private void initializeNewsItemProperties(){
         title = (TextView) findViewById(R.id.idTitle_news);
         source = (TextView) findViewById(R.id.idSource_news);
         date = (TextView) findViewById(R.id.idDate_news);
         description = (WebView) findViewById(R.id.idDescription_news);
         image = (ImageView) findViewById(R.id.idImage_news);
-
-        //share = findViewById()
 
         Glide.with(this).load(newsItem.getImageUrl())
                 .thumbnail(Glide.with(this).load(R.drawable.loading))
@@ -94,8 +103,6 @@ public class NewsActivity extends AppCompatActivity {
         this.date.setText(date);
 
         loadNewsContent(description);
-
-
     }
 
     private void linkToCompleteNewsItem(){
