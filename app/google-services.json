@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "322614270804",
+    "firebase_url": "https://cows-a77c7.firebaseio.com",
+    "project_id": "cows-a77c7",
+    "storage_bucket": "cows-a77c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322614270804:android:8a829bea6929c17aff06c1",
+        "android_client_info": {
+          "package_name": "es.uniovi.eii.cows"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "322614270804-h7l8hv07bhf4hqkhkvd04902lr0bttbj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.uniovi.eii.cows",
+            "certificate_hash": "6b3674faf60c819b9832aa942f505f32e4fbc178"
+          }
+        },
+        {
+          "client_id": "322614270804-dv0kcgat0ajc9i9votf9vh7hr27mq14e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcbjAZkDywI2E7-MLlCYWzCJt0hk2a9u8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "322614270804-dv0kcgat0ajc9i9votf9vh7hr27mq14e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
