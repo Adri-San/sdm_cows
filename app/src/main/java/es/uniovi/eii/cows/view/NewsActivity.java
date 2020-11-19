@@ -13,6 +13,7 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.controller.listener.ShareClickListener;
 import es.uniovi.eii.cows.model.NewsItem;
 
 public class NewsActivity extends AppCompatActivity {
@@ -43,6 +45,11 @@ public class NewsActivity extends AppCompatActivity {
     private ImageView image;
     private FloatingActionButton fabLinkCompleteNews;
 
+    // Buttons
+    private Button like;
+    private Button save;
+    private Button share;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +62,20 @@ public class NewsActivity extends AppCompatActivity {
 
         //initialize and show to the user
         initializeNewsItemProperties();
+        initializeButtons();
         if(newsItem != null)
             showNewsItem(newsItem);
     }
 
-    private void initializeNewsItemProperties(){
+    private void initializeButtons() {
+        like = findViewById(R.id.idLike_news);
+        save = findViewById(R.id.idSave_news);
+        share = findViewById(R.id.idShare_news);
 
+        share.setOnClickListener(new ShareClickListener(this, newsItem));
+    }
+
+    private void initializeNewsItemProperties(){
         title = (TextView) findViewById(R.id.idTitle_news);
         source = (TextView) findViewById(R.id.idSource_news);
         date = (TextView) findViewById(R.id.idDate_news);
@@ -88,8 +103,6 @@ public class NewsActivity extends AppCompatActivity {
         this.date.setText(date);
 
         loadNewsContent(description);
-
-
     }
 
     private void linkToCompleteNewsItem(){

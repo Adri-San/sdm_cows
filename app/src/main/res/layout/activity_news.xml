@@ -28,12 +28,20 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Scroll View -->
+
+    <!-- FAB -->
+
+    <!-- Bottom Navigation -->
+
     <ScrollView
         android:id="@+id/idScroll_news"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/news_0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomNav_news"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_news">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_news"
+        app:layout_constraintVertical_bias="0.0">
 
         <!--News content -->
         <LinearLayout
@@ -117,7 +125,7 @@
             <WebView
                 android:id="@+id/idDescription_news"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/news_16dp"
                 android:layout_marginTop="@dimen/news_10dp"
                 android:layout_marginEnd="@dimen/news_16dp"
@@ -129,7 +137,6 @@
 
     </ScrollView>
 
-    <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_news"
         style="@style/Widget.Cows.FloatingActionButton"
@@ -139,25 +146,45 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/news_fab_description"
         app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav_news"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/idScroll_news"
+        app:layout_constraintEnd_toEndOf="@+id/idScroll_news"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
 
-    <!-- Bottom Navigation -->
     <LinearLayout
-        android:id="@+id/bottomNav_news"
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/idScroll_news"
-        app:layout_constraintStart_toStartOf="@id/idScroll_news"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:menu="@menu/bottom_navigation_news_menu" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/idLike_news"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/like"
+            app:icon="@drawable/ic_like" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/idSave_news"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/guardar"
+            app:icon="@drawable/ic_save" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/idShare_news"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/compartir"
+            app:icon="@drawable/ic_share" />
 
     </LinearLayout>
 
