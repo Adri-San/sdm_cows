@@ -2,8 +2,11 @@ package es.uniovi.eii.cows.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.google.firebase.firestore.DocumentId;
 
 import org.threeten.bp.LocalDateTime;
 
@@ -15,6 +18,9 @@ import es.uniovi.eii.cows.R;
  * Java Beans class of the news
  */
 public class NewsItem implements Comparable<NewsItem>, Parcelable {
+
+	@DocumentId
+	private String id; 									//Identifier on database
 
 	private String title;
 	private String description;
@@ -39,6 +45,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		imageUrl = in.readString();
 		fallbackImage = in.readInt();
 		covidRelated = in.readInt() == 0;
+		id = in.readString();
 	}
 
 	public String getTitle() {
@@ -108,6 +115,12 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		this.covidRelated = covidRelated;
 	}
 
+	public String getId() { return id; }
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -151,6 +164,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		dest.writeString(imageUrl);
 		dest.writeInt(fallbackImage);
 		dest.writeInt(covidRelated ? 0 : 1);
+		dest.writeString(id);
 	}
 
 	public static final Creator<NewsItem> CREATOR = new Creator<NewsItem>() {

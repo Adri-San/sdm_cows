@@ -1,5 +1,7 @@
 package es.uniovi.eii.cows.controller.reader;
 
+import android.util.Log;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;

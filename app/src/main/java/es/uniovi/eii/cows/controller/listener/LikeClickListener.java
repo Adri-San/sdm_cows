@@ -6,15 +6,13 @@ import es.uniovi.eii.cows.controller.listener.abstractListener.OnButtonClickList
 import es.uniovi.eii.cows.data.FirebaseHelper;
 import es.uniovi.eii.cows.model.NewsItem;
 
-public class SaveClickListener extends OnButtonClickListener {
+public class LikeClickListener extends OnButtonClickListener {
 
-    public SaveClickListener(Context context, NewsItem newsItem) {
-        super(context, newsItem);
-    }
+    public LikeClickListener(Context context, NewsItem newsItem) { super(context, newsItem); }
 
     @Override
     protected void doOnClick() {
-        FirebaseHelper.getInstance().addSave(getNewsItem().getId());
+        FirebaseHelper.getInstance().addLike(getNewsItem().getId());
     }
 
 }

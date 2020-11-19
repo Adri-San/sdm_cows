@@ -23,6 +23,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.controller.listener.LikeClickListener;
 import es.uniovi.eii.cows.controller.listener.SaveClickListener;
 import es.uniovi.eii.cows.controller.listener.ShareClickListener;
 import es.uniovi.eii.cows.model.NewsItem;
@@ -68,6 +69,7 @@ public class NewsActivity extends AppCompatActivity {
 
         share.setOnClickListener(new ShareClickListener(this, newsItem));
         save.setOnClickListener(new SaveClickListener(this, newsItem));
+        like.setOnClickListener(new LikeClickListener(this, newsItem));
     }
 
     private void initializeNewsItemProperties(){

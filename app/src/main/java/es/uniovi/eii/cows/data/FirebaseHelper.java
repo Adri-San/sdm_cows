@@ -1,27 +1,32 @@
 package es.uniovi.eii.cows.data;
 
 
+import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import es.uniovi.eii.cows.model.NewsItem;
 
 
 public class FirebaseHelper {
 
+    //Database collections
     private static final String NEWS_ITEMS = "news_items";
     private static final String NEWS_LIKED = "news_liked";
     private static final String NEWS_SAVED = "news_saved";
+
+    //Property that references news item
+    private String referenceProperty = "news_item_ID";
 
     private static FirebaseHelper instance = new FirebaseHelper();
 
@@ -40,27 +45,32 @@ public class FirebaseHelper {
      * Adds the specified newsItem to the collection
      * @param newsItem
      */
-    public void addNewsItem(NewsItem newsItem){
+    public void addNewsItem(NewsItem newsItem) {
+
+        //News item is not stored on the database
         database.collection(NEWS_ITEMS)
                 .add(newsItem)
-                .addOnSuccessListener(documentReference -> Log.d("Database", "NewsItem added with ID: " + documentReference.getId()))
-                .addOnFailureListener(e -> Log.w("Database", "Error adding newsItem", e));
+                .addOnCompleteListener(t -> newsItem.setId(t.getResult().getId()));
+
     }
 
-    public void getNewsItems(){
-        List<NewsItem> newsItems = new ArrayList<>();
-        database.collection(NEWS_ITEMS)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d("Database", document.getId() + " => " + document.getData());
-                            newsItems.add((NewsItem) document.getData());
-                        }
-                    } else {
-                        Log.w("Database", "Error getting documents.", task.getException());
-                    }
-                });
+    public void addLike(String id){
+        Map<String, DocumentReference> like = new HashMap<>();
+        like.put(referenceProperty, database.document(NEWS_ITEMS + "/" + id));
+
+        database.collection(NEWS_LIKED)
+                .add(like)
+                .addOnSuccessListener(e -> Log.d("Database", "Success"))
+                .addOnFailureListener(e -> Log.w("Database", "Error adding newsItem"));
     }
 
+    public void addSave(String id){
+        Map<String, DocumentReference> like = new HashMap<>();
+        like.put(referenceProperty, database.document(NEWS_ITEMS + "/" + id));
+
+        database.collection(NEWS_SAVED)
+                .add(like)
+                .addOnSuccessListener(e -> Log.d("Database", "Success"))
+                .addOnFailureListener(e -> Log.w("Database", "Error adding newsItem"));
+    }
 }
