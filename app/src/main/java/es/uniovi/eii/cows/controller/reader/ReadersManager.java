@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import es.uniovi.eii.cows.data.FirebaseHelper;
 import es.uniovi.eii.cows.model.NewsItem;
 
 /**
@@ -71,6 +72,9 @@ public class ReadersManager {
         }
         List<NewsItem> copy = readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
                 .sorted().collect(Collectors.toList());
+
+        storeNewsItems(copy);
+
         return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
                 .sorted().collect(Collectors.toList());
     }
@@ -80,5 +84,13 @@ public class ReadersManager {
      */
     public void shutdown() {
         readers.forEach(NewsReader::stop);
+    }
+
+    /**
+     * Stores the specified list of news items into the database
+     * @param newsItems
+     */
+    public void storeNewsItems(List<NewsItem> newsItems){
+        newsItems.forEach(newsItem -> FirebaseHelper.getInstance().addNewsItem(newsItem));
     }
 }

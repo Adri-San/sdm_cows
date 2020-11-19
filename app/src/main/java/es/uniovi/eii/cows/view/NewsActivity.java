@@ -4,13 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -18,18 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.webkit.WebSettingsCompat;
-import androidx.webkit.WebViewFeature;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.controller.listener.SaveClickListener;
 import es.uniovi.eii.cows.controller.listener.ShareClickListener;
 import es.uniovi.eii.cows.model.NewsItem;
 
@@ -73,6 +67,7 @@ public class NewsActivity extends AppCompatActivity {
         share = findViewById(R.id.idShare_news);
 
         share.setOnClickListener(new ShareClickListener(this, newsItem));
+        save.setOnClickListener(new SaveClickListener(this, newsItem));
     }
 
     private void initializeNewsItemProperties(){
