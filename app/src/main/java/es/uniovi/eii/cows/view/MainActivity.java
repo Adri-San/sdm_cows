@@ -1,25 +1,24 @@
 package es.uniovi.eii.cows.view;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.controller.reader.ReadersManager;
 import es.uniovi.eii.cows.model.NewsItem;
 import es.uniovi.eii.cows.view.adapter.NewsAdapter;
-import es.uniovi.eii.cows.controller.reader.ReadersManager;
 
 public class MainActivity extends AppCompatActivity {
 

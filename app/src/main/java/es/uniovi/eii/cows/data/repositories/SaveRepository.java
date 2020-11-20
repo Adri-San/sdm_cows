@@ -9,8 +9,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
+import es.uniovi.eii.cows.model.NewsItem;
 
-public class SaveRepository extends BaseRepository<String> {
+public class SaveRepository extends BaseRepository<String, NewsItem> {
 
     @Override
     public void add(String id) {
@@ -22,17 +23,23 @@ public class SaveRepository extends BaseRepository<String> {
     }
 
     /**
-     * Gets all newsItem's ids passing them to callback function one by one
+     * Gets all saved newsItems passing them to callback function one by one
      * @param callback function that will be called when one newsItem id is retrieved
      */
     @Override
-    public void getAll(Function<String, Void> callback) {
+    public void getAll(Function<NewsItem, Void> callback) {
         getDatabase().collection(NEWS_SAVED)
                 .get()
                 .addOnCompleteListener(t -> t.getResult().forEach(d -> {
-                    String id = d.toObject(String.class); callback.apply(id); }));
+                    DocumentReference document = (DocumentReference) d.getData().get(getReferenceProperty());
+                    document.get().
+                            addOnCompleteListener(f -> { NewsItem n = f.getResult().toObject(NewsItem.class); callback.apply(n); } ); }));
     }
 
+    @Override
+    public void get(String id, Function<NewsItem, Void> callback) {
+
+    }
 
     /**
      * Private method that adds the previously-checked unique save

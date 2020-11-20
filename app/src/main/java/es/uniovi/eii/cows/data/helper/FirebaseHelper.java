@@ -1,7 +1,6 @@
 package es.uniovi.eii.cows.data.helper;
 
 
-import java.util.List;
 import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
@@ -33,25 +32,12 @@ public class FirebaseHelper {
         return instance;
     }
 
-    /**
-     * Adds the specified newsItem to the collection
-     * if it does not already exists
-     * @param newsItem
-     */
+    //Add Methods
     public void addNewsItem(NewsItem newsItem) { newsItemRepository.add(newsItem); }
-
-    /**
-     * Adds a reference to the liked newsItem
-     * @param id identifier of the liked newsItem
-     */
     public void addLike(String id){ likeRepository.add(id); }
-
-    /**
-     * Adds a reference to the saved newsItem
-     * @param id identifier of the saved newsItem
-     */
     public void addSave(String id){ saveRepository.add(id); }
 
-
-
+    //Get Methods
+    public void getLikedNewsItems(Function<NewsItem, Void> callback) { likeRepository.getAll(l -> callback.apply((NewsItem) l)); }
+    public void getSavedNewsItems(Function<NewsItem, Void> callback) { saveRepository.getAll(s -> callback.apply((NewsItem) s)); }
 }

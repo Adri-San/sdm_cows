@@ -2,7 +2,7 @@ package es.uniovi.eii.cows.data;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public abstract class BaseRepository<T> implements Repository<T> {
+public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     //Database collections
     protected static final String NEWS_ITEMS = "news_items";

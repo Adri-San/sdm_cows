@@ -5,7 +5,7 @@ import java.util.function.Function;
 import es.uniovi.eii.cows.data.BaseRepository;
 import es.uniovi.eii.cows.model.NewsItem;
 
-public class NewsItemRepository extends BaseRepository<NewsItem> {
+public class NewsItemRepository extends BaseRepository<NewsItem, NewsItem> {
 
     /**
      * Adds the specified newsItem to the collection
@@ -17,7 +17,6 @@ public class NewsItemRepository extends BaseRepository<NewsItem> {
 
         getDatabase().collection(NEWS_ITEMS)
                 .whereEqualTo("title", newsItem.getTitle())
-                .whereEqualTo("date", newsItem.getDate())
                 .whereEqualTo("source", newsItem.getSource())
                 .get()
                 .addOnCompleteListener(c -> { if(c.getResult().size() == 0) addNewsItem(newsItem);
@@ -34,6 +33,20 @@ public class NewsItemRepository extends BaseRepository<NewsItem> {
         getDatabase().collection(NEWS_ITEMS)
                 .get()
                 .addOnCompleteListener(t -> t.getResult().forEach(d -> {NewsItem n = d.toObject(NewsItem.class); callback.apply(n); }));
+    }
+
+    /**
+     * Gets the newsItem whose id is equal to the specified identifier
+     * passing it to callback function
+     *
+     * @param callback function that will be called when the specified newsItem is retrieved
+     * @param id newItem's identifier
+     */
+    @Override
+    public void get(String id, Function<NewsItem, Void> callback) {
+        getDatabase().collection(NEWS_ITEMS)
+                .get()
+                .addOnCompleteListener(t -> t.getResult().forEach(d -> {NewsItem n = d.toObject(NewsItem.class); if(id.equals(n.getId())) callback.apply(n); }));
     }
 
     /**
