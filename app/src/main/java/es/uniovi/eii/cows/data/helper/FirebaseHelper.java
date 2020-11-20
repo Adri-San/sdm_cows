@@ -1,7 +1,10 @@
 package es.uniovi.eii.cows.data.helper;
 
 
-import es.uniovi.eii.cows.data.Repository;
+import java.util.List;
+import java.util.function.Function;
+
+import es.uniovi.eii.cows.data.BaseRepository;
 import es.uniovi.eii.cows.data.repositories.LikeRepository;
 import es.uniovi.eii.cows.data.repositories.NewsItemRepository;
 import es.uniovi.eii.cows.data.repositories.SaveRepository;
@@ -13,9 +16,9 @@ public class FirebaseHelper {
     private static FirebaseHelper instance = new FirebaseHelper();
 
     //Repositories
-    private Repository newsItemRepository;
-    private Repository likeRepository;
-    private Repository saveRepository;
+    private BaseRepository newsItemRepository;
+    private BaseRepository likeRepository;
+    private BaseRepository saveRepository;
 
     private FirebaseHelper(){
         newsItemRepository = new NewsItemRepository();
@@ -48,5 +51,7 @@ public class FirebaseHelper {
      * @param id identifier of the saved newsItem
      */
     public void addSave(String id){ saveRepository.add(id); }
+
+
 
 }

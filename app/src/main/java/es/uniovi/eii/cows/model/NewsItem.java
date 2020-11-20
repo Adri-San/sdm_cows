@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.Exclude;
 
 import org.threeten.bp.LocalDateTime;
 
@@ -98,6 +99,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		this.fallbackImage = fallbackImage;
 	}
 
+	@Exclude
 	public LocalDateTime getDate() {
 		return date;
 	}

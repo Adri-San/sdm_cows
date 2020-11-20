@@ -6,10 +6,12 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
-import es.uniovi.eii.cows.data.Repository;
+import es.uniovi.eii.cows.data.BaseRepository;
+import es.uniovi.eii.cows.model.NewsItem;
 
-public class LikeRepository extends Repository<String> {
+public class LikeRepository extends BaseRepository<String> {
 
     @Override
     public void add(String id) {
@@ -19,6 +21,18 @@ public class LikeRepository extends Repository<String> {
         getDatabase().collection(NEWS_LIKED)
                 .whereEqualTo(getReferenceProperty(), like.get(getReferenceProperty()))
                 .get().addOnCompleteListener(c -> { if(c.getResult().size() == 0) addLike(like); }); //Added if does not exist
+    }
+
+    /**
+     * Gets all newsItem's ids passing them to callback function one by one
+     * @param callback function that will be called when one newsItem id is retrieved
+     */
+    @Override
+    public void getAll(Function<String, Void> callback) {
+        getDatabase().collection(NEWS_LIKED)
+                .get()
+                .addOnCompleteListener(t -> t.getResult().forEach(d -> {
+                    String id = d.toObject(String.class); callback.apply(id); }));
     }
 
     /**

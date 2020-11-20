@@ -1,9 +1,11 @@
 package es.uniovi.eii.cows.data.repositories;
 
-import es.uniovi.eii.cows.data.Repository;
+import java.util.function.Function;
+
+import es.uniovi.eii.cows.data.BaseRepository;
 import es.uniovi.eii.cows.model.NewsItem;
 
-public class NewsItemRepository extends Repository<NewsItem> {
+public class NewsItemRepository extends BaseRepository<NewsItem> {
 
     /**
      * Adds the specified newsItem to the collection
@@ -20,6 +22,18 @@ public class NewsItemRepository extends Repository<NewsItem> {
                 .get()
                 .addOnCompleteListener(c -> { if(c.getResult().size() == 0) addNewsItem(newsItem);
                 else updateNewsItemId(newsItem, c.getResult().getDocuments().get(0).getId());}); //Added if does not exist
+    }
+
+    /**
+     * Gets all newsItem passing them to callback function one by one
+     * @param callback function that will be called when one newsItem is retrieved
+     */
+    @Override
+    public void getAll(Function<NewsItem, Void> callback) {
+
+        getDatabase().collection(NEWS_ITEMS)
+                .get()
+                .addOnCompleteListener(t -> t.getResult().forEach(d -> {NewsItem n = d.toObject(NewsItem.class); callback.apply(n); }));
     }
 
     /**
