@@ -2,7 +2,6 @@ package es.uniovi.eii.cows.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
