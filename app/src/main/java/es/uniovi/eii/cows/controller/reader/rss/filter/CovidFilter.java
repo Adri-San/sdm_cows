@@ -42,6 +42,7 @@ public class CovidFilter {
 	}
 
 	private static long evaluateString(String s) {
+		assert s != null;
 		String[] words = s.trim().toLowerCase().split(" ");
 		AtomicLong top = new AtomicLong(0);
 		Arrays.stream(topTerms)
