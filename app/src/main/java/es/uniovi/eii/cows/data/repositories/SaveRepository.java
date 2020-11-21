@@ -1,8 +1,12 @@
 package es.uniovi.eii.cows.data.repositories;
 
 import android.util.Log;
+import android.util.Pair;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Collections;
 import java.util.Map;
@@ -14,31 +18,30 @@ import es.uniovi.eii.cows.model.NewsItem;
 public class SaveRepository extends BaseRepository<String, NewsItem> {
 
     @Override
-    public void add(String id) {
-        Map<String, DocumentReference> save = Collections.singletonMap(getReferenceProperty(), getDatabase().document(NEWS_ITEMS + "/" + id));
+    protected String getCollection() { return NEWS_SAVED; }
 
-        getDatabase().collection(NEWS_SAVED)
-                .whereEqualTo(getReferenceProperty(), save.get(getReferenceProperty()))
-                .get().addOnCompleteListener(c -> { if(c.getResult().size() == 0) addSave(save); }); //Added if does not exist
-    }
-
-    /**
-     * Gets all saved newsItems passing them to callback function one by one
-     * @param callback function that will be called when one newsItem id is retrieved
-     */
     @Override
-    public void getAll(Function<NewsItem, Void> callback) {
-        getDatabase().collection(NEWS_SAVED)
-                .get()
-                .addOnCompleteListener(t -> t.getResult().forEach(d -> {
-                    DocumentReference document = (DocumentReference) d.getData().get(getReferenceProperty());
-                    document.get().
-                            addOnCompleteListener(f -> { NewsItem n = f.getResult().toObject(NewsItem.class); callback.apply(n); } ); }));
+    public void doGet(QueryDocumentSnapshot d, Function<NewsItem, Void> callback) {
+        DocumentReference document = (DocumentReference) d.getData().get(getReferenceProperty());
+        document.get()
+                .addOnCompleteListener(f -> { NewsItem n = f.getResult().toObject(NewsItem.class); callback.apply(n); });
     }
 
     @Override
-    public void get(String id, Function<NewsItem, Void> callback) {
+    protected void doAdd(Task<QuerySnapshot> c, String id) {
+        if(c.getResult().size() == 0)
+            addSave(Collections.singletonMap(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id)));
 
+    }
+
+    @Override
+    protected Pair<String, Object> getAddingCondition(String id) {
+        return Pair.create(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id));
+    }
+
+    @Override
+    protected Pair<String, Object> getDeletingCondition(String id) {
+        return Pair.create(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id));
     }
 
     /**
@@ -49,8 +52,7 @@ public class SaveRepository extends BaseRepository<String, NewsItem> {
 
         getDatabase().collection(NEWS_SAVED)
                 .add(save)
-                .addOnSuccessListener(e -> Log.d("Database", "Success"))
-                .addOnFailureListener(e -> Log.w("Database", "Error adding newsItem"));
+                .addOnSuccessListener(e -> Log.d("Database", "Success adding save"))
+                .addOnFailureListener(e -> Log.w("Database", "Error adding save"));
     }
-
 }

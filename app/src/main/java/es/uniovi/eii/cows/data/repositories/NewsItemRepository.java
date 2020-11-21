@@ -1,5 +1,11 @@
 package es.uniovi.eii.cows.data.repositories;
 
+import android.util.Pair;
+
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
@@ -7,47 +13,32 @@ import es.uniovi.eii.cows.model.NewsItem;
 
 public class NewsItemRepository extends BaseRepository<NewsItem, NewsItem> {
 
-    /**
-     * Adds the specified newsItem to the collection
-     * if it does not already exists
-     * @param newsItem
-     */
     @Override
-    public void add(NewsItem newsItem) {
+    protected String getCollection() { return NEWS_ITEMS; }
 
-        getDatabase().collection(NEWS_ITEMS)
-                .whereEqualTo("title", newsItem.getTitle())
-                .whereEqualTo("source", newsItem.getSource())
-                .get()
-                .addOnCompleteListener(c -> { if(c.getResult().size() == 0) addNewsItem(newsItem);
-                else updateNewsItemId(newsItem, c.getResult().getDocuments().get(0).getId());}); //Added if does not exist
+    @Override
+    public void doGet(QueryDocumentSnapshot d, Function<NewsItem, Void> callback) {
+        NewsItem n = d.toObject(NewsItem.class);
+        callback.apply(n);
     }
 
-    /**
-     * Gets all newsItem passing them to callback function one by one
-     * @param callback function that will be called when one newsItem is retrieved
-     */
     @Override
-    public void getAll(Function<NewsItem, Void> callback) {
-
-        getDatabase().collection(NEWS_ITEMS)
-                .get()
-                .addOnCompleteListener(t -> t.getResult().forEach(d -> {NewsItem n = d.toObject(NewsItem.class); callback.apply(n); }));
+    protected void doAdd(Task<QuerySnapshot> c, NewsItem newsItem) {
+        if(c.getResult().size() == 0)
+            addNewsItem(newsItem);
+        else updateNewsItemId(newsItem, c.getResult().getDocuments().get(0).getId());
     }
 
-    /**
-     * Gets the newsItem whose id is equal to the specified identifier
-     * passing it to callback function
-     *
-     * @param callback function that will be called when the specified newsItem is retrieved
-     * @param id newItem's identifier
-     */
     @Override
-    public void get(String id, Function<NewsItem, Void> callback) {
-        getDatabase().collection(NEWS_ITEMS)
-                .get()
-                .addOnCompleteListener(t -> t.getResult().forEach(d -> {NewsItem n = d.toObject(NewsItem.class); if(id.equals(n.getId())) callback.apply(n); }));
+    protected Pair<String, Object> getAddingCondition(NewsItem item) {
+        return Pair.create("title", item.getTitle());
     }
+
+    @Override
+    protected Pair<String, Object> getDeletingCondition(NewsItem newsItem) {
+        return Pair.create("__name__", newsItem.getId());
+    }
+
 
     /**
      * Private method that re-assigns the stored id
