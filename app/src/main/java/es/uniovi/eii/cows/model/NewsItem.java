@@ -27,6 +27,11 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 	private boolean covidRelated;						// Flag to set items as CovidRelated
 
 	public NewsItem() {
+		title = "";
+		description = "";
+		link = "";
+		source = "";
+		imageUrl = "";
 		covidRelated = false;
 	}
 
