@@ -8,7 +8,10 @@ import androidx.annotation.NonNull;
 import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.Exclude;
 
+import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZoneOffset;
 
 import java.util.Objects;
 
@@ -25,7 +28,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 	private String title;
 	private String description;
 	private String link;                                // News link
-	private LocalDateTime date;                         // Publication date
+	private Long dateTime;                           // Publication date (stored as Long)
 	private String source;                              // Source of the news
 	private String imageUrl;                            // URL of the image of the news
 	private int fallbackImage;                       	// Image to use when no image
@@ -39,13 +42,14 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		source = "";
 		imageUrl = "";
 		covidRelated = false;
+		dateTime = 0L;
 	}
 
 	protected NewsItem(Parcel in) {
 		title = in.readString();
 		description = in.readString();
 		link = in.readString();
-		date = (LocalDateTime) in.readValue(LocalDateTime.class.getClassLoader());
+		dateTime = (Long) in.readValue(Long.class.getClassLoader());
 		source = in.readString();
 		imageUrl = in.readString();
 		fallbackImage = in.readInt();
@@ -104,14 +108,14 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		this.fallbackImage = fallbackImage;
 	}
 
-	@Exclude
-	public LocalDateTime getDate() {
-		return date;
+	@Exclude //not used by database
+	public LocalDateTime getDate() { return getLocalDateTime(dateTime); }
+
+	@Exclude //not used by database
+	public void setDate(LocalDateTime date) {
+		setLocalDateTime(date);
 	}
 
-	public void setDate(LocalDateTime date) {
-		this.date = date;
-	}
 
 	public boolean isCovidRelated() {
 		return covidRelated;
@@ -150,8 +154,27 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 
 	@Override
 	public int compareTo(NewsItem newsItem) {
-		return this.date.compareTo(newsItem.date)*(-1);
+		return this.dateTime.compareTo(newsItem.dateTime)*(-1);
 	}
+
+	/**
+	 * Private utility method that converts the received epoch seconds
+	 * into a LocalDateTime object
+	 * @param time epoch seconds (as stored in the database)
+	 * @return localDateTime object (used by the application)
+	 */
+	private LocalDateTime getLocalDateTime(Long time){ return LocalDateTime.ofInstant(Instant.ofEpochSecond(time), ZoneId.systemDefault()); }
+
+	/**
+	 * Private utility method that converts the received localDateTime object into
+	 * a Long (epoch second) and stores it, database is going to use this Long.
+	 * @param time localDateTime object (used by the application)
+	 */
+	private void setLocalDateTime(LocalDateTime time){ dateTime = time.toInstant(ZoneOffset.UTC).getEpochSecond(); }
+
+	//Getters and setters to be used by database mapper
+	public Long getDateTime() { return dateTime; }
+	public void setDateTime(Long dateTime) { this.dateTime = dateTime; }
 
 	//Parcelable methods
 
@@ -165,7 +188,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		dest.writeString(title);
 		dest.writeString(description);
 		dest.writeString(link);
-		dest.writeValue(date);
+		dest.writeValue(dateTime == null ? 0 : dateTime);
 		dest.writeString(source);
 		dest.writeString(imageUrl);
 		dest.writeInt(fallbackImage);
