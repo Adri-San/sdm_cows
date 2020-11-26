@@ -30,12 +30,12 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
 
     @Override
-    public void add(T item) {
+    public void add(T item, Function<T, Void> callback) {
 
         getDatabase().collection(getCollection())
                 .whereEqualTo(getAddingCondition(item).first, getAddingCondition(item).second)
                 .get()
-                .addOnCompleteListener(c -> doAdd(c, item));
+                .addOnCompleteListener(c -> doAdd(c, item, callback));
     }
 
     @Override
@@ -56,12 +56,12 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
     }
 
     @Override
-    public void delete(T item) {
+    public void delete(T item, Function<T, Void> callback) {
 
         getDatabase().collection(getCollection())
                 .whereEqualTo(getDeletingCondition(item).first, getDeletingCondition(item).second)
                 .get()
-                .addOnCompleteListener(t -> t.getResult().forEach(d -> d.getReference().delete()));
+                .addOnCompleteListener(t -> t.getResult().forEach(d -> {d.getReference().delete(); callback.apply(item);}));
     }
 
     /**
@@ -76,14 +76,14 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     //Methods to be redefined
 
-    protected abstract String getCollection();                                          //name of the database collection
+    protected abstract String getCollection();                                                  //name of the database collection
 
-    protected abstract void doGet(QueryDocumentSnapshot d, Function<P, Void> callback); //on get action
+    protected abstract void doGet(QueryDocumentSnapshot d, Function<P, Void> callback);         //on get action
 
-    protected abstract void doAdd(Task<QuerySnapshot> c, T item);                       //on add action
+    protected abstract void doAdd(Task<QuerySnapshot> c, T item, Function<T, Void> callback);   //on add action
 
-    protected abstract Pair<String, Object> getAddingCondition(T item);                 //condition to be added
+    protected abstract Pair<String, Object> getAddingCondition(T item);                         //condition to be added
 
-    protected abstract Pair<String, Object> getDeletingCondition(T item);               //condition to be deleted
+    protected abstract Pair<String, Object> getDeletingCondition(T item);                       //condition to be deleted
 
 }

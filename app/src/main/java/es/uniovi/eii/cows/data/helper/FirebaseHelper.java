@@ -35,14 +35,14 @@ public class FirebaseHelper {
     }
 
     //Add Methods
-    public void addNewsItem(NewsItem newsItem) { newsItemRepository.add(newsItem); }
-    public void addLike(String idNewsItem){ likeRepository.add(idNewsItem); }
-    public void addSave(String idNewsItem){ saveRepository.add(idNewsItem); }
+    public void addNewsItem(NewsItem newsItem, Function<NewsItem, Void> callback) { newsItemRepository.add(newsItem, n-> callback.apply((NewsItem) n)); }
+    public void addLike(String idNewsItem, Function<String, Void> callback){ likeRepository.add(idNewsItem, n-> callback.apply((String) n)); }
+    public void addSave(String idNewsItem, Function<String, Void> callback){ saveRepository.add(idNewsItem, n-> callback.apply((String) n)); }
 
     //Delete Methods
-    public void deleteNewsItem(NewsItem newsItem){ newsItemRepository.delete(newsItem); }
-    public void deleteLike(String idNewsItem) { likeRepository.delete(idNewsItem); }
-    public void deleteSave(String idNewsItem) { saveRepository.delete(idNewsItem);}
+    public void deleteNewsItem(NewsItem newsItem, Function<NewsItem, Void> callback){ newsItemRepository.delete(newsItem, n-> callback.apply((NewsItem) n)); }
+    public void deleteLike(String idNewsItem, Function<String, Void> callback) { likeRepository.delete(idNewsItem, n-> callback.apply((String) n)); }
+    public void deleteSave(String idNewsItem, Function<String, Void> callback) { saveRepository.delete(idNewsItem, n-> callback.apply((String) n));}
 
     //Get All Methods
     public void getNewsItems(Function<NewsItem, Void> callback) { newsItemRepository.getAll(n -> callback.apply((NewsItem) n)); }

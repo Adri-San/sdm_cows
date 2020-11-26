@@ -1,6 +1,7 @@
 package es.uniovi.eii.cows.controller.listener;
 
 import android.content.Context;
+import android.util.Log;
 
 import es.uniovi.eii.cows.controller.listener.abstractListener.OnButtonClickListener;
 import es.uniovi.eii.cows.data.helper.FirebaseHelper;
@@ -14,7 +15,13 @@ public class SaveClickListener extends OnButtonClickListener {
 
     @Override
     protected void doOnClick() {
-        FirebaseHelper.getInstance().addSave(getNewsItem().getId());
+        FirebaseHelper.getInstance().addSave(getNewsItem().getId(), s -> {createMessage(s); return null;});
     }
 
+    private void createMessage(String save){
+        if(save != null)
+            Log.d("Save added", save);
+        else
+            Log.d("Save not added: ", "Failure in Save Repository");
+    }
 }

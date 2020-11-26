@@ -28,9 +28,9 @@ public class SaveRepository extends BaseRepository<String, NewsItem> {
     }
 
     @Override
-    protected void doAdd(Task<QuerySnapshot> c, String id) {
+    protected void doAdd(Task<QuerySnapshot> c, String id, Function<String, Void> callback) {
         if(c.getResult().size() == 0)
-            addSave(Collections.singletonMap(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id)));
+            addSave(id, callback);
 
     }
 
@@ -46,13 +46,14 @@ public class SaveRepository extends BaseRepository<String, NewsItem> {
 
     /**
      * Private method that adds the previously-checked unique save
-     * @param save
+     * @param id identifier of the saved newsItem
      */
-    private void addSave(Map<String, DocumentReference> save){
+    private void addSave(String id, Function<String, Void> callback){
+        Map<String, DocumentReference> save = Collections.singletonMap(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id));
 
         getDatabase().collection(NEWS_SAVED)
                 .add(save)
-                .addOnSuccessListener(e -> Log.d("Database", "Success adding save"))
-                .addOnFailureListener(e -> Log.w("Database", "Error adding save"));
+                .addOnSuccessListener(e -> callback.apply(id))
+                .addOnFailureListener(e -> callback.apply(null));
     }
 }

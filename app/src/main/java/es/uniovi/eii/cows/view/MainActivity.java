@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +16,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.controller.reader.ReadersManager;
+import es.uniovi.eii.cows.data.helper.FirebaseHelper;
 import es.uniovi.eii.cows.model.NewsItem;
 import es.uniovi.eii.cows.view.adapter.NewsAdapter;
 
@@ -31,8 +35,9 @@ public class MainActivity extends AppCompatActivity {
     // Class managing all the NewsReading actions
     private final ReadersManager readersManager = ReadersManager.getInstance();
 
-    //Pull to refresh item
-    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private SwipeRefreshLayout swipeRefreshLayout;  //Pull to refresh item
+    private ProgressBar loadingNewsSpinner;         //Loading spinner until news are ready
 
     //News Adapter
     private NewsAdapter newsAdapter;
@@ -42,10 +47,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.app_bar));
+
         // We start the pull and parse of news
         readersManager.run();
         // When finished we retrieve those parsed news
         news = readersManager.getNews();
+        //Stores on database
+        storeNewsItems(news);
         // We set up the news list
         setUpRecyclerView();
     }
@@ -76,8 +84,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        //Pull to refresh news initialization
-        configurePullToRefresh();
+
+        configurePullToRefresh();   //Pull to refresh news initialization
+        configureLoadingSpinner();  //Loading spinner until newsItems are ready
 
         // Show the news on the RecyclerView
         RecyclerView newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
@@ -99,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(() -> onPullToRefresh());
     }
 
+    private void configureLoadingSpinner(){
+        loadingNewsSpinner = (ProgressBar) findViewById(R.id.loadingNewsSpinner);
+        loadingNewsSpinner.setVisibility(View.VISIBLE);
+
+    }
+
     private void onPullToRefresh() {
         //Start of the refreshing
         swipeRefreshLayout.setRefreshing(true);
@@ -106,11 +121,8 @@ public class MainActivity extends AppCompatActivity {
         //Reloading news
         reloadNews();
 
-        //Setting the refreshed news items list
-        newsAdapter.setNewsItems(new ArrayList<>(news));
-
-        //end of the refreshing
-        swipeRefreshLayout.setRefreshing(false);
+        //Updating database
+        storeNewsItems(news);
     }
 
     private void clickOnNewsItem(NewsItem item) {
@@ -127,5 +139,31 @@ public class MainActivity extends AppCompatActivity {
     private void reloadNews(){
         readersManager.rerun();
         news = readersManager.getNews();
+    }
+
+    /**
+     * Stores the specified list of news items into the database.
+     * It also assigns an ID to new newsItems without one
+     *
+     * @param newsItems list of newsItems to be stored
+     */
+    public void storeNewsItems(List<NewsItem> newsItems){
+        newsItems.forEach(newsItem -> FirebaseHelper.getInstance().addNewsItem(newsItem,
+                n-> {checkIfNewsItemsAreReady(); return null; }));
+    }
+
+    /**
+     * If all news items have an ID assigned, then they will be presented to the user.
+     * Note that ID assignation is an asynchronous process
+     */
+    private void checkIfNewsItemsAreReady(){
+        int numberOfNewsWithID = news.stream().filter(n -> n.getId() != null).collect(Collectors.toList()).size();
+
+        if(numberOfNewsWithID >= news.size()){
+            newsAdapter.setNewsItems(news);
+            //Stop spinners
+            loadingNewsSpinner.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

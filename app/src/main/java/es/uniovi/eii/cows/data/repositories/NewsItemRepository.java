@@ -23,10 +23,10 @@ public class NewsItemRepository extends BaseRepository<NewsItem, NewsItem> {
     }
 
     @Override
-    protected void doAdd(Task<QuerySnapshot> c, NewsItem newsItem) {
+    protected void doAdd(Task<QuerySnapshot> c, NewsItem newsItem, Function<NewsItem, Void> callback) {
         if(c.getResult().size() == 0)
-            addNewsItem(newsItem);
-        else updateNewsItemId(newsItem, c.getResult().getDocuments().get(0).getId());
+            addNewsItem(newsItem, callback);
+        else updateNewsItemId(newsItem, c.getResult().getDocuments().get(0).getId(), callback);
     }
 
     @Override
@@ -46,16 +46,19 @@ public class NewsItemRepository extends BaseRepository<NewsItem, NewsItem> {
      * @param newsItem
      * @param id
      */
-    private void updateNewsItemId(NewsItem newsItem, String id){ newsItem.setId(id); }
+    private void updateNewsItemId(NewsItem newsItem, String id, Function<NewsItem, Void> callback){
+        newsItem.setId(id);
+        callback.apply(newsItem);
+    }
 
     /**
      * Private method that adds the previously-checked unique newsItem
      * @param newsItem
      */
-    private void addNewsItem(NewsItem newsItem){
+    private void addNewsItem(NewsItem newsItem, Function<NewsItem, Void> callback){
 
         getDatabase().collection(NEWS_ITEMS)
                 .add(newsItem)
-                .addOnCompleteListener(t -> newsItem.setId(t.getResult().getId()));
+                .addOnCompleteListener(t -> {newsItem.setId(t.getResult().getId()); callback.apply(newsItem);});
     }
 }

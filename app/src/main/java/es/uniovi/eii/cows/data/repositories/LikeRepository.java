@@ -28,9 +28,9 @@ public class LikeRepository extends BaseRepository<String, NewsItem> {
     }
 
     @Override
-    protected void doAdd(Task<QuerySnapshot> c, String id) {
+    protected void doAdd(Task<QuerySnapshot> c, String id, Function<String, Void> callback) {
         if(c.getResult().size() == 0)
-            addLike(Collections.singletonMap(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id)));
+            addLike(id, callback);
     }
 
     @Override
@@ -44,13 +44,14 @@ public class LikeRepository extends BaseRepository<String, NewsItem> {
     }
     /**
      * Private method that adds the previously-checked unique like
-     * @param like
+     * @param id identifier of the liked newsItem
      */
-    private void addLike(Map<String, DocumentReference> like){
+    private void addLike(String id, Function<String, Void> callback){
+        Map<String, DocumentReference> like = Collections.singletonMap(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id));
 
         getDatabase().collection(NEWS_LIKED)
                 .add(like)
-                .addOnSuccessListener(e -> Log.d("Database", "Success adding like"))
-                .addOnFailureListener(e -> Log.w("Database", "Error adding like"));
+                .addOnSuccessListener(e -> callback.apply(id))
+                .addOnFailureListener(e -> callback.apply(null));
     }
 }

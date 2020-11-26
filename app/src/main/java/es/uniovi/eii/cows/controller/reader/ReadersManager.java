@@ -72,9 +72,6 @@ public class ReadersManager {
         }
         List<NewsItem> news = readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
                 .sorted().collect(Collectors.toList());
-
-        storeNewsItems(news);
-
         return news;
     }
 
@@ -83,13 +80,5 @@ public class ReadersManager {
      */
     public void shutdown() {
         readers.forEach(NewsReader::stop);
-    }
-
-    /**
-     * Stores the specified list of news items into the database
-     * @param newsItems
-     */
-    public void storeNewsItems(List<NewsItem> newsItems){
-        newsItems.forEach(newsItem -> FirebaseHelper.getInstance().addNewsItem(newsItem));
     }
 }
