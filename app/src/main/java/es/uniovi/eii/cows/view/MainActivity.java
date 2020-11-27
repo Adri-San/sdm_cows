@@ -9,14 +9,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.controller.reader.ReadersManager;
@@ -25,36 +28,39 @@ import es.uniovi.eii.cows.model.NewsItem;
 import es.uniovi.eii.cows.view.adapter.NewsAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
-    // Model
-    private List<NewsItem> news;
-
-    //Clicked news item
+    // Actions
     public static final String SELECTED_NEWS_ITEM = "selected_news_item";
-
+    // UI
+    private DrawerLayout drawerLayout;
+    private NewsAdapter newsAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;  // Pull to refresh item
+    private ProgressBar loadingNewsSpinner;         // Loading spinner until news are ready
     // Class managing all the NewsReading actions
     private final ReadersManager readersManager = ReadersManager.getInstance();
-
-
-    private SwipeRefreshLayout swipeRefreshLayout;  //Pull to refresh item
-    private ProgressBar loadingNewsSpinner;         //Loading spinner until news are ready
-
-    //News Adapter
-    private NewsAdapter newsAdapter;
+    // List of news to display
+    private List<NewsItem> news;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setSupportActionBar(findViewById(R.id.app_bar));
+        setContentView(R.layout.activity_drawer);
+        // Set the toolbar
+        Toolbar toolbar = findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        // Set the navigation drawer
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
-        // We start the pull and parse of news
+        // Start the pull and parse of news
         readersManager.run();
-        // When finished we retrieve those parsed news
+        // When finished retrieve those parsed news
         news = readersManager.getNews();
-        //Stores on database
+        // Store on database
         storeNewsItems(news);
-        // We set up the news list
+        // Set up the news list
         setUpRecyclerView();
     }
 
@@ -76,11 +82,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_profile) {
-            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Muuuu", Toast.LENGTH_LONG).show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Closes drawer if Back is pressed when it is open
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void setUpRecyclerView() {
@@ -111,29 +126,23 @@ public class MainActivity extends AppCompatActivity {
     private void configureLoadingSpinner(){
         loadingNewsSpinner = (ProgressBar) findViewById(R.id.loadingNewsSpinner);
         loadingNewsSpinner.setVisibility(View.VISIBLE);
-
     }
 
     private void onPullToRefresh() {
         //Start of the refreshing
         swipeRefreshLayout.setRefreshing(true);
-
         //Reloading news
         reloadNews();
-
         //Updating database
         storeNewsItems(news);
     }
 
     private void clickOnNewsItem(NewsItem item) {
-
         //Intent to start NewsActivity
         Intent intent = new Intent(MainActivity.this, NewsActivity.class);
         intent.putExtra(SELECTED_NEWS_ITEM, item);
-
         //Animation
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-
     }
 
     private void reloadNews(){
@@ -158,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkIfNewsItemsAreReady(){
         int numberOfNewsWithID = (int) news.stream().filter(n -> n.getId() != null).count();
-
         if(numberOfNewsWithID >= news.size()){
             newsAdapter.setNewsItems(news);
             //Stop spinners

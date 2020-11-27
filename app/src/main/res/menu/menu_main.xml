@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/ic_baseline_person_pin"
+        android:icon="@drawable/ic_app"
         android:orderInCategory="300"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
