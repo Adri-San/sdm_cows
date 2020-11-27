@@ -17,9 +17,13 @@ import com.bumptech.glide.Glide;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.controller.listener.LikeClickListener;
+import es.uniovi.eii.cows.controller.listener.SaveClickListener;
 import es.uniovi.eii.cows.controller.listener.ShareClickListener;
 import es.uniovi.eii.cows.model.NewsItem;
 
@@ -29,7 +33,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
     private final OnItemClickListener listener;
 
     public NewsAdapter(List<NewsItem> news, OnItemClickListener listener) {
-        this.news = news;
+        this.news = news.stream().filter(n -> n.getId() != null).collect(Collectors.toList()); //newsItems that have id
         this.listener = listener;
     }
 
@@ -97,7 +101,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
 
             // Add listener to buttons
             share.setOnClickListener(new ShareClickListener(itemView.getContext(), newsItem));
-
+            like.setOnClickListener(new LikeClickListener(itemView.getContext(), newsItem));
+            save.setOnClickListener(new SaveClickListener(itemView.getContext(), newsItem));
+            
             // News item listener
             itemView.setOnClickListener(v ->
                 listener.onItemClick(newsItem));

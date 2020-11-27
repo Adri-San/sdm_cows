@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import es.uniovi.eii.cows.data.helper.FirebaseHelper;
 import es.uniovi.eii.cows.model.NewsItem;
 
 /**
@@ -69,10 +70,9 @@ public class ReadersManager {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        List<NewsItem> copy = readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
+        List<NewsItem> news = readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
                 .sorted().collect(Collectors.toList());
-        return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
-                .sorted().collect(Collectors.toList());
+        return news;
     }
 
     /**
