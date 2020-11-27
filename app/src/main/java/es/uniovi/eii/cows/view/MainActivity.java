@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.design_default_color_background);
 
         //onRefresh listener
-        swipeRefreshLayout.setOnRefreshListener(() -> onPullToRefresh());
+        swipeRefreshLayout.setOnRefreshListener(this::onPullToRefresh);
     }
 
     private void configureLoadingSpinner(){
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
      * Note that ID assignation is an asynchronous process
      */
     private void checkIfNewsItemsAreReady(){
-        int numberOfNewsWithID = news.stream().filter(n -> n.getId() != null).collect(Collectors.toList()).size();
+        int numberOfNewsWithID = (int) news.stream().filter(n -> n.getId() != null).count();
 
         if(numberOfNewsWithID >= news.size()){
             newsAdapter.setNewsItems(news);
