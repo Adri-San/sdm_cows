@@ -18,6 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +52,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         // Set the navigation drawer
-        drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
+        setUpNavigation(toolbar);
+        // Set the user info
+        // TODO image of the user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         // Start the pull and parse of news
         readersManager.run();
         // When finished retrieve those parsed news
@@ -62,6 +65,46 @@ public class MainActivity extends AppCompatActivity {
         storeNewsItems(news);
         // Set up the news list
         setUpRecyclerView();
+    }
+
+    private void setUpNavigation(Toolbar toolbar) {
+        // Set the drawer layout
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        // Set the Navigation View
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.nav_saved:
+                    throw new IllegalArgumentException("menu option not implemented!!");
+                case R.id.nav_settings:
+                    throw new IllegalArgumentException("menu option not implemented!!");
+                case R.id.nav_logout:
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(this, AuthActivity.class));
+                    break;
+                default:
+                    throw new IllegalArgumentException("menu option not implemented!!");
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+    }
+
+    private void setUpRecyclerView() {
+        configurePullToRefresh();   //Pull to refresh news initialization
+        configureLoadingSpinner();  //Loading spinner until newsItems are ready
+        // Show the news on the RecyclerView
+        RecyclerView newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
+        newsView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        newsView.setLayoutManager(layoutManager);
+        // Sets adapter
+        newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem);
+        newsView.setAdapter(newsAdapter);
     }
 
     @Override
@@ -98,20 +141,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpRecyclerView() {
-
-        configurePullToRefresh();   //Pull to refresh news initialization
-        configureLoadingSpinner();  //Loading spinner until newsItems are ready
-
-        // Show the news on the RecyclerView
-        RecyclerView newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
-        newsView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        newsView.setLayoutManager(layoutManager);
-
-        newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem);
-        newsView.setAdapter(newsAdapter);
-    }
 
     private void configurePullToRefresh(){
 
@@ -137,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         storeNewsItems(news);
     }
 
+
     private void clickOnNewsItem(NewsItem item) {
         //Intent to start NewsActivity
         Intent intent = new Intent(MainActivity.this, NewsActivity.class);
@@ -145,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
+    /**
+     * Gets the news again
+     */
     private void reloadNews(){
         readersManager.rerun();
         news = readersManager.getNews();
