@@ -16,4 +16,5 @@
     <!-- Errors -->
     <string name="errorLoadingSources">There was an error loading some sources</string>
     <string name="error_connection">There was an error while trying to connect</string>
+    <string name="sign_in">Sign In</string>
 </resources>

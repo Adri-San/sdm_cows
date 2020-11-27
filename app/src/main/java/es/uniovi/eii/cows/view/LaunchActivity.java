@@ -17,7 +17,7 @@ public class LaunchActivity extends AppCompatActivity {
                 android.R.anim.fade_in, android.R.anim.fade_out);
 
         // Intent to start MainActivity
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent, animation.toBundle());
         finish(); // don't return to this activity
     }

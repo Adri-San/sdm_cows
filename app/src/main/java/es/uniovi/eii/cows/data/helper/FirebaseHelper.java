@@ -17,9 +17,9 @@ public class FirebaseHelper {
     private static FirebaseHelper instance = new FirebaseHelper();
 
     //Repositories
-    private BaseRepository newsItemRepository;
-    private BaseRepository likeRepository;
-    private BaseRepository saveRepository;
+    private BaseRepository<NewsItem, NewsItem> newsItemRepository;
+    private BaseRepository<String, NewsItem> likeRepository;
+    private BaseRepository<String, NewsItem> saveRepository;
 
     private FirebaseHelper(){
         newsItemRepository = new NewsItemRepository();
