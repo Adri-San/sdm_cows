@@ -100,9 +100,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
                     .into(image);
 
             // Add listener to buttons
-            share.setOnClickListener(new ShareClickListener(itemView.getContext(), newsItem));
-            like.setOnClickListener(new LikeClickListener(itemView.getContext(), newsItem));
-            save.setOnClickListener(new SaveClickListener(itemView.getContext(), newsItem));
+            share.setOnClickListener(new ShareClickListener(itemView.getContext(), newsItem, share));
+            like.setOnClickListener(new LikeClickListener(itemView.getContext(), newsItem, like));
+            save.setOnClickListener(new SaveClickListener(itemView.getContext(), newsItem, save));
             
             // News item listener
             itemView.setOnClickListener(v ->
