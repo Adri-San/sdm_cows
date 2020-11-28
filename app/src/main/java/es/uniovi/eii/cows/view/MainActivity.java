@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,11 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +33,7 @@ import java.util.List;
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.controller.reader.ReadersManager;
 import es.uniovi.eii.cows.data.helper.FirebaseHelper;
+import es.uniovi.eii.cows.data.helper.GoogleSignInHelper;
 import es.uniovi.eii.cows.model.NewsItem;
 import es.uniovi.eii.cows.view.adapter.NewsAdapter;
 
@@ -56,13 +56,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-        // Configure the Google Auth Options            TODO extract to singleton helper
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .requestProfile()
-                .build();
-        client = GoogleSignIn.getClient(this, gso);
+        // Configure the Google Auth Options
+        client = GoogleSignInHelper.getClient(this);
         // Set the toolbar
         Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -70,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
         setUpNavigation(toolbar);
         // Set the user info
         // TODO image of the user
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
         // Start the pull and parse of news
         readersManager.run();
         // When finished retrieve those parsed news
@@ -91,6 +84,20 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
         // Set the Navigation View
         NavigationView navigationView = findViewById(R.id.nav_view);
+        // Inflates and updates the header layout with the user data
+        View navView =  navigationView.inflateHeaderView(R.layout.nav_header);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        // User name
+        ((TextView)navView.findViewById(R.id.navProfileName)).setText(user.getDisplayName());
+        // User image
+        Glide.with(this).load(user.getPhotoUrl())
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round)
+                .circleCrop()
+                .thumbnail(0.5f)
+                .into((ImageView) navView.findViewById(R.id.navProfileImg));
+        // Set the menu item actions
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_saved:

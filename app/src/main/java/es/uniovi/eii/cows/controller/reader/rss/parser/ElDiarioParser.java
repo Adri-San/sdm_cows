@@ -61,7 +61,6 @@ public class ElDiarioParser extends BaseRSSParser {
 				if (!xpp.getAttributeValue(0).isEmpty()) {
 					// Image element
 					item.setImageUrl(xpp.getAttributeValue(0));
-					// We can take the thumbnail of the videos, but that's a TODO
 				}
 			}
 			// Finished parsing the wanted element

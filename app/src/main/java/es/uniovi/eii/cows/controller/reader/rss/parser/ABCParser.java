@@ -1,11 +1,19 @@
 package es.uniovi.eii.cows.controller.reader.rss.parser;
 
+import android.util.Log;
+
+import org.apache.commons.lang3.StringUtils;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.model.NewsItem;
@@ -21,6 +29,8 @@ public class ABCParser extends BaseRSSParser {
     private static final String DESCRIPTION = "description";    // html formatted
     private static final String LINK = "link";
     private static final String DATE = "pubDate";
+
+    private final Pattern pattern = Pattern.compile("http.*");;
 
     public ABCParser(XmlPullParser xpp) {
         super(URL, xpp);
@@ -41,7 +51,14 @@ public class ABCParser extends BaseRSSParser {
                 item.setTitle(xpp.nextText());
             } else if (xpp.getName().equalsIgnoreCase(DESCRIPTION) && item != null) {
                 // Description element
-                item.setDescription(xpp.nextText());
+                String description = xpp.nextText();
+                String regex = "<img.*align=\".*\">";
+                item.setDescription(description.replaceFirst(regex, ""));
+                // Image element
+                Optional<String> firstImage = Arrays.stream(
+                        StringUtils.substringBetween(description, "<img", ">").
+                        split("\"")).filter(pattern.asPredicate()).findFirst();
+                firstImage.ifPresent(item::setImageUrl);
             } else if (xpp.getName().equalsIgnoreCase(LINK) && item != null) {
                 // Link element
                 item.setLink(xpp.nextText());
