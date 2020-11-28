@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +40,8 @@ import es.uniovi.eii.cows.view.adapter.NewsAdapter;
 public class MainActivity extends AppCompatActivity {
     // Actions
     public static final String SELECTED_NEWS_ITEM = "selected_news_item";
+    // Logging
+    private GoogleSignInClient client;
     // UI
     private DrawerLayout drawerLayout;
     private NewsAdapter newsAdapter;
@@ -48,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+        // Configure the Google Auth Options            TODO extract to singleton helper
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .requestProfile()
+                .build();
+        client = GoogleSignIn.getClient(this, gso);
         // Set the toolbar
         Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -84,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
                     throw new IllegalArgumentException("menu option not implemented!!");
                 case R.id.nav_logout:
                     FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(this, AuthActivity.class));
+                    client.signOut().addOnCompleteListener(this,
+                            task -> returnToAuthActivity());
                     break;
                 default:
                     throw new IllegalArgumentException("menu option not implemented!!");
@@ -206,5 +222,12 @@ public class MainActivity extends AppCompatActivity {
             loadingNewsSpinner.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
         }
+    }
+
+    /**
+     * When logging out, the user is returned to the log in activity
+     */
+    private void returnToAuthActivity() {
+        startActivity(new Intent(this, AuthActivity.class));
     }
 }
