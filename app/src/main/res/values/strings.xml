@@ -14,6 +14,9 @@
     <string name="news_fab_description">Leer más</string>
     <string name="image_news_item">Imagen de la noticia</string>
 
+    <!-- Saved news -->
+    <string name="saved_news_title">Saved news</string>
+
     <!-- Errors -->
     <string name="errorLoadingSources">There was an error loading some sources</string>
     <string name="error_connection">There was an error while trying to connect</string>

@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_saved:
-                    throw new IllegalArgumentException("menu option not implemented!!");
+                    redirectToSavedNews();
+                    break;
                 case R.id.nav_settings:
                     throw new IllegalArgumentException("menu option not implemented!!");
                 case R.id.nav_logout:
@@ -108,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
+    }
+
+    private void redirectToSavedNews() {
+        //Intent to start SavedActivity
+        Intent intent = new Intent(MainActivity.this, SavedActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     private void setUpRecyclerView() {

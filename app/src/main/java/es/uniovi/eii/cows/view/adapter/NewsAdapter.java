@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +36,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
         this.listener = listener;
     }
 
-    public void setNewsItems(List<NewsItem> news){
-        if(news != null){
+    public void setNewsItems(List<NewsItem> news) {
+        if (news != null) {
             this.news = news;
             this.notifyDataSetChanged();
         }
@@ -65,7 +64,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
     }
 
     /**************************************************************************/
-    public static class NewsItemViewHolder extends RecyclerView.ViewHolder{
+    public static class NewsItemViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView source;
         private TextView date;
@@ -78,39 +77,40 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
 
         public NewsItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.title = itemView.findViewById(R.id.idTitle_main);
-            this.source = itemView.findViewById(R.id.idSource_main);
-            this.date = itemView.findViewById(R.id.idDate_main);
-            this.image = itemView.findViewById(R.id.idImage_main);
+            this.title = itemView.findViewById(R.id.idTitle);
+            this.source = itemView.findViewById(R.id.idSource);
+            this.date = itemView.findViewById(R.id.idDate);
+            this.image = itemView.findViewById(R.id.idImage);
 
-            this.like = itemView.findViewById(R.id.idLike_main);
-            this.save = itemView.findViewById(R.id.idSave_main);
-            this.share = itemView.findViewById(R.id.idShare_main);
+            this.like = itemView.findViewById(R.id.idLike);
+            this.save = itemView.findViewById(R.id.idSave);
+            this.share = itemView.findViewById(R.id.idShare);
         }
 
-        public void bindUser(final NewsItem newsItem, final OnItemClickListener listener){
+        public void bindUser(final NewsItem newsItem, final OnItemClickListener listener) {
             title.setText(newsItem.getTitle());
             source.setText(newsItem.getSource());
             date.setText(newsItem.getDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
 
-            Glide.with(itemView).load(newsItem.getImageUrl())
-                    .thumbnail(Glide.with(itemView).load(R.drawable.loading))
-                    .error(R.drawable.no_image_available)
-                    .centerInside()
-                    .into(image);
+            if (image != null)
+                Glide.with(itemView).load(newsItem.getImageUrl())
+                        .thumbnail(Glide.with(itemView).load(R.drawable.loading))
+                        .error(R.drawable.no_image_available)
+                        .centerInside()
+                        .into(image);
 
             // Add listener to buttons
             share.setOnClickListener(new ShareClickListener(itemView.getContext(), newsItem, share));
             like.setOnClickListener(new LikeClickListener(itemView.getContext(), newsItem, like));
             save.setOnClickListener(new SaveClickListener(itemView.getContext(), newsItem, save));
-            
+
             // News item listener
             itemView.setOnClickListener(v ->
-                listener.onItemClick(newsItem));
+                    listener.onItemClick(newsItem));
         }
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(NewsItem item);
     }
 }
