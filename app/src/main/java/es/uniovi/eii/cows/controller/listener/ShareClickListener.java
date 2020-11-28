@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import es.uniovi.eii.cows.R;
-import es.uniovi.eii.cows.controller.listener.abstractListener.OnButtonClickListener;
 import es.uniovi.eii.cows.model.NewsItem;
 import es.uniovi.eii.cows.util.Connection;
 

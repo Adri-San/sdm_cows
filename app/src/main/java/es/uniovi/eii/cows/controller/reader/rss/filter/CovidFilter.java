@@ -3,6 +3,7 @@ package es.uniovi.eii.cows.controller.reader.rss.filter;
 import android.util.Log;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicLong;
 
 import es.uniovi.eii.cows.model.NewsItem;
@@ -43,7 +44,7 @@ public class CovidFilter {
 
 	private static long evaluateString(String s) {
 		assert s != null;
-		String[] words = s.trim().toLowerCase().split(" ");
+		String[] words = s.trim().toLowerCase(Locale.getDefault()).split(" ");
 		AtomicLong top = new AtomicLong(0);
 		Arrays.stream(topTerms)
 				.map(t-> Arrays.stream(words).filter(w -> w.equals(t)).count())
