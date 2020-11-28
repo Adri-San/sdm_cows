@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -74,7 +75,7 @@ public class AuthActivity extends AppCompatActivity {
 			} catch (ApiException e) {
 				// Google Sign In failed, update UI appropriately
 				Log.w(TAG, "Google sign in failed", e);
-				// TODO display message
+				Toast.makeText(this, R.string.error_logging_in_google, Toast.LENGTH_LONG).show();
 			}
 		}
 	}
@@ -96,7 +97,7 @@ public class AuthActivity extends AppCompatActivity {
 					} else {
 						// If sign in fails, display a message to the user.
 						Log.w(TAG, "signInWithCredential:failure", task.getException());
-						// TODO display message
+						Toast.makeText(this, R.string.error_logging_in, Toast.LENGTH_LONG).show();
 					}
 				});
 	}
