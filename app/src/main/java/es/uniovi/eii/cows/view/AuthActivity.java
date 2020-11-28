@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -21,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.data.helper.GoogleSignInHelper;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -34,17 +34,10 @@ public class AuthActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
-
-		// Configure the Google Auth Options
-		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestIdToken(getString(R.string.default_web_client_id))
-				.requestEmail()
-				.requestProfile()
-				.build();
-		client = GoogleSignIn.getClient(this, gso);
-		// Get the instance of FirebaseAuth
+		// Get the instances of FirebaseAuth and GoogleSignInClient
+		client = GoogleSignInHelper.getClient(this);
 		firebase = FirebaseAuth.getInstance();
-
+		// Set the button functionality
 		Button btnAuth = findViewById(R.id.btnAuth);
 		btnAuth.setOnClickListener(view -> signIn());
 	}
@@ -62,7 +55,6 @@ public class AuthActivity extends AppCompatActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 		if (requestCode == RC_SIGN_IN) {
 			Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -80,11 +72,18 @@ public class AuthActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * Launches the Google Sign In activity
+	 */
 	private void signIn() {
 		Intent signInIntent = client.getSignInIntent();
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
 
+	/**
+	 * Logs the user in Firebase
+	 * @param idToken	Google session token
+	 */
 	private void firebaseAuthWithGoogle(String idToken) {
 		AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 		firebase.signInWithCredential(credential)
@@ -102,6 +101,9 @@ public class AuthActivity extends AppCompatActivity {
 				});
 	}
 
+	/**
+	 * Redirects the user to the Main Activity
+	 */
 	private void goToMainActivity() {
 		// Animation
 		ActivityOptions animation = ActivityOptions.makeCustomAnimation(this,

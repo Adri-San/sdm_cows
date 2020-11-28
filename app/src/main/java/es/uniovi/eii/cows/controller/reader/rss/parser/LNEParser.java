@@ -23,6 +23,7 @@ public class LNEParser extends BaseRSSParser {
     private static final String DESCRIPTION = "description";            // html format
     private static final String LINK = "link";
     private static final String DATE = "pubDate";
+    private static final String MEDIA = "media:content";
 
     public LNEParser(XmlPullParser xpp) {
         super(URL, xpp);
@@ -54,6 +55,12 @@ public class LNEParser extends BaseRSSParser {
                 item.setDate(LocalDateTime.parse(
                         Arrays.stream(date).collect(Collectors.joining(" ")),
                         DateTimeFormatter.RFC_1123_DATE_TIME));
+            } else if (xpp.getName().equalsIgnoreCase(MEDIA)) {
+                // Media element
+                if (!xpp.getAttributeValue(0).isEmpty()) {
+                    // Image element
+                    item.setImageUrl(xpp.getAttributeValue(0));
+                }
             }
             // LNE news doesn't have images nor categories
         // Finished parsing the wanted element
