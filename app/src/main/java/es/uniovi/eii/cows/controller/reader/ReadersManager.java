@@ -29,13 +29,6 @@ public class ReadersManager {
 
     private ReadersManager() {
         readers = ReadersFactory.getInstance().getReaders();
-        initThreads();
-    }
-
-    private void initThreads() {
-        BlockingQueue<Runnable> readersQueue = new LinkedBlockingQueue<>();
-        readersThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,
-                KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, readersQueue);
     }
 
     /**
@@ -49,15 +42,14 @@ public class ReadersManager {
      * Starts all the readers in different Threads
      */
     public void run() {
+        initThreads();
         readers.forEach(r -> readersThreadPool.execute(r));
     }
 
-    /**
-     * Restarts the threads
-     */
-    public void rerun() {
-        initThreads();
-        run();
+    private void initThreads() {
+        BlockingQueue<Runnable> readersQueue = new LinkedBlockingQueue<>();
+        readersThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,
+                KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, readersQueue);
     }
 
     /**

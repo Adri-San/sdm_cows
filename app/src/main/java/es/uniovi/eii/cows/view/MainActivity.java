@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
      * Gets the news again
      */
     private void reloadNews(){
-        readersManager.rerun();
+        readersManager.run();
         news = readersManager.getNews();
     }
 
