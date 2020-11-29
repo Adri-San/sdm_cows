@@ -28,7 +28,7 @@ public class SavedActivity extends AppCompatActivity {
     private NewsAdapter savedAdapter;
     private ProgressBar loadingNewsSpinner;         // Loading spinner until news are ready
     // List of news to display
-    private List<NewsItem> newsSaved = new ArrayList<>();
+    private final List<NewsItem> newsSaved = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class SavedActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         //Loading spinner until newsItems are ready
         configureLoadingSpinner();
