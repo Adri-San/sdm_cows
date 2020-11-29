@@ -2,6 +2,7 @@ package es.uniovi.eii.cows.controller.listener;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Button;
 import android.widget.Toast;
 
 import es.uniovi.eii.cows.R;
@@ -10,8 +11,8 @@ import es.uniovi.eii.cows.util.Connection;
 
 public class ShareClickListener extends OnButtonClickListener {
 
-    public ShareClickListener(Context context, NewsItem newsItem) {
-        super(context, newsItem);
+    public ShareClickListener(Context context, NewsItem newsItem, Button button) {
+        super(context, newsItem, button);
     }
 
     @Override

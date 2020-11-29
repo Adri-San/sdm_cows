@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_saved:
-                    throw new IllegalArgumentException("menu option not implemented!!");
+                    redirectToSavedNews();
+                    break;
                 case R.id.nav_settings:
                     throw new IllegalArgumentException("menu option not implemented!!");
                 case R.id.nav_logout:
@@ -117,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void redirectToSavedNews() {
+        //Intent to start SavedActivity
+        Intent intent = new Intent(MainActivity.this, SavedActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
     private void setUpRecyclerView() {
         configurePullToRefresh();   //Pull to refresh news initialization
         configureLoadingSpinner();  //Loading spinner until newsItems are ready
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         newsView.setLayoutManager(layoutManager);
         // Sets adapter
-        newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem);
+        newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem, R.layout.line_news_view);
         newsView.setAdapter(newsAdapter);
     }
 
@@ -167,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void configurePullToRefresh(){
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh_main);
+        swipeRefreshLayout = findViewById(R.id.pullToRefresh_main);
         swipeRefreshLayout.setColorSchemeResources(R.color.primaryColor);
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.design_default_color_background);
 
@@ -176,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configureLoadingSpinner(){
-        loadingNewsSpinner = (ProgressBar) findViewById(R.id.loadingNewsSpinner);
+        loadingNewsSpinner = findViewById(R.id.loadingNewsSpinner);
         loadingNewsSpinner.setVisibility(View.VISIBLE);
     }
 

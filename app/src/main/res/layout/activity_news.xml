@@ -22,9 +22,7 @@
             android:id="@+id/app_bar"
             style="@style/Widget.Cows.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_app"
-            app:title="@string/app_name" />
+            android:layout_height="?attr/actionBarSize" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Scroll View -->

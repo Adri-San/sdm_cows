@@ -14,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -42,14 +44,19 @@ public class NewsActivity extends AppCompatActivity {
 
     // Buttons
     private Button like;
-    private Button save;
+    private MaterialButton save;
     private Button share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        //setSupportActionBar(findViewById(R.id.app_bar));
+
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         //Receiving intent
         Intent newsIntent = getIntent();
@@ -67,9 +74,9 @@ public class NewsActivity extends AppCompatActivity {
         save = findViewById(R.id.idSave_news);
         share = findViewById(R.id.idShare_news);
 
-        share.setOnClickListener(new ShareClickListener(this, newsItem));
-        save.setOnClickListener(new SaveClickListener(this, newsItem));
-        like.setOnClickListener(new LikeClickListener(this, newsItem));
+        share.setOnClickListener(new ShareClickListener(this, newsItem, share));
+        save.setOnClickListener(new SaveClickListener(this, newsItem, save));
+        like.setOnClickListener(new LikeClickListener(this, newsItem, like));
     }
 
     private void initializeNewsItemProperties(){
