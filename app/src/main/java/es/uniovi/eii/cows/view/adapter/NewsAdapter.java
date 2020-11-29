@@ -43,7 +43,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
             this.news = news;
             this.notifyDataSetChanged();
         }
-
     }
 
     @NonNull

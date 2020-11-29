@@ -40,7 +40,12 @@ public class SavedActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(view -> finish());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        newsSaved.clear();
         //Loading spinner until newsItems are ready
         configureLoadingSpinner();
         // Get news saved
