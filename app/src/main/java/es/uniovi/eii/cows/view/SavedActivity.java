@@ -28,7 +28,7 @@ public class SavedActivity extends AppCompatActivity {
     private NewsAdapter savedAdapter;
     private ProgressBar loadingNewsSpinner;         // Loading spinner until news are ready
     // List of news to display
-    private List<NewsItem> newsSaved;
+    private List<NewsItem> newsSaved = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,23 +41,22 @@ public class SavedActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //Loading spinner until newsItems are ready
+        configureLoadingSpinner();
         // Get news saved
         getSavedNews();
         // SetUp RecyclerView
         setUpRecyclerView();
-        // Show saved news
     }
 
     private void setUpRecyclerView() {
-        //configurePullToRefresh();   //Pull to refresh news initialization
-        configureLoadingSpinner();  //Loading spinner until newsItems are ready
         // Show the news on the RecyclerView
         RecyclerView savedView = findViewById(R.id.idRecycler_saved);
         savedView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         savedView.setLayoutManager(layoutManager);
         // Sets adapter
-        savedAdapter = new NewsAdapter(new ArrayList<>(newsSaved), this::clickOnNewsItem);
+        savedAdapter = new NewsAdapter(new ArrayList<>(newsSaved), this::clickOnNewsItem, R.layout.line_news_saved);
         savedView.setAdapter(savedAdapter);
     }
 
@@ -75,10 +74,17 @@ public class SavedActivity extends AppCompatActivity {
     }
 
     private void getSavedNews() {
-        FirebaseHelper.getInstance().getSavedNewsItems(n -> { addNewsItem(n); return null; });
+        FirebaseHelper.getInstance().getSavedNewsItems(n -> {
+            addNewsItem(n);
+            //Stop spinner
+            loadingNewsSpinner.setVisibility(View.GONE);
+            return null;
+        });
     }
 
     private void addNewsItem(NewsItem n) {
+        Log.d("Saved item: ", n.getId());
         newsSaved.add(n);
+        savedAdapter.setNewsItems(newsSaved);
     }
 }

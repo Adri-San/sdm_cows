@@ -30,10 +30,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
 
     private List<NewsItem> news;
     private final OnItemClickListener listener;
+    private final int layout;
 
-    public NewsAdapter(List<NewsItem> news, OnItemClickListener listener) {
+    public NewsAdapter(List<NewsItem> news, OnItemClickListener listener, int layout) {
         this.news = news.stream().filter(n -> n.getId() != null).collect(Collectors.toList()); //newsItems that have id
         this.listener = listener;
+        this.layout = layout;
     }
 
     public void setNewsItems(List<NewsItem> news) {
@@ -48,7 +50,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
     @Override
     public NewsItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.line_news_view, parent, false);
+                .inflate(layout, parent, false);
         return new NewsItemViewHolder(itemView);
     }
 

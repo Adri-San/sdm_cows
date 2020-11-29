@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         newsView.setLayoutManager(layoutManager);
         // Sets adapter
-        newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem);
+        newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem, R.layout.line_news_view);
         newsView.setAdapter(newsAdapter);
     }
 
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void configurePullToRefresh(){
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh_main);
+        swipeRefreshLayout = findViewById(R.id.pullToRefresh_main);
         swipeRefreshLayout.setColorSchemeResources(R.color.primaryColor);
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.design_default_color_background);
 
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configureLoadingSpinner(){
-        loadingNewsSpinner = (ProgressBar) findViewById(R.id.loadingNewsSpinner);
+        loadingNewsSpinner = findViewById(R.id.loadingNewsSpinner);
         loadingNewsSpinner.setVisibility(View.VISIBLE);
     }
 
