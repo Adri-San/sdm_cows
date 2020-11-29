@@ -40,23 +40,15 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>
 
     <!-- News list -->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/pullToRefresh_main"
-        android:layout_width="match_parent"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idRecycler_saved"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.0">
-
-        <!-- RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/idRecycler_saved"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
