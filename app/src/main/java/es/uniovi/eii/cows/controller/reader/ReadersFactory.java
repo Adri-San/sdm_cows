@@ -63,7 +63,7 @@ public class ReadersFactory {
         List<NewsReader> list = new ArrayList<>();
         for (String key: readers.keySet()) {
             // Returns only the readers selected in the settings
-            if (preferences.getBoolean(key, false)) {
+            if (preferences.getBoolean(key, true)) {
                 list.add(readers.get(key));
             }
         }
