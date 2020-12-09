@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import java.util.Objects;
+
 import es.uniovi.eii.cows.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -18,6 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
 		setSupportActionBar(toolbar);
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 		toolbar.setNavigationOnClickListener(view -> finish()); **/
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 		// Preferences fragment
 		getSupportFragmentManager()
 				.beginTransaction()

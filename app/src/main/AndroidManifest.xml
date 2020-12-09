@@ -31,6 +31,7 @@
         <activity
             android:name=".view.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.COWS.ActionBar"
             android:parentActivityName=".view.MainActivity"/>
     </application>
 
