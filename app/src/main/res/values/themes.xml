@@ -25,4 +25,16 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorOnPrimary">@color/primaryColor</item>
     </style>
+
+    <!-- Settings theme. -->
+    <style name="Theme.COWS.ActionBar" parent="Theme.MaterialComponents.Light">
+        <!-- ActionBar color. -->
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <!-- Titles color. -->
+        <item name="colorAccent">@color/primaryColor</item>
+        <!-- Background -->
+        <item name="backgroundColor">@android:color/white</item>
+    </style>
+
 </resources>

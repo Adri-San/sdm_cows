@@ -1,0 +1,32 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Language settings -->
+    <ListPreference
+        android:title="@string/language"
+        android:defaultValue="0"
+        android:summary="%s"
+        android:entries="@array/languages_entries"
+        android:entryValues="@array/languages_values"
+        android:key="pref_language" />
+
+    <!-- Sources -->
+    <PreferenceCategory android:title="Sources">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="source_abc"
+            android:title="@string/abc" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="source_eldiario"
+            android:title="@string/eldiario" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="source_elpais"
+            android:title="@string/elpais" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="source_lne"
+            android:title="@string/lne" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

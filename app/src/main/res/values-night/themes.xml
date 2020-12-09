@@ -14,4 +14,10 @@
         <!-- Background -->
         <item name="backgroundColor">@color/darkBackground</item>
     </style>
+
+    <!-- Settings theme. -->
+    <style name="Theme.COWS.ActionBar" parent="Theme.MaterialComponents">
+        <!-- Background -->
+        <item name="backgroundColor">@color/darkBackground</item>
+    </style>
 </resources>

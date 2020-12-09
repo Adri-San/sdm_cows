@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,16 +62,21 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Set the navigation drawer
         setUpNavigation(toolbar);
-        // Set the user info
-        // TODO image of the user
-        // Start the pull and parse of news
-        readersManager.run();
-        // When finished retrieve those parsed news
-        news = readersManager.getNews();
-        // Store on database
-        storeNewsItems(news);
+        // Loads the news
+        loadNews();
         // Set up the news list
         setUpRecyclerView();
+        // Store the news
+        storeNewsItems(news);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Reloading news
+        loadNews();
+        //Updating database
+        storeNewsItems(news);
     }
 
     private void setUpNavigation(Toolbar toolbar) {
@@ -104,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
                     redirectToSavedNews();
                     break;
                 case R.id.nav_settings:
-                    throw new IllegalArgumentException("menu option not implemented!!");
+                    redirectToSettings();
+                    break;
                 case R.id.nav_logout:
                     FirebaseAuth.getInstance().signOut();
                     client.signOut().addOnCompleteListener(this,
@@ -121,6 +126,12 @@ public class MainActivity extends AppCompatActivity {
     private void redirectToSavedNews() {
         //Intent to start SavedActivity
         Intent intent = new Intent(MainActivity.this, SavedActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void redirectToSettings() {
+        // Intent to start SettingsActivity
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
@@ -173,11 +184,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void configurePullToRefresh(){
-
         swipeRefreshLayout = findViewById(R.id.pullToRefresh_main);
         swipeRefreshLayout.setColorSchemeResources(R.color.primaryColor);
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.design_default_color_background);
-
         //onRefresh listener
         swipeRefreshLayout.setOnRefreshListener(this::onPullToRefresh);
     }
@@ -191,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         //Start of the refreshing
         swipeRefreshLayout.setRefreshing(true);
         //Reloading news
-        reloadNews();
+        loadNews();
         //Updating database
         storeNewsItems(news);
     }
@@ -206,10 +215,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Gets the news again
+     * Gets the news
      */
-    private void reloadNews(){
-        readersManager.run();
+    private void loadNews(){
+        // Start the pull and parse of news
+        readersManager.run(this);
+        // When finished retrieve those parsed news
         news = readersManager.getNews();
     }
 
@@ -220,8 +231,19 @@ public class MainActivity extends AppCompatActivity {
      * @param newsItems list of newsItems to be stored
      */
     public void storeNewsItems(List<NewsItem> newsItems){
-        newsItems.forEach(newsItem -> FirebaseHelper.getInstance().addNewsItem(newsItem,
-                n-> {checkIfNewsItemsAreReady(); return null; }));
+        // If there's no news, shows a message
+        if (news.size() == 0) {
+            newsAdapter.setNewsItems(news);
+            findViewById(R.id.txtNoNews).setVisibility(View.VISIBLE);
+            //Stop spinners
+            loadingNewsSpinner.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+        // Otherwise shows the news when ready
+        else {
+            newsItems.forEach(newsItem -> FirebaseHelper.getInstance().addNewsItem(newsItem,
+                    n-> {checkIfNewsItemsAreReady(); return null; }));
+        }
     }
 
     /**
@@ -230,8 +252,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkIfNewsItemsAreReady(){
         int numberOfNewsWithID = (int) news.stream().filter(n -> n.getId() != null).count();
-        if(numberOfNewsWithID >= news.size()){
+        if (numberOfNewsWithID >= news.size()){
             newsAdapter.setNewsItems(news);
+            findViewById(R.id.txtNoNews).setVisibility(View.GONE);
             //Stop spinners
             loadingNewsSpinner.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
