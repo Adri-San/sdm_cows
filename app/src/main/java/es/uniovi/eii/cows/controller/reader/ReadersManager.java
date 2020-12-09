@@ -1,5 +1,7 @@
 package es.uniovi.eii.cows.controller.reader;
 
+import android.content.Context;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -27,9 +29,7 @@ public class ReadersManager {
 
     private static ReadersManager instance = new ReadersManager();               // Singleton
 
-    private ReadersManager() {
-        readers = ReadersFactory.getInstance().getReaders();
-    }
+    private ReadersManager() { }
 
     /**
      * @return  Instance of the manager
@@ -41,8 +41,9 @@ public class ReadersManager {
     /**
      * Starts all the readers in different Threads
      */
-    public void run() {
+    public void run(Context context) {
         initThreads();
+        readers = ReadersFactory.getInstance(context).getReaders();
         readers.forEach(r -> readersThreadPool.execute(r));
     }
 
@@ -62,9 +63,8 @@ public class ReadersManager {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        List<NewsItem> news = readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
+        return readers.stream().map(NewsReader::getNews).flatMap(Collection::stream)
                 .sorted().collect(Collectors.toList());
-        return news;
     }
 
     /**
