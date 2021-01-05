@@ -32,4 +32,8 @@ public class GoogleSignInHelper {
 		return GoogleSignIn.getClient(context, instance.gso);
 	}
 
+	public static String getClientId(@NonNull Activity context){
+		return GoogleSignIn.getLastSignedInAccount(context).getId(); //identifier of the application user in session
+	}
+
 }

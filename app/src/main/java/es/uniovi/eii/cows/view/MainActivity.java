@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drawer);
         // Configure the Google Auth Options
         client = GoogleSignInHelper.getClient(this);
+        FirebaseHelper.getInstance().setClientId(GoogleSignInHelper.getClientId(this));
         // Set the toolbar
         Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);

@@ -13,12 +13,12 @@ import java.util.function.Function;
 public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     //Database collections
-    protected static final String NEWS_ITEMS = "news_items";
-    protected static final String NEWS_LIKED = "news_liked";
-    protected static final String NEWS_SAVED = "news_saved";
+    public static final String NEWS_ITEMS = "news_items";
+    public static final String NEWS_LIKED = "news_liked";
+    public static final String NEWS_SAVED = "news_saved";
 
     //Property that references news item
-    private String referenceProperty = "news_item_ID";
+    private String referenceProperty = "newsItemId";
 
     private FirebaseFirestore database;
 
@@ -39,7 +39,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
     }
 
     @Override
-    public void get(Pair<String, Object> condition, Function<P, Void> callback) {
+    public void get(Pair<String, Object> condition, Function<T, Void> callback) {
 
         getDatabase().collection(getCollection())
                 .whereEqualTo(condition.first, condition.second)
@@ -48,7 +48,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
     }
 
     @Override
-    public void getAll(Function<P, Void> callback) {
+    public void getAll(Function<T, Void> callback) {
 
         getDatabase().collection(getCollection())
                 .get()
@@ -70,7 +70,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
      * @param idToBeReferenced  identifier of the referenced document
      * @return  reference to the document
      */
-    protected DocumentReference createDocumentReference(String collection, String idToBeReferenced){
+    public DocumentReference createDocumentReference(String collection, String idToBeReferenced){
         return getDatabase().document(collection + "/" + idToBeReferenced);
     }
 
@@ -78,7 +78,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     protected abstract String getCollection();                                                  //name of the database collection
 
-    protected abstract void doGet(QueryDocumentSnapshot d, Function<P, Void> callback);         //on get action
+    protected abstract void doGet(QueryDocumentSnapshot d, Function<T, Void> callback);         //on get action
 
     protected abstract void doAdd(Task<QuerySnapshot> c, T item, Function<T, Void> callback);   //on add action
 

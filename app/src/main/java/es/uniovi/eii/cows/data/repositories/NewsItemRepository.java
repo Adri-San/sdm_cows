@@ -17,7 +17,7 @@ public class NewsItemRepository extends BaseRepository<NewsItem, NewsItem> {
     protected String getCollection() { return NEWS_ITEMS; }
 
     @Override
-    public void doGet(QueryDocumentSnapshot d, Function<NewsItem, Void> callback) {
+    protected void doGet(QueryDocumentSnapshot d, Function<NewsItem, Void> callback) {
         NewsItem n = d.toObject(NewsItem.class);
         callback.apply(n);
     }
