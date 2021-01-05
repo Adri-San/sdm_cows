@@ -3,8 +3,10 @@ package es.uniovi.eii.cows.data;
 import android.util.Pair;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -32,8 +34,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
     @Override
     public void add(T item, Function<T, Void> callback) {
 
-        getDatabase().collection(getCollection())
-                .whereEqualTo(getAddingCondition(item).first, getAddingCondition(item).second)
+        getAddingCondition(item, getDatabase().collection(getCollection()))
                 .get()
                 .addOnCompleteListener(c -> doAdd(c, item, callback));
     }
@@ -57,9 +58,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     @Override
     public void delete(T item, Function<T, Void> callback) {
-
-        getDatabase().collection(getCollection())
-                .whereEqualTo(getDeletingCondition(item).first, getDeletingCondition(item).second)
+        getDeletingCondition(item, getDatabase().collection(getCollection()))
                 .get()
                 .addOnCompleteListener(t -> t.getResult().forEach(d -> {d.getReference().delete(); callback.apply(item);}));
     }
@@ -76,14 +75,14 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     //Methods to be redefined
 
-    protected abstract String getCollection();                                                  //name of the database collection
+    protected abstract String getCollection();                                                                                          //name of the database collection
 
-    protected abstract void doGet(QueryDocumentSnapshot d, Function<T, Void> callback);         //on get action
+    protected abstract void doGet(QueryDocumentSnapshot d, Function<T, Void> callback);                                                 //on get action
 
-    protected abstract void doAdd(Task<QuerySnapshot> c, T item, Function<T, Void> callback);   //on add action
+    protected abstract void doAdd(Task<QuerySnapshot> c, T item, Function<T, Void> callback);                                           //on add action
 
-    protected abstract Pair<String, Object> getAddingCondition(T item);                         //condition to be added
+    protected abstract Query getAddingCondition(T item, CollectionReference collectionReference);                                       //condition to be added
 
-    protected abstract Pair<String, Object> getDeletingCondition(T item);                       //condition to be deleted
+    protected abstract Query getDeletingCondition(T item, CollectionReference collectionReference);                                     //condition to be deleted
 
 }

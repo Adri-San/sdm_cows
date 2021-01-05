@@ -3,7 +3,9 @@ package es.uniovi.eii.cows.data.repositories;
 import android.util.Pair;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -32,13 +34,17 @@ public class SaveRepository extends BaseRepository<Save, NewsItem> {
     }
 
     @Override
-    protected Pair<String, Object> getAddingCondition(Save save) {
-        return Pair.create(getReferenceProperty(), save.getNewsItemId());
+    protected Query getAddingCondition(Save item, CollectionReference collectionReference) {
+        return collectionReference
+                .whereEqualTo(getReferenceProperty(), item.getNewsItemId())     //check newsItemId
+                .whereEqualTo("userId", item.getUserId());                //check userId
     }
 
     @Override
-    protected Pair<String, Object> getDeletingCondition(Save save) {
-        return Pair.create(getReferenceProperty(), save.getNewsItemId());
+    protected Query getDeletingCondition(Save item, CollectionReference collectionReference) {
+        return collectionReference
+                .whereEqualTo(getReferenceProperty(), item.getNewsItemId())     //check newsItemId
+                .whereEqualTo("userId", item.getUserId());                //check userId
     }
 
     /**

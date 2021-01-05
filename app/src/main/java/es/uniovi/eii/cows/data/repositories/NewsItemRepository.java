@@ -3,6 +3,8 @@ package es.uniovi.eii.cows.data.repositories;
 import android.util.Pair;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,15 +32,16 @@ public class NewsItemRepository extends BaseRepository<NewsItem, NewsItem> {
     }
 
     @Override
-    protected Pair<String, Object> getAddingCondition(NewsItem item) {
-        return Pair.create("title", item.getTitle());
+    protected Query getAddingCondition(NewsItem item, CollectionReference collectionReference) {
+        return collectionReference
+                .whereEqualTo("title", item.getTitle())     //check title
+                .whereEqualTo("source", item.getSource());  //check source
     }
 
     @Override
-    protected Pair<String, Object> getDeletingCondition(NewsItem newsItem) {
-        return Pair.create("__name__", newsItem.getId());
+    protected Query getDeletingCondition(NewsItem item, CollectionReference collectionReference) {
+        return collectionReference.whereEqualTo("__name__", item.getId());
     }
-
 
     /**
      * Private method that re-assigns the stored id

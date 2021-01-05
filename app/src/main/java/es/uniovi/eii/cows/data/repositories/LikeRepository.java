@@ -1,8 +1,8 @@
 package es.uniovi.eii.cows.data.repositories;
 
-import android.util.Pair;
-
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,14 +30,19 @@ public class LikeRepository extends BaseRepository<Like, NewsItem> {
     }
 
     @Override
-    protected Pair<String, Object> getAddingCondition(Like like) {
-        return Pair.create(getReferenceProperty(), like.getNewsItemId());
+    protected Query getAddingCondition(Like item, CollectionReference collectionReference) {
+        return collectionReference
+                .whereEqualTo(getReferenceProperty(), item.getNewsItemId())     //check newsItemId
+                .whereEqualTo("userId", item.getUserId());                //check userId
     }
 
     @Override
-    protected Pair<String, Object> getDeletingCondition(Like like) {
-        return Pair.create(getReferenceProperty(), like.getNewsItemId());
+    protected Query getDeletingCondition(Like item, CollectionReference collectionReference) {
+        return collectionReference
+                .whereEqualTo(getReferenceProperty(), item.getNewsItemId())     //check newsItemId
+                .whereEqualTo("userId", item.getUserId());                //check userId
     }
+
     /**
      * Private method that adds the previously-checked unique like
      * @param like
