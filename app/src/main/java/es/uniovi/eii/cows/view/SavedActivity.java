@@ -50,8 +50,8 @@ public class SavedActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         newsSaved.clear();
-        //Loading spinner until newsItems are ready
-        configureLoadingSpinner();
+        // Pre-configuration
+        preconfigure();
         // Get news saved
         getSavedNews();
         // SetUp RecyclerView
@@ -67,6 +67,7 @@ public class SavedActivity extends AppCompatActivity {
         // Sets adapter
         savedAdapter = new NewsAdapter(new ArrayList<>(newsSaved), this::clickOnNewsItem, R.layout.line_news_saved);
         savedView.setAdapter(savedAdapter);
+        loadingNewsSpinner.setVisibility(View.GONE);
     }
 
     private void configureLayoutByOrientation() {
@@ -86,15 +87,17 @@ public class SavedActivity extends AppCompatActivity {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
-    private void configureLoadingSpinner() {
+    private void preconfigure() {
         loadingNewsSpinner = findViewById(R.id.loadingNewsSpinner);
         loadingNewsSpinner.setVisibility(View.VISIBLE);
+        findViewById(R.id.txtNoNews).setVisibility(View.VISIBLE);
     }
 
     private void getSavedNews() {
         FirebaseHelper.getInstance().getSavedNewsItems(n -> {
             addNewsItem(n);
             //Stop spinner
+            findViewById(R.id.txtNoNews).setVisibility(View.GONE);
             loadingNewsSpinner.setVisibility(View.GONE);
             return null;
         });
@@ -105,4 +108,5 @@ public class SavedActivity extends AppCompatActivity {
         newsSaved.add(n);
         savedAdapter.setNewsItems(newsSaved);
     }
+
 }
