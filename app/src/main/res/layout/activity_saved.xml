@@ -39,8 +39,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>
 
-    <!-- News list -->
+    <!-- No news message -->
+    <TextView
+        android:id="@+id/txtNoNews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_no_news_saved"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- News list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idRecycler_saved"
         android:layout_width="0dp"
