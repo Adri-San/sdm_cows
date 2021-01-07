@@ -16,6 +16,7 @@ public class LikeClickListener extends OnButtonClickListener {
         super(context, newsItem, button);
 
         this.state = new LikeState(this, false, R.drawable.ic_like, R.drawable.ic_liked);
+        this.state.setStoredState(false);
 
         FirebaseHelper.getInstance().getNewsItemIfLiked(newsItem.getId(), n -> {
             if(n != null)
