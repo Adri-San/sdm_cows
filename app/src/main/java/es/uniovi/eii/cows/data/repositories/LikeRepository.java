@@ -9,7 +9,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
-import es.uniovi.eii.cows.model.Like;
+import es.uniovi.eii.cows.model.interactions.Like;
 import es.uniovi.eii.cows.model.NewsItem;
 
 public class LikeRepository extends BaseRepository<Like, NewsItem> {

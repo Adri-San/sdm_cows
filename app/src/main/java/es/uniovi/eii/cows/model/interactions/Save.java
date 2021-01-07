@@ -1,8 +1,10 @@
-package es.uniovi.eii.cows.model;
+package es.uniovi.eii.cows.model.interactions;
 
 import com.google.firebase.firestore.DocumentReference;
 
-public class Save {
+import es.uniovi.eii.cows.model.Interaction;
+
+public class Save implements Interaction {
     private DocumentReference newsItemId;
     private String userId;
 

@@ -81,7 +81,8 @@ public class SavedActivity extends AppCompatActivity {
 
     private void getSavedNews() {
         FirebaseHelper.getInstance().getSavedNewsItems(n -> {
-            addNewsItem(n);
+            if(n != null) //there is a saved newsItem
+                addNewsItem(n);
             //Stop spinner
             loadingNewsSpinner.setVisibility(View.GONE);
             return null;

@@ -28,7 +28,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     public FirebaseFirestore getDatabase() { return database; }
 
-    protected String getReferenceProperty() { return referenceProperty;}
+    public String getReferenceProperty() { return referenceProperty;}
 
 
     @Override
@@ -53,7 +53,12 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
         getDatabase().collection(getCollection())
                 .get()
-                .addOnCompleteListener(t -> t.getResult().forEach(d -> doGet(d, callback)));
+                .addOnCompleteListener(t -> {
+                    if(t.getResult().getDocuments().size() == 0)
+                        callback.apply(null);
+                    else
+                        t.getResult().forEach(d -> doGet(d, callback));
+                });
     }
 
     @Override
@@ -61,16 +66,6 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
         getDeletingCondition(item, getDatabase().collection(getCollection()))
                 .get()
                 .addOnCompleteListener(t -> t.getResult().forEach(d -> {d.getReference().delete(); callback.apply(item);}));
-    }
-
-    /**
-     * Creates a document reference to be stored in firebase DB
-     * @param collection    collection where the referenced document is in
-     * @param idToBeReferenced  identifier of the referenced document
-     * @return  reference to the document
-     */
-    public DocumentReference createDocumentReference(String collection, String idToBeReferenced){
-        return getDatabase().document(collection + "/" + idToBeReferenced);
     }
 
     //Methods to be redefined

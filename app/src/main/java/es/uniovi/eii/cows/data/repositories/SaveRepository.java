@@ -1,10 +1,7 @@
 package es.uniovi.eii.cows.data.repositories;
 
-import android.util.Pair;
-
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -13,7 +10,7 @@ import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
 import es.uniovi.eii.cows.model.NewsItem;
-import es.uniovi.eii.cows.model.Save;
+import es.uniovi.eii.cows.model.interactions.Save;
 
 public class SaveRepository extends BaseRepository<Save, NewsItem> {
 
