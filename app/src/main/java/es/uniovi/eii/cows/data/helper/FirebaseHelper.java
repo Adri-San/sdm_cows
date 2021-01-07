@@ -40,7 +40,7 @@ public class FirebaseHelper {
     }
 
     //Add Methods
-    public void addNewsItem(NewsItem newsItem, Function<NewsItem, Void> callback) { newsItemRepository.add(newsItem, n-> callback.apply((NewsItem) n)); }
+    public void addNewsItem(NewsItem newsItem, Function<NewsItem, Void> callback) { newsItemRepository.add(newsItem, n-> callback.apply(n)); }
     public void addLike(String idNewsItem, Function<Like, Void> callback){ likeRepository.add(new Like(likeRepository.createDocumentReference(LikeRepository.NEWS_ITEMS, idNewsItem), clientId), n-> callback.apply(n)); }
     public void addSave(String idNewsItem, Function<Save, Void> callback){ saveRepository.add(new Save(saveRepository.createDocumentReference(SaveRepository.NEWS_ITEMS, idNewsItem), clientId), n-> callback.apply(n)); }
 
@@ -50,9 +50,19 @@ public class FirebaseHelper {
     public void deleteSave(String idNewsItem, Function<Save, Void> callback) { saveRepository.delete(new Save(saveRepository.createDocumentReference(SaveRepository.NEWS_ITEMS, idNewsItem), clientId), n-> callback.apply(n));}
 
     //Get All Methods
-    public void getNewsItems(Function<NewsItem, Void> callback) { newsItemRepository.getAll(n -> callback.apply((NewsItem) n)); }
-    public void getLikedNewsItems(Function<NewsItem, Void> callback) { likeRepository.getAll(l -> callback.apply(l.getNewsItemId().get().getResult().toObject(NewsItem.class))); }
-    public void getSavedNewsItems(Function<NewsItem, Void> callback) { saveRepository.getAll(s -> callback.apply(s.getNewsItemId().get().getResult().toObject(NewsItem.class))); }
+    public void getNewsItems(Function<NewsItem, Void> callback) { newsItemRepository.getAll(n -> callback.apply(n)); }
+
+    public void getLikedNewsItems(Function<NewsItem, Void> callback) { likeRepository.getAll(l -> {
+        l.getNewsItemId().get()
+                .addOnCompleteListener(t -> callback.apply(t.getResult().toObject(NewsItem.class)));
+        return null;
+    }); }
+
+    public void getSavedNewsItems(Function<NewsItem, Void> callback) { saveRepository.getAll(s -> {
+        s.getNewsItemId().get()
+                .addOnCompleteListener(t -> callback.apply(t.getResult().toObject(NewsItem.class)));
+        return null;
+    }); }
 
     //Get by id Methods
     public void getLikeById(String idLike, Function<Like, Void> callback) {likeRepository.get( Pair.create("__name__", idLike), t -> callback.apply(t));}
