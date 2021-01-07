@@ -2,6 +2,7 @@ package es.uniovi.eii.cows.view;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +30,7 @@ public class SavedActivity extends AppCompatActivity {
     // UI
     private NewsAdapter savedAdapter;
     private ProgressBar loadingNewsSpinner;         // Loading spinner until news are ready
+    private RecyclerView savedView;
     // List of news to display
     private final List<NewsItem> newsSaved = new ArrayList<>();
 
@@ -47,8 +50,8 @@ public class SavedActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         newsSaved.clear();
-        //Loading spinner until newsItems are ready
-        configureLoadingSpinner();
+        // Pre-configuration
+        preconfigure();
         // Get news saved
         getSavedNews();
         // SetUp RecyclerView
@@ -57,13 +60,23 @@ public class SavedActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
         // Show the news on the RecyclerView
-        RecyclerView savedView = findViewById(R.id.idRecycler_saved);
+        savedView = findViewById(R.id.idRecycler_saved);
         savedView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        savedView.setLayoutManager(layoutManager);
+        // Change layout view by orientation
+        configureLayoutByOrientation();
         // Sets adapter
         savedAdapter = new NewsAdapter(new ArrayList<>(newsSaved), this::clickOnNewsItem, R.layout.line_news_saved);
         savedView.setAdapter(savedAdapter);
+        loadingNewsSpinner.setVisibility(View.GONE);
+    }
+
+    private void configureLayoutByOrientation() {
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            savedView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            savedView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        }
     }
 
     private void clickOnNewsItem(NewsItem item) {
@@ -74,15 +87,17 @@ public class SavedActivity extends AppCompatActivity {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
-    private void configureLoadingSpinner() {
+    private void preconfigure() {
         loadingNewsSpinner = findViewById(R.id.loadingNewsSpinner);
         loadingNewsSpinner.setVisibility(View.VISIBLE);
+        findViewById(R.id.txtNoNews).setVisibility(View.VISIBLE);
     }
 
     private void getSavedNews() {
         FirebaseHelper.getInstance().getSavedNewsItems(n -> {
             addNewsItem(n);
             //Stop spinner
+            findViewById(R.id.txtNoNews).setVisibility(View.GONE);
             loadingNewsSpinner.setVisibility(View.GONE);
             return null;
         });
@@ -93,4 +108,5 @@ public class SavedActivity extends AppCompatActivity {
         newsSaved.add(n);
         savedAdapter.setNewsItems(newsSaved);
     }
+
 }

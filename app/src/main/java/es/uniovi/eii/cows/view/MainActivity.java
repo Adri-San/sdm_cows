@@ -2,6 +2,7 @@ package es.uniovi.eii.cows.view;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsAdapter newsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;  // Pull to refresh item
     private ProgressBar loadingNewsSpinner;         // Loading spinner until news are ready
+    private RecyclerView newsView;
     // Class managing all the NewsReading actions
     private final ReadersManager readersManager = ReadersManager.getInstance();
     // List of news to display
@@ -75,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         //Reloading news
         loadNews();
+        // Set up the news list
+        setUpRecyclerView();
         //Updating database
         storeNewsItems(news);
     }
@@ -139,13 +144,22 @@ public class MainActivity extends AppCompatActivity {
         configurePullToRefresh();   //Pull to refresh news initialization
         configureLoadingSpinner();  //Loading spinner until newsItems are ready
         // Show the news on the RecyclerView
-        RecyclerView newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
+        newsView = (RecyclerView) findViewById(R.id.idRecycler_main);
         newsView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        newsView.setLayoutManager(layoutManager);
+        // Change layout view by orientation
+        configureLayoutByOrientation();
         // Sets adapter
         newsAdapter = new NewsAdapter(new ArrayList<>(news), this::clickOnNewsItem, R.layout.line_news_view);
         newsView.setAdapter(newsAdapter);
+    }
+
+    private void configureLayoutByOrientation() {
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            newsView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            newsView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        }
     }
 
     @Override
@@ -181,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
 
     private void configurePullToRefresh(){
         swipeRefreshLayout = findViewById(R.id.pullToRefresh_main);

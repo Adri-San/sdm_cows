@@ -16,10 +16,12 @@
 
     <!-- Saved news -->
     <string name="saved_news_title">Saved news</string>
+    <string name="msg_no_news_saved">You haven\'t saved any news yet :(</string>
 
     <!-- Errors -->
     <string name="errorLoadingSources">There was an error loading some sources</string>
     <string name="error_connection">There was an error while trying to connect</string>
+
     <string name="sign_in">Sign In</string>
 
     <!-- Navigation -->
