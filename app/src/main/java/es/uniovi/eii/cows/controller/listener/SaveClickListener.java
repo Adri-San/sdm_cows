@@ -18,8 +18,16 @@ public class SaveClickListener extends OnButtonClickListener {
     public SaveClickListener(Context context, NewsItem newsItem, Button button) {
         super(context, newsItem, button);
 
-        // TODO: state may not be false, get state from BD
         this.state = new SaveState(this, false, R.drawable.ic_save, R.drawable.ic_saved);
+        this.state.setStoredState(false);
+
+        FirebaseHelper.getInstance().getNewsItemIfSaved(newsItem.getId(), n -> {
+            if(n != null)
+                this.state.setStoredState(true);  //it was saved
+            else
+                this.state.setStoredState(false);  //it was not saved
+            return null;
+        });
     }
 
     @Override

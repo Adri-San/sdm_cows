@@ -11,7 +11,7 @@ public class SaveState extends State{
     @Override
     protected void setOffState() {
         FirebaseHelper.getInstance().deleteSave(getListener().getNewsItem().getId(), s -> {
-            updateState(s, getOffState_icon(), "deleted");
+            updateState(s.getNewsItemId().toString(), getOffState_icon(), "deleted");
             return null;
         });
     }
@@ -19,7 +19,7 @@ public class SaveState extends State{
     @Override
     protected void setOnState() {
         FirebaseHelper.getInstance().addSave(getListener().getNewsItem().getId(), s -> {
-            updateState(s, getOnState_icon(), "added");
+            updateState(s.getNewsItemId().toString(), getOnState_icon(), "added");
             return null;
         });
     }
