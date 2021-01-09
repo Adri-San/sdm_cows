@@ -1,59 +1,103 @@
 package es.uniovi.eii.cows.data.repositories;
 
-import android.util.Log;
-import android.util.Pair;
-
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
 import es.uniovi.eii.cows.model.NewsItem;
+import es.uniovi.eii.cows.model.interactions.Save;
 
-public class SaveRepository extends BaseRepository<String, NewsItem> {
+/**
+ * Repository with CRUD operations for Saves. It has NewsItem as secondary
+ * type so that news item can be returned when there is the need to get more
+ * information than a simple save
+ *
+ * - <T> Like, main type
+ * - <P> NewsItem, secondary type
+ */
+public class SaveRepository extends BaseRepository<Save, NewsItem> {
 
+    //Name of the collection that is managed by the repository ("news_saved")
     @Override
     protected String getCollection() { return NEWS_SAVED; }
 
+    /**
+     * Method that implements the concrete "get" operation. It uses firebase
+     * data mapper to build a Save object automatically given the stored
+     * information that is provided by {d}.
+     * @param d         document snapshot that contains the stored information
+     * @param callback  function that will be called when finished with the retrieved Save object
+     */
     @Override
-    public void doGet(QueryDocumentSnapshot d, Function<NewsItem, Void> callback) {
-        DocumentReference document = (DocumentReference) d.getData().get(getReferenceProperty());
-        document.get()
-                .addOnCompleteListener(f -> { NewsItem n = f.getResult().toObject(NewsItem.class); callback.apply(n); });
+    protected void doGet(QueryDocumentSnapshot d, Function<Save, Void> callback) {
+        Save n = d.toObject(Save.class);
+        callback.apply(n);
     }
 
+    /**
+     * Method that implements the concrete "add" operation. It uses {c} to check if all previous
+     * tasks are finished and function {callback} to pass the {save} object added.
+     *
+     * @param c             task with the database collection
+     * @param save          Save that will be added
+     * @param callback      function that will be called when finished with the added {saved}
+     */
     @Override
-    protected void doAdd(Task<QuerySnapshot> c, String id, Function<String, Void> callback) {
+    protected void doAdd(Task<QuerySnapshot> c, Save save, Function<Save, Void> callback) {
         if(c.getResult().size() == 0)
-            addSave(id, callback);
+            addSave(save, callback);
 
     }
 
+    /**
+     * Method that adds the required conditions to perform the addition of the Save {item}.
+     * To add a Save to the repository, these conditions will be checked:
+     *  - It does not exist another save with the same newsItem identifier as {item}
+     *                                  AND
+     *  - It does not exist another save with the same user identifier as {item}
+     *
+     * @param item                  Save that will later be added
+     * @param collectionReference   collection that will suffer the conditions
+     * @return the collection reference with the conditions added
+     */
     @Override
-    protected Pair<String, Object> getAddingCondition(String id) {
-        return Pair.create(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id));
+    protected Query putAddingConditions(Save item, CollectionReference collectionReference) {
+        return collectionReference
+                .whereEqualTo(getReferenceProperty(), item.getNewsItemId())     //check newsItemId
+                .whereEqualTo("userId", item.getUserId());                //check userId
     }
 
+    /**
+     * Method that adds the required conditions to perform the removal of the Save {item}.
+     * To remove a Save from the repository, these conditions will be checked:
+     *  - The save to be removed will need to have the same newsItem identifier as {item}
+     *                                      AND
+     *  - The save to be removed will need to have the same user identifier as {item}
+     *
+     * @param item                  Save that will later be removed
+     * @param collectionReference   collection that will suffer the conditions
+     * @return the collection reference with the conditions added
+     */
     @Override
-    protected Pair<String, Object> getDeletingCondition(String id) {
-        return Pair.create(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id));
+    protected Query putDeletingConditions(Save item, CollectionReference collectionReference) {
+        return collectionReference
+                .whereEqualTo(getReferenceProperty(), item.getNewsItemId())     //check newsItemId
+                .whereEqualTo("userId", item.getUserId());                //check userId
     }
 
     /**
      * Private method that adds the previously-checked unique save
-     * @param id identifier of the saved newsItem
+     * @param save
      */
-    private void addSave(String id, Function<String, Void> callback){
-        Map<String, DocumentReference> save = Collections.singletonMap(getReferenceProperty(), createDocumentReference(NEWS_ITEMS, id));
-
-        getDatabase().collection(NEWS_SAVED)
+    private void addSave(Save save, Function<Save, Void> callback){
+         getDatabase().collection(NEWS_SAVED)
                 .add(save)
-                .addOnSuccessListener(e -> callback.apply(id))
+                .addOnSuccessListener(e -> callback.apply(save))
                 .addOnFailureListener(e -> callback.apply(null));
     }
 }

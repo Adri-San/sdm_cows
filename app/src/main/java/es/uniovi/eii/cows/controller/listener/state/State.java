@@ -60,4 +60,12 @@ public abstract class State {
         } else
             Log.d(getActionName() + " not " +  message + ":", "Failure in Repository");
     }
+
+    public void setStoredState(boolean isOn){
+        this.isOn = isOn;
+        if(isOn)
+            ((MaterialButton) listener.getButton()).setIconResource(getOnState_icon());
+        else
+            ((MaterialButton) listener.getButton()).setIconResource(getOffState_icon());
+    }
 }

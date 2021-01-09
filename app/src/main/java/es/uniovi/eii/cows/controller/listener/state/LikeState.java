@@ -11,7 +11,7 @@ public class LikeState extends State{
     @Override
     protected void setOffState() {
         FirebaseHelper.getInstance().deleteLike(getListener().getNewsItem().getId(), l -> {
-            updateState(l, getOffState_icon(), "deleted");
+            updateState(l.getNewsItemId().toString(), getOffState_icon(), "deleted");
             return null;
         });
     }
@@ -19,7 +19,7 @@ public class LikeState extends State{
     @Override
     protected void setOnState() {
         FirebaseHelper.getInstance().addLike(getListener().getNewsItem().getId(), l -> {
-            updateState(l, getOnState_icon(),  "added");
+            updateState(l.getNewsItemId().toString(), getOnState_icon(),  "added");
             return null;
         });
     }
