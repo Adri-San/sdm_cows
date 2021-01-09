@@ -33,8 +33,6 @@ public class MainActivityTest {
 
     @Test
     public void testClickFirst() {
-        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
-
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
@@ -46,14 +44,20 @@ public class MainActivityTest {
 
     @Test
     public void testScroll() {
-        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
-
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
+        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Try to scroll down
         recyclerView.perform(swipeUp());
         // Check that first item is not visible
         onView(withText(titleNews0)).check(doesNotExist());
+    }
+
+    @Test
+    public void testRefresh() {
+        ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
+        // Try to refresh news
+        recyclerView.perform(swipeDown());
     }
 }
