@@ -46,7 +46,7 @@ public class MainActivityTest {
     @Test
     public void testScroll() {
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
-        TestUtil.wait(3000);
+        TestUtil.waitForElement(withId(R.id.idTitle), 3000);
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Try to scroll down

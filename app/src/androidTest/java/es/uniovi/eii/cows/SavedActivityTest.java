@@ -32,7 +32,7 @@ public class SavedActivityTest {
 
     @Test
     public void savedActivityTest() {
-        TestUtil.wait(3000);
+        TestUtil.waitForElement(withId(R.id.idTitle), 2000);
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Click first SAVE button
@@ -41,11 +41,12 @@ public class SavedActivityTest {
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
         // Click saved news on drawer
         onView(allOf(withId(R.id.nav_saved), isDisplayed())).perform(click());
-        TestUtil.wait(3000);
         // Assert that the news item is saved
+        TestUtil.waitForElement(withId(R.id.idTitle), 2000);
         onView(withText(titleNews0)).check(matches(isDisplayed()));
         // Delete saved item
         onView(withId(R.id.idRecycler_saved)).perform(actionOnItem(hasDescendant(withText(titleNews0)), click()));
+        TestUtil.waitForElement(withId(R.id.idSave_news), 2000);
         onView(withId(R.id.idSave_news)).perform(click());
     }
 }

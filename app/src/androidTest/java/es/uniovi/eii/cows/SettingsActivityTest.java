@@ -29,7 +29,7 @@ public class SettingsActivityTest {
 
     @Test
     public void changeSourcesSelected() {
-        TestUtil.wait(1000);
+        TestUtil.waitForElement(withContentDescription(R.string.navigation_drawer_open), 2000);
         // Click drawer
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
         // Click settings on drawer
@@ -40,7 +40,7 @@ public class SettingsActivityTest {
         // Return to main view
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         // Assert that the news are from ABC
-        TestUtil.wait(1000);
+        TestUtil.waitForElement(withId(R.id.idSource), 2000);
         assertNotNewsFrom(R.string.eldiario, R.string.elpais, R.string.lne);
         // Reset selected sources
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
@@ -51,7 +51,7 @@ public class SettingsActivityTest {
 
     @Test
     public void noSourcesSelected() {
-        TestUtil.wait(1000);
+        TestUtil.waitForElement(withContentDescription(R.string.navigation_drawer_open), 2000);
         // Click drawer
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
         // Click settings on drawer
@@ -62,7 +62,7 @@ public class SettingsActivityTest {
         // Return to main view
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
         // Assert that there are no news
-        TestUtil.wait(1000);
+        TestUtil.waitForElement(withText(R.string.msg_no_news), 2000);
         assertNotNewsFrom(R.string.abc, R.string.eldiario, R.string.elpais, R.string.lne);
         onView(withText(R.string.msg_no_news)).check(matches(isDisplayed()));
         // Reset selected sources
