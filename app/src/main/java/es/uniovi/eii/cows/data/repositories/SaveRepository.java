@@ -9,18 +9,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
-import es.uniovi.eii.cows.model.NewsItem;
 import es.uniovi.eii.cows.model.interactions.Save;
 
 /**
- * Repository with CRUD operations for Saves. It has NewsItem as secondary
- * type so that news item can be returned when there is the need to get more
- * information than a simple save
+ * Repository with CRUD operations for Saves. It has Save as
+ * type because it is the object model that this repository manages.
  *
  * - <T> Like, main type
- * - <P> NewsItem, secondary type
  */
-public class SaveRepository extends BaseRepository<Save, NewsItem> {
+public class SaveRepository extends BaseRepository<Save> {
 
     //Name of the collection that is managed by the repository ("news_saved")
     @Override
