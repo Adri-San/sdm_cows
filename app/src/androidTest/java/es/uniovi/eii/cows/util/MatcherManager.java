@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows;
+package es.uniovi.eii.cows.util;
 
 import android.view.View;
 import android.view.ViewGroup;

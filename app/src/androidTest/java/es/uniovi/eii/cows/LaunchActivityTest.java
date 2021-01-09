@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.view;
+package es.uniovi.eii.cows;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -8,6 +8,8 @@ import androidx.test.filters.LargeTest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import es.uniovi.eii.cows.view.LaunchActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;

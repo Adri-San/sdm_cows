@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows.view;
+package es.uniovi.eii.cows;
 
 
 import androidx.test.espresso.ViewInteraction;
@@ -10,7 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import es.uniovi.eii.cows.R;
+import es.uniovi.eii.cows.util.TestUtil;
+import es.uniovi.eii.cows.view.LaunchActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -21,8 +22,8 @@ import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtP
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static es.uniovi.eii.cows.MatcherManager.firstItem;
-import static es.uniovi.eii.cows.MatcherManager.getText;
+import static es.uniovi.eii.cows.util.MatcherManager.firstItem;
+import static es.uniovi.eii.cows.util.MatcherManager.getText;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 
 @LargeTest
@@ -45,7 +46,7 @@ public class MainActivityTest {
     @Test
     public void testScroll() {
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
-        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+        TestUtil.wait(3000);
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Try to scroll down
