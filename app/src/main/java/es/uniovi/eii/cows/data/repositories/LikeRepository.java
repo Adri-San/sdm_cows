@@ -10,17 +10,14 @@ import java.util.function.Function;
 
 import es.uniovi.eii.cows.data.BaseRepository;
 import es.uniovi.eii.cows.model.interactions.Like;
-import es.uniovi.eii.cows.model.NewsItem;
 
 /**
- * Repository with CRUD operations for Likes. It has NewsItem as secondary
- * type so that news item can be returned when there is the need to get more
- * information than a simple like
+ * Repository with CRUD operations for Likes. It has Like as
+ *  * type because it is the object model that this repository manages.
  *
  * - <T> Like, main type
- * - <P> NewsItem, secondary type
  */
-public class LikeRepository extends BaseRepository<Like, NewsItem> {
+public class LikeRepository extends BaseRepository<Like> {
 
     //Name of the collection that is managed by the repository ("news_liked")
     @Override

@@ -15,9 +15,8 @@ import java.util.function.Function;
  * Repository used to help concrete repositories with basic methods and operations.
  *
  * @param <T> main type of the repository (NewsItem, Like or Save)
- * @param <P> secondary type of the repository (that will be returned when needed)
  */
-public abstract class BaseRepository<T, P> implements Repository<T, P> {
+public abstract class BaseRepository<T> implements Repository<T> {
 
     //Database collections
     public static final String NEWS_ITEMS = "news_items";
@@ -25,7 +24,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
     public static final String NEWS_SAVED = "news_saved";
 
     //Property used to reference newsItems throughout all repositories
-    private String referenceProperty = "newsItemId";
+    private static String referenceProperty = "newsItemId";
 
     //Firestore Database
     private FirebaseFirestore database;
@@ -34,7 +33,7 @@ public abstract class BaseRepository<T, P> implements Repository<T, P> {
 
     public FirebaseFirestore getDatabase() { return database; }
 
-    public String getReferenceProperty() { return referenceProperty;}
+    public static String getReferenceProperty() { return referenceProperty;}
 
 
     /**
