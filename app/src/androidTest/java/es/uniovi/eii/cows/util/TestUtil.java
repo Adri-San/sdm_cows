@@ -149,9 +149,9 @@ public class TestUtil {
         //Typing email
         UiObject emailInput = mUiDevice.findObject(new UiSelector().enabled(true).index(2));
         emailInput.click();
-        wait(1000);
+        wait(500);
         emailInput.legacySetText(accountName);
-        wait(1000);
+        wait(500);
 
         //Closing keyboard
         if(isKeyboardOpened())
@@ -163,7 +163,7 @@ public class TestUtil {
 
         UiObject passwordInput = mUiDevice.findObject(new UiSelector().enabled(true).index(2));
         passwordInput.legacySetText(password);
-        wait(1000);
+        wait(500);
 
         //Closing keyboard
         if(isKeyboardOpened())
@@ -174,16 +174,33 @@ public class TestUtil {
         nextButton.click();
         wait(1000);
 
+        //Scrolling down to make button visible for small phones
+        UiObject page = mUiDevice.findObject(new UiSelector().textContains("Hi"));
+        page.swipeUp(100);
+
         //Clicking Agreement button
-        if(mUiDevice.wait(Until.hasObject(By.clazz("android.widget.Button")), 2000L)){
+        if(waitUntilClass("android.widget.Button", 2000L)){
             UiObject agreeButton = mUiDevice.findObject(new UiSelector().className("android.widget.Button").index(0));
             agreeButton.click();
         }
 
-        wait(7000);
+        wait(500);
 
-        //closing app
-        closeApp();
+        //Clicking More Button
+        if(!waitUntilText("info", 3000L) && waitUntilClass("android.widget.Button", 2000L)){
+            UiObject moreButton = mUiDevice.findObject(new UiSelector().className("android.widget.Button").index(0));
+            moreButton.click();
+        }
+
+        wait(500);
+
+        //Clicking Accept Button
+        if(!waitUntilText("info", 3000L) && waitUntilClass("android.widget.Button", 2000L)){
+            UiObject acceptButton = mUiDevice.findObject(new UiSelector().className("android.widget.Button").index(0));
+            acceptButton.click();
+        }
+
+        wait(7000);
     }
 
     /**
@@ -199,6 +216,15 @@ public class TestUtil {
         }
     }
 
+    private boolean waitUntilClass(String className, Long timeout){
+        return mUiDevice.wait(Until.hasObject(By.clazz(className)), timeout);
+    }
+
+    private boolean waitUntilText(String text, Long timeout){
+        return mUiDevice.wait(Until.hasObject(By.text(text)), timeout);
+    }
+
+
     /**
      * Auxiliary method that checks if keyboard is opened.
      *
@@ -213,21 +239,7 @@ public class TestUtil {
         return false;
     }
 
-    /**
-     * Auxiliary method that closes the application
-     * @throws Exception
-     */
-    private void closeApp() throws Exception {
-        if (mUiDevice.pressRecentApps()) {
-            wait(1000);
-            int startX = 300;
-            int startY = 835;
-            int endX = 1000;
-            int endY = 835;     // coordinates refer to x-axis from left of screen to right.
-            int steps = 8;      // speed at which the app closes
-            mUiDevice.swipe(startX, startY, endX, endY, steps);
-        }
-    }
+
     private static Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position) {
 
         return new TypeSafeMatcher<View>() {
