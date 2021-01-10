@@ -11,11 +11,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import es.uniovi.eii.cows.controller.reader.rss.parser.BaseRSSParser;
 import es.uniovi.eii.cows.controller.reader.rss.parser.ElPaisParser;
-import es.uniovi.eii.cows.controller.reader.rss.parser.LNEParser;
 import es.uniovi.eii.cows.model.NewsItem;
 
 import static org.junit.Assert.assertEquals;
