@@ -55,10 +55,12 @@ public class ABCParser extends BaseRSSParser {
                 String regex = "<img.*align=\".*\">";
                 item.setDescription(description.replaceFirst(regex, ""));
                 // Image element
-                Optional<String> firstImage = Arrays.stream(
-                        StringUtils.substringBetween(description, "<img", ">").
-                        split("\"")).filter(pattern.asPredicate()).findFirst();
-                firstImage.ifPresent(item::setImageUrl);
+                String tagContent =  StringUtils.substringBetween(description, "<img", ">");
+                if (tagContent != null) {
+                    Optional<String> firstImage = Arrays.stream(
+                            tagContent.split("\"")).filter(pattern.asPredicate()).findFirst();
+                    firstImage.ifPresent(item::setImageUrl);
+                }
             } else if (xpp.getName().equalsIgnoreCase(LINK) && item != null) {
                 // Link element
                 item.setLink(xpp.nextText());

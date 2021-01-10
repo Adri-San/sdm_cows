@@ -38,7 +38,6 @@ public class CovidFilter {
 			h += evaluateString(item.getTitle()) * TITLE_TERMS_VALUE;
 			h += evaluateString(item.getDescription());
 			item.setCovidRelated(h > THRESHOLD);
-			if (h > 0)	Log.d("Evaluation", "[" + h + "] " + item.getTitle());
 		}
 	}
 
