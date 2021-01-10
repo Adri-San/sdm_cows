@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityWindowInfo;
 
+
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -28,6 +29,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static es.uniovi.eii.cows.util.MatcherManager.viewExists;
 import static org.hamcrest.Matchers.allOf;
 
 public class TestUtil {
@@ -35,15 +37,26 @@ public class TestUtil {
     private static TestUtil instance = new TestUtil(); //Singleton
 
     private UiDevice mUiDevice;
+    private String accountName;
+    private String password;
 
     private TestUtil(){
         mUiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        accountName = "actimelizategrupo@gmail.com";
+        password = "COvidneWS2020";
     }
 
     public static TestUtil getInstance() {
         return instance;
     }
 
+    public void login() {
+        try {
+            login(accountName, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Method that performs the login process in the application. If user account
      * is not in the system, it will be registered
@@ -215,6 +228,19 @@ public class TestUtil {
     public static void wait(int millis){
         try {
             Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Waits for the visibility of an element
+     * @param matcher, matcher corresponding to the element
+     * @param millis, milliseconds that main thread will be waiting
+     */
+    public static void waitForElement(Matcher<View> matcher, int millis){
+        try {
+            viewExists(matcher, millis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

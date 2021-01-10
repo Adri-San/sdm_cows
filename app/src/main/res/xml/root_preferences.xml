@@ -10,7 +10,7 @@
         android:key="pref_language" />
 
     <!-- Sources -->
-    <PreferenceCategory android:title="Sources">
+    <PreferenceCategory android:title="@string/sources">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="source_abc"
