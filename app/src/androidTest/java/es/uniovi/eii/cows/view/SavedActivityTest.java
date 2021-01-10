@@ -33,7 +33,7 @@ public class SavedActivityTest {
     public ActivityScenarioRule<LaunchActivity> mActivityTestRule = new ActivityScenarioRule<>(LaunchActivity.class);
 
     @Test
-    public void savedActivityTest() {
+    public void testSavedActivity() {
         TestUtil.waitForElement(ViewMatchers.withId(R.id.idTitle), 5000);
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));

@@ -30,7 +30,7 @@ public class SettingsActivityTest {
     public ActivityScenarioRule<LaunchActivity> mActivityTestRule = new ActivityScenarioRule<>(LaunchActivity.class);
 
     @Test
-    public void changeSourcesSelected() {
+    public void testChangeSourcesSelected() {
         TestUtil.waitForElement(ViewMatchers.withContentDescription(R.string.navigation_drawer_open), 2000);
         // Click drawer
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
@@ -52,7 +52,7 @@ public class SettingsActivityTest {
     }
 
     @Test
-    public void noSourcesSelected() {
+    public void testNoSourcesSelected() {
         TestUtil.waitForElement(withContentDescription(R.string.navigation_drawer_open), 2000);
         // Click drawer
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
