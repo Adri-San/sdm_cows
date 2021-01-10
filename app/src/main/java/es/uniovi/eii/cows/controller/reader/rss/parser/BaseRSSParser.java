@@ -19,6 +19,7 @@ public abstract class BaseRSSParser implements RSSParser {
     protected int eventType;
 
     public BaseRSSParser(String url, XmlPullParser xpp) {
+        this.news = new ArrayList<>();
         this.url = url;
         this.xpp = xpp;
     }
@@ -48,4 +49,28 @@ public abstract class BaseRSSParser implements RSSParser {
      */
     protected abstract void parseItem() throws IOException, XmlPullParserException;
 
+    /**
+     * TDD Method
+     * @return      Current list of news
+     */
+    public List<NewsItem> getNews() {
+        return news;
+    }
+
+    /**
+     *  TDD Method
+     *
+     * @param eventType     New XMLParser Event Type
+     */
+    protected void setEventType(int eventType) {
+        this.eventType = eventType;
+    }
+
+    /**
+     *  TDD Method
+     * @return  Current NewsItem
+     */
+    public NewsItem getItem() {
+        return item;
+    }
 }

@@ -28,7 +28,7 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 	private String title;
 	private String description;
 	private String link;                                // News link
-	private Long dateTime;                           // Publication date (stored as Long)
+	private Long dateTime;                           	// Publication date (stored as Long)
 	private String source;                              // Source of the news
 	private String imageUrl;                            // URL of the image of the news
 	private int fallbackImage;                       	// Image to use when no image
@@ -136,7 +136,6 @@ public class NewsItem implements Comparable<NewsItem>, Parcelable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		NewsItem newsItem = (NewsItem) o;
-		// TODO algorithm to recognise similar news
 		return link.equals(newsItem.link);
 	}
 

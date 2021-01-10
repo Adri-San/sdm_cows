@@ -57,7 +57,6 @@ public class ElPaisParser extends BaseRSSParser {
                 if (!xpp.getAttributeValue(0).isEmpty()) {
                     // Image element
                     item.setImageUrl(xpp.getAttributeValue(0));
-                    // We can take the thumbnail of the videos, but that's a TODO
                 }
             }
         } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase(ITEM)) {
