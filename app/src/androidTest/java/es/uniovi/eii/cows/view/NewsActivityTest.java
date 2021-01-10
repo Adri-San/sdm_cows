@@ -90,6 +90,9 @@ public class NewsActivityTest {
         )));
     }
 
+    /**
+     * Important Note!: You must have used the default browser (Chrome) before
+     */
     @Test
     public void testShowCompleteNewsItem() {
         TestUtil.waitForElement(withId(R.id.idTitle), 5000);
