@@ -12,7 +12,7 @@ COWS es un agregador de noticias relacionadas con la temática covid. La aplicac
 
 Para cada noticia se ofrece la posibilidad de ver su contenido completo, además de poder acceder a la noticia en el propio portal de la fuente en cuestión. Así mismo, la aplicación permite realizar varias acciones para cada uno de los artículos: el usuario podrá darles like, guardarlos o compartirlos con sus contactos.  
 
-## Objectivos
+## Objetivos
 
 #### Útil 
 La aplicación ofrece noticias de diversas fuentes en un único lugar, permitiendo ponerse al día con la pandemia rápidamente. 
