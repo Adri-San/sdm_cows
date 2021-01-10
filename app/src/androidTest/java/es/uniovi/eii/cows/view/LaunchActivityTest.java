@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows;
+package es.uniovi.eii.cows.view;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;

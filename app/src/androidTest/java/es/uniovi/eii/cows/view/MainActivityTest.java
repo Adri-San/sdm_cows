@@ -1,15 +1,18 @@
-package es.uniovi.eii.cows;
+package es.uniovi.eii.cows.view;
 
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.util.TestUtil;
 import es.uniovi.eii.cows.view.LaunchActivity;
 
@@ -32,9 +35,15 @@ public class MainActivityTest {
     @Rule
     public ActivityScenarioRule<LaunchActivity> mActivityTestRule = new ActivityScenarioRule<>(LaunchActivity.class);
 
+    @Before
+    public void before(){
+        TestUtil.getInstance().login();
+    }
+
     @Test
     public void testClickFirst() {
-        ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
+        TestUtil.waitForElement(withId(R.id.idTitle), 7000);
+        ViewInteraction recyclerView = onView(ViewMatchers.withId(R.id.idRecycler_main));
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Click on first news item
@@ -45,8 +54,8 @@ public class MainActivityTest {
 
     @Test
     public void testScroll() {
+        TestUtil.waitForElement(withId(R.id.idTitle), 5000);
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
-        TestUtil.waitForElement(withId(R.id.idTitle), 3000);
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Try to scroll down
@@ -57,6 +66,7 @@ public class MainActivityTest {
 
     @Test
     public void testRefresh() {
+        TestUtil.waitForElement(withId(R.id.idTitle), 5000);
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
         // Try to refresh news
         recyclerView.perform(swipeDown());

@@ -1,5 +1,6 @@
-package es.uniovi.eii.cows;
+package es.uniovi.eii.cows.view;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -8,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.util.TestUtil;
 import es.uniovi.eii.cows.view.LaunchActivity;
 
@@ -29,7 +31,7 @@ public class SettingsActivityTest {
 
     @Test
     public void changeSourcesSelected() {
-        TestUtil.waitForElement(withContentDescription(R.string.navigation_drawer_open), 2000);
+        TestUtil.waitForElement(ViewMatchers.withContentDescription(R.string.navigation_drawer_open), 2000);
         // Click drawer
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
         // Click settings on drawer

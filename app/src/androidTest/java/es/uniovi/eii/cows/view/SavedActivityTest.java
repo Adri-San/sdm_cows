@@ -1,5 +1,6 @@
-package es.uniovi.eii.cows;
+package es.uniovi.eii.cows.view;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -8,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.util.TestUtil;
 import es.uniovi.eii.cows.view.LaunchActivity;
 
@@ -32,7 +34,7 @@ public class SavedActivityTest {
 
     @Test
     public void savedActivityTest() {
-        TestUtil.waitForElement(withId(R.id.idTitle), 2000);
+        TestUtil.waitForElement(ViewMatchers.withId(R.id.idTitle), 5000);
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Click first SAVE button
@@ -42,11 +44,11 @@ public class SavedActivityTest {
         // Click saved news on drawer
         onView(allOf(withId(R.id.nav_saved), isDisplayed())).perform(click());
         // Assert that the news item is saved
-        TestUtil.waitForElement(withId(R.id.idTitle), 2000);
+        TestUtil.waitForElement(withId(R.id.idTitle), 5000);
         onView(withText(titleNews0)).check(matches(isDisplayed()));
         // Delete saved item
         onView(withId(R.id.idRecycler_saved)).perform(actionOnItem(hasDescendant(withText(titleNews0)), click()));
-        TestUtil.waitForElement(withId(R.id.idSave_news), 2000);
+        TestUtil.waitForElement(withId(R.id.idSave_news), 5000);
         onView(withId(R.id.idSave_news)).perform(click());
     }
 }

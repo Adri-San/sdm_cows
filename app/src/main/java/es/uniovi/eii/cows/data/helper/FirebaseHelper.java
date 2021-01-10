@@ -16,8 +16,8 @@ import es.uniovi.eii.cows.data.repositories.LikeRepository;
 import es.uniovi.eii.cows.data.repositories.NewsItemRepository;
 import es.uniovi.eii.cows.data.repositories.SaveRepository;
 import es.uniovi.eii.cows.model.Interaction;
-import es.uniovi.eii.cows.model.interactions.Like;
 import es.uniovi.eii.cows.model.NewsItem;
+import es.uniovi.eii.cows.model.interactions.Like;
 import es.uniovi.eii.cows.model.interactions.Save;
 
 
@@ -27,9 +27,9 @@ public class FirebaseHelper {
     private String clientId; //identifier of application user in session
 
     //Repositories
-    private BaseRepository<NewsItem, NewsItem> newsItemRepository;
-    private BaseRepository<Like, NewsItem> likeRepository;
-    private BaseRepository<Save, NewsItem> saveRepository;
+    private Repository<NewsItem> newsItemRepository;
+    private Repository<Like> likeRepository;
+    private Repository<Save> saveRepository;
 
     private FirebaseHelper(){
         newsItemRepository = new NewsItemRepository();
@@ -269,7 +269,7 @@ public class FirebaseHelper {
     private void getNewsItemIfInteraction(Repository repository, String idNewsItem, Function<NewsItem, Void> callback){
 
         DocumentReference referencedNewsItem = createDocumentReference(LikeRepository.NEWS_ITEMS, idNewsItem);  //liked or saved newsItem
-        Pair newsItemIsReferenced = Pair.create(likeRepository.getReferenceProperty(), referencedNewsItem);     //condition
+        Pair newsItemIsReferenced = Pair.create(BaseRepository.getReferenceProperty(), referencedNewsItem);     //condition
 
         repository.get(newsItemIsReferenced, i -> {
             Interaction interaction = (Interaction) i;  //Like or Save class

@@ -1,4 +1,4 @@
-package es.uniovi.eii.cows;
+package es.uniovi.eii.cows.view;
 
 import android.content.Intent;
 
@@ -14,11 +14,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import es.uniovi.eii.cows.R;
 import es.uniovi.eii.cows.util.TestUtil;
-import es.uniovi.eii.cows.view.LaunchActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.swipeDown;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -41,53 +44,43 @@ public class NewsActivityTest {
     public ActivityScenarioRule<LaunchActivity> mActivityTestRule = new ActivityScenarioRule<>(LaunchActivity.class);
 
     @Before
-    public void before(){ Intents.init(); }
+    public void before(){
+        Intents.init();
+        TestUtil.getInstance().login();
+    }
 
     @After
     public void after(){ Intents.release(); }
 
     @Test
-    public void testShowDescription() {
+    public void testReadNewsItem() {
+        TestUtil.waitForElement(withId(R.id.idTitle), 5000);
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
-        // Wait until news are loaded
-        TestUtil.waitForElement(withId(R.id.idTitle), 2000);
         // Get title of first news item
         String titleNews0 = getText(firstItem(withId(R.id.idTitle)));
         // Click on first news item
         recyclerView.perform(actionOnItemAtPosition(0, click()));
         // Assert that the news item shows the description
-        TestUtil.waitForElement(withId(R.id.idTitle_news), 2000);
+        TestUtil.waitForElement(withId(R.id.idTitle_news), 5000);
         assertThat(getText(withId(R.id.idTitle_news)), equalToIgnoringCase(titleNews0));
+        TestUtil.wait(500);
+        onView(withId(R.id.idScroll_news)).perform(swipeUp());  // for tiny and big devices
+        TestUtil.wait(5000);
         onView(withId(R.id.idDescription_news)).check(matches(isDisplayed()));
         onView(withId(R.id.floating_action_button_news)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testShowCompleteNewsItem() {
-        ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
-        // Wait until news are loaded
-        TestUtil.waitForElement(withId(R.id.idTitle), 2000);
-        // Click on first news item
-        recyclerView.perform(actionOnItemAtPosition(0, click()));
-        // Click on the FAB to show complete news item
-        TestUtil.waitForElement(withId(R.id.floating_action_button_news), 2000);
-        onView(withId(R.id.floating_action_button_news)).check(matches(isDisplayed())).perform(click());
-        // Check Intent
-        intended(hasAction(Intent.ACTION_VIEW));
-    }
-
-    @Test
     public void testShareNewsItem() {
+        TestUtil.waitForElement(withId(R.id.idTitle), 5000);
         ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
-        // Wait until news are loaded
-        TestUtil.waitForElement(withId(R.id.idTitle), 3000);
         // Click on first news item
         recyclerView.perform(actionOnItemAtPosition(0, click()));
         // Get news item title
-        TestUtil.waitForElement(withId(R.id.idTitle_news), 2000);
+        TestUtil.waitForElement(withId(R.id.idTitle_news), 5000);
         String titleNewsItem = getText(withId(R.id.idTitle_news));
         // Click on Share button
-        TestUtil.waitForElement(withId(R.id.idShare_news), 2000);
+        TestUtil.waitForElement(withId(R.id.idShare_news), 5000);
         onView(withId(R.id.idShare_news)).check(matches(isDisplayed())).perform(click());
         // Check Intent
         intended(chooser(allOf(
@@ -95,5 +88,18 @@ public class NewsActivityTest {
                 hasExtra(Intent.EXTRA_SUBJECT, titleNewsItem),
                 hasType("text/plain")
         )));
+    }
+
+    @Test
+    public void testShowCompleteNewsItem() {
+        TestUtil.waitForElement(withId(R.id.idTitle), 5000);
+        ViewInteraction recyclerView = onView(withId(R.id.idRecycler_main));
+        // Click on first news item
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
+        // Click on the FAB to show complete news item
+        TestUtil.waitForElement(withId(R.id.floating_action_button_news), 5000);
+        onView(withId(R.id.floating_action_button_news)).check(matches(isDisplayed())).perform(click());
+        // Check Intent
+        intended(hasAction(Intent.ACTION_VIEW));
     }
 }

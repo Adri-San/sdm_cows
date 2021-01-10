@@ -12,13 +12,12 @@ import es.uniovi.eii.cows.data.BaseRepository;
 import es.uniovi.eii.cows.model.NewsItem;
 
 /**
- * Repository with CRUD operations for NewsItem. It has NewsItem as main and secondary
- * type because it contains the required information in all cases.
+ * Repository with CRUD operations for NewsItem. It has NewsItem as
+ * type because it is the object model that this repository manages.
  *
  * - <T> NewsItem, main type
- * - <P> NewsItem, secondary type
  */
-public class NewsItemRepository extends BaseRepository<NewsItem, NewsItem> {
+public class NewsItemRepository extends BaseRepository<NewsItem> {
 
     //Name of the collection that is managed by the repository ("news_items")
     @Override
